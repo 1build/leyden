@@ -50,6 +50,17 @@ const copyAssets = () => new Promise((res, rej) => {
     })
 });
 
+const createDistDir = () => new Promise((res, rej) => {
+    fs.mkdir(DIST_DIR, {}, err => {
+        if (err) {
+            console.error(err);
+            rej(err);
+            return;
+        }
+        res();
+    })
+});
+
 const serve = () => http.createServer((req, res) => {
     let reqPath = path.join(DIST_DIR, req.url);
     if (req.url === '/') {
@@ -106,6 +117,7 @@ const writeIndex = () => new Promise((res, rej) => fs.writeFile(INDEX_PATH, `<!D
 }));
 
 (async () => {
+    await createDistDir();
     await Promise.all([
         bundle(),
         copyAssets(),

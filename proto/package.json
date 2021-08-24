@@ -4,7 +4,7 @@
   "description": "An exploratory prototype of datum's future functionality",
   "main": "src/index.tsx",
   "scripts": {
-    "build": "node scripts/build.js"
+    "start": "node scripts/build.js"
   },
   "repository": {
     "type": "git",
