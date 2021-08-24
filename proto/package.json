@@ -4,8 +4,8 @@
   "description": "An exploratory prototype of datum's future functionality",
   "main": "src/index.tsx",
   "scripts": {
-    "lint:types": "tsc --noemit",
-    "start": "node scripts/build.js"
+    "lint": "./scripts/lint.sh",
+    "start": "node ./scripts/build.js"
   },
   "repository": {
     "type": "git",
@@ -20,7 +20,11 @@
   "dependencies": {
     "@types/react": "^17.0.19",
     "@types/react-dom": "^17.0.9",
+    "@typescript-eslint/eslint-plugin": "^4.29.3",
+    "@typescript-eslint/parser": "^4.29.3",
     "esbuild": "^0.12.22",
+    "eslint": "^7.32.0",
+    "eslint-plugin-react": "^7.24.0",
     "livereload": "^0.9.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

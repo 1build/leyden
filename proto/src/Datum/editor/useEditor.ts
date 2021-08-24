@@ -7,4 +7,4 @@ export const useEditor = (): Editor => {
     const editor = useRef(newEditor());
 
     return editor.current;
-}
+};
