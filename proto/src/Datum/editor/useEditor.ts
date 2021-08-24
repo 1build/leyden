@@ -1,10 +1,17 @@
-import { useRef } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Editor } from 'slate';
 
 import { newEditor } from '@/Datum/editor';
 
 export const useEditor = (): Editor => {
-    const editor = useRef(newEditor());
+    const editor = useMemo(() => newEditor(), []);
 
-    return editor.current;
+    useEffect(() => {
+        const { insertText } = editor;
+        editor.insertText = (text) => {
+            return insertText(text);
+        };
+    }, [editor]);
+
+    return editor;
 };
