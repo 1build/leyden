@@ -1,3 +1,5 @@
-# Prototype
+# Datum Prototype
 
-This folder contains an exploratory prototype of datum's future functionality.
+![](https://github.com/1build/datum/workflows/Lint%20Proto%20Frontend/badge.svg)
+
+An exploratory prototype of datum's future functionality.
