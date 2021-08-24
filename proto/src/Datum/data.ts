@@ -1,63 +1,65 @@
-import {
-    EmptyText,
-    FormattedText,
-    TableColumnHeaderCell,
-    TableRowHeaderCell,
-    TableOriginCell,
-    Table,
-    TableBodyRow,
-    TableHeaderRow,
-} from 'datum';
+import { newElement, newText } from 'datum';
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
  ┃ TEXT                                                  ┃
  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
-const emptyText: EmptyText = {
+const emptyText = newText({
     text: '',
     type: 'emptyText',
-};
+});
 
-const testeroo: [EmptyText] = [emptyText];
-
-const formattedText: FormattedText = {
+const formattedText = newText({
     text: 'someText',
     type: 'formattedText',
     bold: true,
-};
+});
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
  ┃ CELL                                                  ┃
  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
-const originCell: TableOriginCell = {
-    type: 'tableOriginCell',
-    children: testeroo,
-};
-
-const columnHeaderCell: TableColumnHeaderCell = {
+const columnHeaderCell = newElement({
     type: 'tableColumnHeaderCell',
     children: [{ ...emptyText }],
-};
+    width: null,
+});
+
+const originCell = newElement({
+    type: 'tableOriginCell',
+    children: [{ ...emptyText }],
+});
+
+const rowHeaderCell = newElement({
+    type: 'tableColumnRowCell',
+    children: [{ ...emptyText }],
+    height: null,
+});
+
+const tableBodyCell = newElement({
+    type: 'tableBodyCell',
+    children: [{ ...formattedText }],
+});
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
  ┃ ROW                                                   ┃
  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
-const blankBodyRow: TableBodyRow = {
-    type: 'tableRow',
-    children: [blankElement],
-};
+const headerRow = newElement({
+    type: 'tableHeaderRow',
+    children: [{ ...originCell }, { ...columnHeaderCell }, { ...columnHeaderCell }],
+});
 
-const headerRow: TableHeaderRow = {
-
-};
+const bodyRow = newElement({
+    type: 'tableBodyRow',
+    children: [{ ...rowHeaderCell }, { ...tableBodyCell }, { ...tableBodyCell }],
+});
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
  ┃ TABLE                                                 ┃
  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
-const blankTable: Table = {
+export const blankTable = newElement({
     type: 'table',
-    children: [{ ...blankRow }, { ...blankRow }],
-};
+    children: [{ ...headerRow }, { ...bodyRow }, { ...bodyRow }],
+});
