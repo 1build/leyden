@@ -6,5 +6,5 @@ import { newEditor } from '@/Datum/editor';
 export const useEditor = (): Editor => {
     const editor = useRef(newEditor());
 
-    return editor.current;
+    return editor.current
 };
