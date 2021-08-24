@@ -20,3 +20,7 @@ After setup, the application is served at [localhost:8081](http://localhost:8081
 npm install
 npm start
 ```
+
+### Hot Reloading
+
+To enable hot reloading, you may need to disable network caching. To do so, check the **Disable cache** checkbox in the **Network** DevTools tab of your browser.
