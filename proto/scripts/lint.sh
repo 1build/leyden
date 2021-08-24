@@ -3,11 +3,12 @@
 # Fail immediately if any linter fails
 set -e
 
-# Using this script's location as a reference point to determine filepaths
+# Use this script's location as a reference point to determine filepaths
 script_dir="$(dirname "$(realpath "$0")")"
 
-# Run linters from prototype root directory
+# Execute the rest of this script from the prototype root directory
 cd $script_dir/..
 
+# Run the linters
 npx eslint --ext .ts --ext .tsx --ext .js ./src
 npx tsc --noemit
