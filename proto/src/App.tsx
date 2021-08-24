@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { Datum } from './Datum'; 
+import { Datum } from '@/Datum'; 
 
 export const App: FC = () => {
     return (
