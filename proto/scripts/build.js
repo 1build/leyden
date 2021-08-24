@@ -1,8 +1,11 @@
 const esbuild = require('esbuild');
 const fs = require('fs');
 const http = require('http');
-const static = require('node-static');
+const livereload = require('livereload');
 const path = require('path');
+
+const HOTRELOAD_PORT = 35729;
+const SERVER_PORT = 8081;
 
 const BUNDLE_NAME = 'bundle.js';
 const ENTRYPOINT_NAME = 'index.tsx';
@@ -15,8 +18,9 @@ const DIST_DIR = path.join(ROOT_DIR, 'dist');
 const SRC_DIR = path.join(ROOT_DIR, 'src');
 
 const ENTRYPOINT_PATH = path.join(SRC_DIR, ENTRYPOINT_NAME);
-const FAVICON_DIST_PATH = path.join(DIST_DIR, FAVICON_NAME)
-const FAVICON_SRC_PATH = path.join(ASSET_DIR, FAVICON_NAME)
+const FAVICON_DIST_PATH = path.join(DIST_DIR, FAVICON_NAME);
+const FAVICON_SRC_PATH = path.join(ASSET_DIR, FAVICON_NAME);
+const INDEX_PATH = path.join(DIST_DIR, `index.html`);
 
 const bundle = () => esbuild.build({
     bundle: true,
@@ -25,7 +29,7 @@ const bundle = () => esbuild.build({
     ],
     outfile: path.join(DIST_DIR, BUNDLE_NAME),
     watch: {
-        onRebuild: (err, res) => {
+        onRebuild: err => {
             if (err) {
                 console.error('WATCH REBUILD FAILED: ', err);
             } else {
@@ -47,12 +51,29 @@ const copyAssets = () => new Promise((res, rej) => {
 });
 
 const serve = () => http.createServer((req, res) => {
-    const distDir = new(static.Server)(DIST_DIR);
-    distDir.serve(req, res);
-}).listen(8081);
+    let reqPath = path.join(DIST_DIR, req.url);
+    if (req.url === '/') {
+        reqPath = INDEX_PATH;
+    }
+    fs.readFile(reqPath, (err,data) => {
+        if (err) {
+            res.writeHead(404);
+            res.end(JSON.stringify(err));
+            return;
+        }
+        res.writeHead(200);
+        res.end(data);
+    });
+}).listen(SERVER_PORT);
 
-const writeIndex = () => new Promise((res, rej) => fs.writeFile(
-    path.join(__dirname, '../', 'dist', `index.html`), `<!DOCTYPE html>
+const hotReload = () => {
+    const server = livereload.createServer({
+        port: HOTRELOAD_PORT,
+    });
+    server.watch(DIST_DIR);
+};
+
+const writeIndex = () => new Promise((res, rej) => fs.writeFile(INDEX_PATH, `<!DOCTYPE html>
 <html lang="en">
     <head>
     <meta charset="utf-8" />
@@ -64,6 +85,10 @@ const writeIndex = () => new Promise((res, rej) => fs.writeFile(
     />
     <title>datum</title>
     <link rel="icon" href="/${FAVICON_NAME}">
+    <script>
+        document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] +
+        ':${HOTRELOAD_PORT}/livereload.js?snipver=1"></' + 'script>')
+    </script>
     </head>
     <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -84,6 +109,7 @@ const writeIndex = () => new Promise((res, rej) => fs.writeFile(
     await Promise.all([
         bundle(),
         copyAssets(),
+        hotReload(),
         serve(),
         writeIndex(),
     ]);
