@@ -13,4 +13,4 @@ cd $script_dir/..
 docker build -t datum/proto:1.0 .
 
 # Run a dockerized command
-docker run -v `pwd`:/mnt -p 8081:8081 -p 35729:35729 --network host -i -t datum/proto:1.0 $@
+docker run -v `pwd`:/mnt -p 8081:8081 -p 35729:35729 --network host -i datum/proto:1.0 $@
