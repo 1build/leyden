@@ -61,6 +61,13 @@ const createDistDir = () => new Promise((res, rej) => {
     })
 });
 
+const hotReload = () => {
+    const server = livereload.createServer({
+        port: HOTRELOAD_PORT,
+    });
+    server.watch(DIST_DIR);
+};
+
 const serve = () => http.createServer((req, res) => {
     let reqPath = path.join(DIST_DIR, req.url);
     if (req.url === '/') {
@@ -76,13 +83,6 @@ const serve = () => http.createServer((req, res) => {
         res.end(data);
     });
 }).listen(SERVER_PORT);
-
-const hotReload = () => {
-    const server = livereload.createServer({
-        port: HOTRELOAD_PORT,
-    });
-    server.watch(DIST_DIR);
-};
 
 const writeIndex = () => new Promise((res, rej) => fs.writeFile(INDEX_PATH, `<!DOCTYPE html>
 <html lang="en">
