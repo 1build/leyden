@@ -5,12 +5,23 @@ const static = require('node-static');
 const path = require('path');
 
 const BUNDLE_NAME = 'bundle.js';
-const DIST_DIR = path.join(__dirname, '../', 'dist');
+const ENTRYPOINT_NAME = 'index.tsx';
+const FAVICON_NAME = 'favicon.jpg';
 
-const build = () => esbuild.build({
+const ROOT_DIR = path.join(__dirname, '../');
+
+const ASSET_DIR = path.join(ROOT_DIR, 'assets');
+const DIST_DIR = path.join(ROOT_DIR, 'dist');
+const SRC_DIR = path.join(ROOT_DIR, 'src');
+
+const ENTRYPOINT_PATH = path.join(SRC_DIR, ENTRYPOINT_NAME);
+const FAVICON_DIST_PATH = path.join(DIST_DIR, FAVICON_NAME)
+const FAVICON_SRC_PATH = path.join(ASSET_DIR, FAVICON_NAME)
+
+const bundle = () => esbuild.build({
     bundle: true,
     entryPoints: [
-        path.join(__dirname, '../', 'src', 'index.tsx')
+        ENTRYPOINT_PATH
     ],
     outfile: path.join(DIST_DIR, BUNDLE_NAME),
     watch: {
@@ -24,7 +35,23 @@ const build = () => esbuild.build({
     },
 });
 
-const copyIndex = () => new Promise((res, rej) => fs.writeFile(
+const copyAssets = () => new Promise((res, rej) => {
+    fs.cp(FAVICON_SRC_PATH, FAVICON_DIST_PATH, err => {
+        if (err) {
+            console.error(err);
+            rej(err);
+            return;
+        }
+        res();
+    })
+});
+
+const serve = () => http.createServer((req, res) => {
+    const distDir = new(static.Server)(DIST_DIR);
+    distDir.serve(req, res);
+}).listen(8081);
+
+const writeIndex = () => new Promise((res, rej) => fs.writeFile(
     path.join(__dirname, '../', 'dist', `index.html`), `<!DOCTYPE html>
 <html lang="en">
     <head>
@@ -36,6 +63,7 @@ const copyIndex = () => new Promise((res, rej) => fs.writeFile(
         content="datum"
     />
     <title>datum</title>
+    <link rel="icon" href="/${FAVICON_NAME}">
     </head>
     <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -52,15 +80,11 @@ const copyIndex = () => new Promise((res, rej) => fs.writeFile(
     res();
 }));
 
-const serve = () => http.createServer((req, res) => {
-    const distDir = new(static.Server)(DIST_DIR);
-    distDir.serve(req, res);
-}).listen(8081);
-
 (async () => {
     await Promise.all([
-        build(),
-        copyIndex(),
+        bundle(),
+        copyAssets(),
         serve(),
+        writeIndex(),
     ]);
 })();
