@@ -2,27 +2,46 @@ import { BaseEditor, Descendant } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { HistoryEditor } from 'slate-history';
 
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃ EDITOR                                                ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+
+type CustomEditor =
+    & BaseEditor
+    & ReactEditor
+    & HistoryEditor;
+
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃ ELEMENT                                               ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+
 interface BaseElement<T extends string> {
     type: T;
     children: Descendant[];
 }
 
-export type CellElement = BaseElement<'cell'>;
+type CellElement = BaseElement<'cell'>;
 
-export type CustomEditor =
-    & BaseEditor
-    & ReactEditor
-    & HistoryEditor;
-
-export type CustomElement =
+type CustomElement =
     | CellElement;
 
-export interface CustomText {
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃ TEXT                                                  ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+
+interface CellText {
     text: string;
     bold?: boolean
     italic?: boolean
     underline?: boolean
 }
+
+type CustomText =
+    | CellText;
+
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃ MODULE                                                ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
 declare module 'slate' {
     interface CustomTypes {
