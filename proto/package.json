@@ -4,6 +4,7 @@
   "description": "An exploratory prototype of datum's future functionality",
   "main": "src/index.tsx",
   "scripts": {
+    "lint:types": "tsc --noemit",
     "start": "node scripts/build.js"
   },
   "repository": {
@@ -22,6 +23,10 @@
     "esbuild": "^0.12.22",
     "livereload": "^0.9.3",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "slate": "^0.65.3",
+    "slate-history": "^0.65.3",
+    "slate-react": "^0.65.3",
+    "typescript": "^4.3.5"
   }
 }

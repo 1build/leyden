@@ -1,4 +1,6 @@
-import { Descendant } from 'slate';
+import { BaseEditor, Descendant } from 'slate';
+import { ReactEditor } from 'slate-react';
+import { HistoryEditor } from 'slate-history';
 
 interface BaseElement<T extends string> {
     type: T;
@@ -6,6 +8,11 @@ interface BaseElement<T extends string> {
 }
 
 export type CellElement = BaseElement<'cell'>;
+
+export type CustomEditor =
+    & BaseEditor
+    & ReactEditor
+    & HistoryEditor;
 
 export type CustomElement =
     | CellElement;
@@ -17,10 +24,9 @@ export interface CustomText {
     underline?: boolean
 }
 
-export type CustomEditor = HistoryEditor;
-
 declare module 'slate' {
     interface CustomTypes {
+        Editor: CustomEditor;
         Element: CustomElement;
         Text: CustomText;
     }

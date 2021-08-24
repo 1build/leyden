@@ -51,7 +51,7 @@ const copyAssets = () => new Promise((res, rej) => {
 });
 
 const createDistDir = () => new Promise((res, rej) => {
-    fs.mkdir(DIST_DIR, {}, err => {
+    fs.mkdir(DIST_DIR, { recursive: true }, err => {
         if (err) {
             console.error(err);
             rej(err);
