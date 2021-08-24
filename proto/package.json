@@ -1,0 +1,27 @@
+{
+  "name": "datum-proto",
+  "version": "1.0.0",
+  "description": "An exploratory prototype of datum's future functionality",
+  "main": "src/index.tsx",
+  "scripts": {
+    "build": "node scripts/build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/1build/datum.git"
+  },
+  "author": "Michael Darr",
+  "license": "closed",
+  "bugs": {
+    "url": "https://github.com/1build/datum/issues"
+  },
+  "homepage": "https://github.com/1build/datum#readme",
+  "dependencies": {
+    "@types/react": "^17.0.19",
+    "@types/react-dom": "^17.0.9",
+    "esbuild": "^0.12.22",
+    "node-static": "^0.7.11",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}
