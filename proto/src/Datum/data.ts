@@ -10,7 +10,7 @@ const emptyText = newText({
 });
 
 const formattedText = newText({
-    text: 'someText',
+    text: 'hello',
     type: 'formattedText',
     bold: true,
 });
@@ -31,7 +31,7 @@ const originCell = newElement({
 });
 
 const rowHeaderCell = newElement({
-    type: 'tableColumnRowCell',
+    type: 'tableRowHeaderCell',
     children: [{ ...emptyText }],
     height: null,
 });
@@ -47,12 +47,80 @@ const tableBodyCell = newElement({
 
 const headerRow = newElement({
     type: 'tableHeaderRow',
-    children: [{ ...originCell }, { ...columnHeaderCell }, { ...columnHeaderCell }],
+    children: [
+        { ...originCell },
+        { ...columnHeaderCell },
+        { ...columnHeaderCell },
+        { ...columnHeaderCell },
+        { ...columnHeaderCell },
+        { ...columnHeaderCell },
+        { ...columnHeaderCell },
+        { ...columnHeaderCell },
+        { ...columnHeaderCell },
+        { ...columnHeaderCell },
+        { ...columnHeaderCell },
+        { ...columnHeaderCell },
+        { ...columnHeaderCell },
+        { ...columnHeaderCell },
+        { ...columnHeaderCell },
+        { ...columnHeaderCell },
+        { ...columnHeaderCell },
+        { ...columnHeaderCell },
+        { ...columnHeaderCell },
+        { ...columnHeaderCell },
+        { ...columnHeaderCell },
+        { ...columnHeaderCell },
+        { ...columnHeaderCell },
+        { ...columnHeaderCell },
+        { ...columnHeaderCell },
+        { ...columnHeaderCell },
+        { ...columnHeaderCell },
+        { ...columnHeaderCell },
+        { ...columnHeaderCell },
+        { ...columnHeaderCell },
+        { ...columnHeaderCell },
+        { ...columnHeaderCell },
+        { ...columnHeaderCell },
+    ],
 });
 
 const bodyRow = newElement({
     type: 'tableBodyRow',
-    children: [{ ...rowHeaderCell }, { ...tableBodyCell }, { ...tableBodyCell }],
+    children: [
+        { ...rowHeaderCell },
+        { ...tableBodyCell },
+        { ...tableBodyCell },
+        { ...tableBodyCell },
+        { ...tableBodyCell },
+        { ...tableBodyCell },
+        { ...tableBodyCell },
+        { ...tableBodyCell },
+        { ...tableBodyCell },
+        { ...tableBodyCell },
+        { ...tableBodyCell },
+        { ...tableBodyCell },
+        { ...tableBodyCell },
+        { ...tableBodyCell },
+        { ...tableBodyCell },
+        { ...tableBodyCell },
+        { ...tableBodyCell },
+        { ...tableBodyCell },
+        { ...tableBodyCell },
+        { ...tableBodyCell },
+        { ...tableBodyCell },
+        { ...tableBodyCell },
+        { ...tableBodyCell },
+        { ...tableBodyCell },
+        { ...tableBodyCell },
+        { ...tableBodyCell },
+        { ...tableBodyCell },
+        { ...tableBodyCell },
+        { ...tableBodyCell },
+        { ...tableBodyCell },
+        { ...tableBodyCell },
+        { ...tableBodyCell },
+        { ...tableBodyCell },
+    ],
 });
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
@@ -61,5 +129,31 @@ const bodyRow = newElement({
 
 export const blankTable = newElement({
     type: 'table',
-    children: [{ ...headerRow }, { ...bodyRow }, { ...bodyRow }],
+    children: [
+        { ...headerRow },
+        { ...bodyRow },
+        { ...bodyRow },
+        { ...bodyRow },
+        { ...bodyRow },
+        { ...bodyRow },
+        { ...bodyRow },
+        { ...bodyRow },
+        { ...bodyRow },
+        { ...bodyRow },
+        { ...bodyRow },
+        { ...bodyRow },
+        { ...bodyRow },
+        { ...bodyRow },
+        { ...bodyRow },
+        { ...bodyRow },
+        { ...bodyRow },
+        { ...bodyRow },
+        { ...bodyRow },
+        { ...bodyRow },
+        { ...bodyRow },
+        { ...bodyRow },
+        { ...bodyRow },
+        { ...bodyRow },
+        { ...bodyRow },
+    ],
 });

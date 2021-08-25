@@ -48,7 +48,7 @@ declare module 'datum' {
         width: number|null;
     }
     export type TableOriginCell = TableEmptyCell<'tableOriginCell'>;
-    export interface TableRowHeaderCell extends TableEmptyCell<'tableColumnRowCell'> {
+    export interface TableRowHeaderCell extends TableEmptyCell<'tableRowHeaderCell'> {
         height: number|null;
     }
 
@@ -85,7 +85,11 @@ declare module 'datum' {
         | TableOriginCell;
 
     export interface ElementProto {
+        isColumnHeaderCell: () => this is TableColumnHeaderCell;
+        isRowHeaderCell: () => this is TableRowHeaderCell;
+        isRow: () => this is TableBodyRow|TableHeaderRow;
         isTable: () => this is Table;
+        isTableBodyCell: () => this is TableBodyCell;
     }
 
     export type Element = ElementValues & ElementProto;

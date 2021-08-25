@@ -1,7 +1,6 @@
 import {
     ElementValues,
     FormattedText,
-    Table,
     TextValues,
     TypedElement,
     TypedText,
@@ -16,12 +15,11 @@ export const newText = <T extends TextValues>(text: T): TypedText<T> => ({
     isFormattedText: () => isFormattedText(text),
 });
 
-
-const isTable = (element: ElementValues): element is Table => (
-    element.type === 'table'
-);
-
 export const newElement = <T extends ElementValues>(element: T): TypedElement<T> => ({
     ...element,
-    isTable: () => isTable(element),
+    isColumnHeaderCell: () => element.type === 'tableColumnHeaderCell',
+    isRowHeaderCell: () => element.type === 'tableRowHeaderCell',
+    isRow: () => ['tableBodyRow', 'tableHeaderRow'].includes(element.type),
+    isTable: () => element.type === 'table',
+    isTableBodyCell: () => element.type === 'tableBodyCell',
 });
