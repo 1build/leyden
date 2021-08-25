@@ -25,12 +25,14 @@ export const Element: FC<RenderElementProps> = ({
                 {...attributes}
                 style={{
                     display: 'grid',
-                    gridTemplateColumns: `repeat(${colCount}, auto)`,
+                    gridTemplateColumns: `fit-content(1.5rem) repeat(${colCount-1}, auto)`,
                     gridTemplateRows: `repeat(${rowCount}, auto)`,
                     gap: '1px',
-                    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                    backgroundColor: 'rgba(100, 100, 100, 0.2)',
                     alignItems: 'center',
                     justifyItems: 'start',
+                    width: 'fit-content',
+                    fontFamily: 'Arial,Helvetica Neue,Helvetica,sans-serif',
                 }}
             >
                 {children}
@@ -59,11 +61,14 @@ export const Element: FC<RenderElementProps> = ({
                 {...attributes}
                 contentEditable={false}
                 style={{
-                    backgroundColor: 'rgb(200, 200, 200)',
-                    color: 'rgba(100, 100, 100)',
+                    backgroundColor: 'rgba(100, 100, 100, 0.1)',
+                    color: 'rgba(75, 75, 75)',
+                    minWidth: '3rem',
                     width: 'calc(100% - 0.5rem)',
                     height: 'calc(100% - 0.5rem)',
                     padding: '0.25rem',
+                    textAlign: 'center',
+                    fontSize: 10,
                 }}
             >
                 {label}
@@ -79,11 +84,14 @@ export const Element: FC<RenderElementProps> = ({
                 {...attributes}
                 contentEditable={false}
                 style={{
-                    backgroundColor: 'rgb(200, 200, 200)',
-                    color: 'rgba(100, 100, 100)',
+                    backgroundColor: 'rgba(100, 100, 100, 0.1)',
+                    color: 'rgba(75, 75, 75)',
+                    minWidth: '2rem',
                     width: 'calc(100% - 0.5rem)',
                     height: 'calc(100% - 0.5rem)',
                     padding: '0.25rem',
+                    textAlign: 'center',
+                    fontSize: 10,
                 }}
             >
                 {rowPositionInTable}
@@ -98,6 +106,8 @@ export const Element: FC<RenderElementProps> = ({
                 width: 'calc(100% - 0.5rem)',
                 height: 'calc(100% - 0.5rem)',
                 padding: '0.25rem',
+                fontSize: 12,
+                letterSpacing: '0.05em',
             }}>
                 {children}
             </div>

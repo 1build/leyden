@@ -1,125 +1,70 @@
+import { Table, TypedElement } from 'datum';
+
 import { newElement, newText } from '@/Datum/generators';
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
  ┃ TEXT                                                  ┃
  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
-const emptyText = newText({
+const randomNumericString = (): string => (
+    Math.floor(Math.pow(Math.random()*100, 2)).toString(10)
+);
+
+const newEmptyText = () => newText({
     text: '',
     type: 'emptyText',
 });
 
-const formattedText = newText({
-    text: 'hello',
+const newFormattedText = () => newText({
+    text: randomNumericString(),
     type: 'formattedText',
-    bold: true,
 });
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
  ┃ CELL                                                  ┃
  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
-const columnHeaderCell = newElement({
+const newColumnHeaderCell = () => newElement({
     type: 'tableColumnHeaderCell',
-    children: [{ ...emptyText }],
+    children: [newEmptyText()],
     width: null,
 });
 
-const originCell = newElement({
+const newOriginCell = () => newElement({
     type: 'tableOriginCell',
-    children: [{ ...emptyText }],
+    children: [newEmptyText()],
 });
 
-const rowHeaderCell = newElement({
+const newRowHeaderCell = () => newElement({
     type: 'tableRowHeaderCell',
-    children: [{ ...emptyText }],
+    children: [newEmptyText()],
     height: null,
 });
 
-const tableBodyCell = newElement({
+const newTableBodyCell = () => newElement({
     type: 'tableBodyCell',
-    children: [{ ...formattedText }],
+    children: [newFormattedText()],
 });
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
  ┃ ROW                                                   ┃
  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
-const headerRow = newElement({
+const newHeaderRow = (columns: number) => newElement({
     type: 'tableHeaderRow',
     children: [
-        { ...originCell },
-        { ...columnHeaderCell },
-        { ...columnHeaderCell },
-        { ...columnHeaderCell },
-        { ...columnHeaderCell },
-        { ...columnHeaderCell },
-        { ...columnHeaderCell },
-        { ...columnHeaderCell },
-        { ...columnHeaderCell },
-        { ...columnHeaderCell },
-        { ...columnHeaderCell },
-        { ...columnHeaderCell },
-        { ...columnHeaderCell },
-        { ...columnHeaderCell },
-        { ...columnHeaderCell },
-        { ...columnHeaderCell },
-        { ...columnHeaderCell },
-        { ...columnHeaderCell },
-        { ...columnHeaderCell },
-        { ...columnHeaderCell },
-        { ...columnHeaderCell },
-        { ...columnHeaderCell },
-        { ...columnHeaderCell },
-        { ...columnHeaderCell },
-        { ...columnHeaderCell },
-        { ...columnHeaderCell },
-        { ...columnHeaderCell },
-        { ...columnHeaderCell },
-        { ...columnHeaderCell },
-        { ...columnHeaderCell },
-        { ...columnHeaderCell },
-        { ...columnHeaderCell },
-        { ...columnHeaderCell },
+        newOriginCell(),
+        newColumnHeaderCell(),
+        ...(Array.from({ length: columns-2 }, newColumnHeaderCell)),
     ],
 });
 
-const bodyRow = newElement({
+const newBodyRow = (columns: number) => newElement({
     type: 'tableBodyRow',
     children: [
-        { ...rowHeaderCell },
-        { ...tableBodyCell },
-        { ...tableBodyCell },
-        { ...tableBodyCell },
-        { ...tableBodyCell },
-        { ...tableBodyCell },
-        { ...tableBodyCell },
-        { ...tableBodyCell },
-        { ...tableBodyCell },
-        { ...tableBodyCell },
-        { ...tableBodyCell },
-        { ...tableBodyCell },
-        { ...tableBodyCell },
-        { ...tableBodyCell },
-        { ...tableBodyCell },
-        { ...tableBodyCell },
-        { ...tableBodyCell },
-        { ...tableBodyCell },
-        { ...tableBodyCell },
-        { ...tableBodyCell },
-        { ...tableBodyCell },
-        { ...tableBodyCell },
-        { ...tableBodyCell },
-        { ...tableBodyCell },
-        { ...tableBodyCell },
-        { ...tableBodyCell },
-        { ...tableBodyCell },
-        { ...tableBodyCell },
-        { ...tableBodyCell },
-        { ...tableBodyCell },
-        { ...tableBodyCell },
-        { ...tableBodyCell },
-        { ...tableBodyCell },
+        newRowHeaderCell(),
+        newTableBodyCell(),
+        ...(Array.from({ length: columns-2 }, newTableBodyCell)),
     ],
 });
 
@@ -127,33 +72,14 @@ const bodyRow = newElement({
  ┃ TABLE                                                 ┃
  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
-export const blankTable = newElement({
+export const newMockTable = (
+    columns: number,
+    rows: number,
+): TypedElement<Table> => newElement({
     type: 'table',
     children: [
-        { ...headerRow },
-        { ...bodyRow },
-        { ...bodyRow },
-        { ...bodyRow },
-        { ...bodyRow },
-        { ...bodyRow },
-        { ...bodyRow },
-        { ...bodyRow },
-        { ...bodyRow },
-        { ...bodyRow },
-        { ...bodyRow },
-        { ...bodyRow },
-        { ...bodyRow },
-        { ...bodyRow },
-        { ...bodyRow },
-        { ...bodyRow },
-        { ...bodyRow },
-        { ...bodyRow },
-        { ...bodyRow },
-        { ...bodyRow },
-        { ...bodyRow },
-        { ...bodyRow },
-        { ...bodyRow },
-        { ...bodyRow },
-        { ...bodyRow },
+        newHeaderRow(columns),
+        newBodyRow(columns),
+        ...(Array.from({ length: rows-1 }, () => newBodyRow(columns))),
     ],
 });
