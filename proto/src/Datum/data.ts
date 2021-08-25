@@ -1,4 +1,4 @@
-import { newElement, newText } from 'datum';
+import { newElement, newText } from '@/Datum/generators';
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
  ┃ TEXT                                                  ┃

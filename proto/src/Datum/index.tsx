@@ -3,8 +3,7 @@ import { Descendant } from 'slate';
 import { Editable, Slate } from 'slate-react';
 
 import { blankTable } from '@/Datum/data';
-import { Leaf } from '@/Datum/editor/Leaf';
-import { useEditor } from '@/Datum/editor';
+import { Element, Leaf, useEditor } from '@/Datum/editor';
 
 export const Datum: FC = () => {
     const [descendants, setDescendants] = useState<Descendant[]>([blankTable]);
@@ -18,6 +17,7 @@ export const Datum: FC = () => {
             onChange={setDescendants}
         >
             <Editable
+                renderElement={props => <Element {...props} />}
                 renderLeaf={(props) => <Leaf {...props} />}
             />
         </Slate>

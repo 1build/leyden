@@ -1,4 +1,6 @@
 declare module 'datum' {
+    import { Descendant } from 'slate';
+
     /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
      ┃ TEXT                                                  ┃
      ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
@@ -7,89 +9,68 @@ declare module 'datum' {
         type: T;
     }
 
-    const emtpyTextType = 'emptyText';
-    const formattedTextType = 'formattedText';
-
-    export interface EmptyText extends BaseText<emtpyTextType> {
+    export interface EmptyText extends BaseText<'emptyText'> {
         text: '';
     }
-    export interface FormattedText extends BaseText<formattedTextType> {
+    export interface FormattedText extends BaseText<'formattedText'> {
         bold?: boolean;
         italic?: boolean;
         underline?: boolean;
     }
 
+    /* Prototype
+     ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
     export type TextValues =
         | EmptyText
         | FormattedText;
 
-    /* Prototype
-     ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-    const isFormattedText = (text: TextValues): text is FormattedText => (
-        Reflect.get(text, 'type') === formattedTextType
-    );
-
-    export type TextProto = {
+    interface TextProto {
         isFormattedText: () => this is FormattedText;
     }
 
     export type Text = TextProto & TextValues;
-
-    export const newText = <T extends TextValues>(text: T): T & TextProto => ({
-        ...text,
-        isFormattedText: () => isFormattedText(text),
-    });
+    export type TypedText<T extends TextValues> = TextProto & T;
 
     /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
      ┃ ELEMENT                                               ┃
      ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-    interface BaseElement<T extends string, C extends Array<BaseElement|Text>> {
+    interface BaseElement<T extends string, C extends Descendant[]> {
         type: T;
         children: C;
     }
 
     /* Cell
      ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-    type TableEmptyCell<T extends string> = BaseElement<T, [EmptyText]>;
+    type TableEmptyCell<T extends string> = BaseElement<T, [TypedText<EmptyText>]>;
 
-    const tableBodyCellType = 'tableBodyCell';
-    const tableColumnHeaderCellType = 'tableColumnHeaderCell';
-    const tableColumnRowCellType = 'tableColumnRowCell';
-    const tableOriginCellType = 'tableOriginCell';
-
-    export type TableBodyCell = BaseElement<tableBodyCellType, [FormattedText]>;
-    export interface TableColumnHeaderCell extends TableEmptyCell<tableColumnHeaderCellType> {
+    export type TableBodyCell = BaseElement<'tableBodyCell', [TypedText<FormattedText>]>;
+    export interface TableColumnHeaderCell extends TableEmptyCell<'tableColumnHeaderCell'> {
         width: number|null;
     }
-    export type TableOriginCell = TableEmptyCell<tableOriginCellType>;
-    export interface TableRowHeaderCell extends TableEmptyCell<tableColumnRowCellType> {
+    export type TableOriginCell = TableEmptyCell<'tableOriginCell'>;
+    export interface TableRowHeaderCell extends TableEmptyCell<'tableColumnRowCell'> {
         height: number|null;
     }
 
     /* Row
      ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-    const tableBodyRowType = 'tableBodyRow';
-    const tableHeaderRowType = 'tableHeaderRow';
-
-    export type TableBodyRow = BaseElement<tableBodyRowType, [
-        TableRowHeaderCell,
-        TableBodyCell,
-        ...TableBodyCell,
+    export type TableBodyRow = BaseElement<'tableBodyRow', [
+        TypedElement<TableRowHeaderCell>,
+        TypedElement<TableBodyCell>,
+        ...TypedElement<TableBodyCell>[],
     ]>;
-    export type TableHeaderRow = BaseElement<tableHeaderRowType, [
-        TableOriginCell,
-        TableColumnHeaderCell,
-        ...TableColumnHeaderCell,
+    export type TableHeaderRow = BaseElement<'tableHeaderRow', [
+        TypedElement<TableOriginCell>,
+        TypedElement<TableColumnHeaderCell>,
+        ...TypedElement<TableColumnHeaderCell>[],
     ]>;
 
     /* Table
      ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-    const tableType = 'table';
-
-    export type Table = BaseElement<tableType, [
-        TableHeaderRow,
-        TableBodyRow,
-        ...TableBodyRow
+    export type Table = BaseElement<'table', [
+        TypedElement<TableHeaderRow>,
+        TypedElement<TableBodyRow>,
+        ...TypedElement<TableBodyRow>[]
     ]>;
 
     /* Prototype
@@ -103,12 +84,10 @@ declare module 'datum' {
         | TableRowHeaderCell
         | TableOriginCell;
 
-    export type ElementProto = {
+    export interface ElementProto {
+        isTable: () => this is Table;
     }
 
     export type Element = ElementValues & ElementProto;
-
-    export const newElement = <T extends ElementValues>(element: T): T & ElementProto => ({
-        ...element,
-    });
+    export type TypedElement<T extends ElementValues> = ElementProto & T;
 }
