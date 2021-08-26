@@ -1,7 +1,3 @@
-import { Table, TypedElement } from 'datum';
-
-import { newElement, newText } from '@/Datum/generators';
-
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
  ┃ TEXT                                                  ┃
  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
@@ -10,12 +6,12 @@ const randomNumericString = (): string => (
     Math.floor(Math.pow(Math.random()*100, 2)).toString(10)
 );
 
-const newEmptyText = () => newText({
+const newEmptyText = () => ({
     text: '',
     type: 'emptyText',
 });
 
-const newFormattedText = () => newText({
+const newFormattedText = () => ({
     text: randomNumericString(),
     type: 'formattedText',
 });
@@ -24,24 +20,24 @@ const newFormattedText = () => newText({
  ┃ CELL                                                  ┃
  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
-const newColumnHeaderCell = () => newElement({
+const newColumnHeaderCell = () => ({
     type: 'tableColumnHeaderCell',
     children: [newEmptyText()],
     width: null,
 });
 
-const newOriginCell = () => newElement({
+const newOriginCell = () => ({
     type: 'tableOriginCell',
     children: [newEmptyText()],
 });
 
-const newRowHeaderCell = () => newElement({
+const newRowHeaderCell = () => ({
     type: 'tableRowHeaderCell',
     children: [newEmptyText()],
     height: null,
 });
 
-const newTableBodyCell = () => newElement({
+const newTableBodyCell = () => ({
     type: 'tableBodyCell',
     children: [newFormattedText()],
 });
@@ -50,7 +46,7 @@ const newTableBodyCell = () => newElement({
  ┃ ROW                                                   ┃
  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
-const newHeaderRow = (columns: number) => newElement({
+const newHeaderRow = (columns: number) => ({
     type: 'tableHeaderRow',
     children: [
         newOriginCell(),
@@ -59,7 +55,7 @@ const newHeaderRow = (columns: number) => newElement({
     ],
 });
 
-const newBodyRow = (columns: number) => newElement({
+const newBodyRow = (columns: number) => ({
     type: 'tableBodyRow',
     children: [
         newRowHeaderCell(),
@@ -75,7 +71,7 @@ const newBodyRow = (columns: number) => newElement({
 export const newMockTable = (
     columns: number,
     rows: number,
-): TypedElement<Table> => newElement({
+) => ({
     type: 'table',
     children: [
         newHeaderRow(columns),

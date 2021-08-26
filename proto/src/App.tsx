@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 
-import { Datum } from '@/Datum'; 
+import { Demo } from './Demo'; 
 
 export const App: FC = () => {
     return (
         <div>
-            <Datum />
+            <Demo />
         </div>
     );
 };
