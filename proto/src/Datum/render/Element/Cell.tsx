@@ -3,6 +3,7 @@ import { Path } from 'slate';
 import { useSlateStatic } from 'slate-react';
 import { RenderDatumElementProps } from './types';
 
+import { notUndefined } from './helpers';
 import {
     Cell,
     CellType,
@@ -12,6 +13,7 @@ import {
     columnHeaderCellClass,
     contentCellClass,
     rowHeaderCellClass,
+    selectedCellClass,
     originCellClass,
 } from './style';
 
@@ -78,14 +80,16 @@ export const CellRenderer: FC<RenderDatumElementProps<Cell>> = ({
         );
     }, [editor.selection?.focus.path]);
 
+    const classes = useMemo(() => ([
+        selected ? selectedCellClass : undefined,
+        content.class,
+    ].filter(notUndefined).join(' ')), [content.class, selected]);
+
     if (content.child === undefined) {
         return (
             <div
                 {...attributes}
-                className={content.class}
-                style={{
-                    backgroundColor: selected ? 'blue' : 'white',
-                }}
+                className={classes}
             >
                 {children}
             </div>
@@ -96,7 +100,7 @@ export const CellRenderer: FC<RenderDatumElementProps<Cell>> = ({
         <div
             {...attributes}
             contentEditable={false}
-            className={content.class}
+            className={classes}
         >
             {content.child}
         </div>
