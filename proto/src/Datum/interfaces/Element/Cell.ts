@@ -15,11 +15,11 @@ type CellDimension<T extends CellType> =
             ? { width: number|null }
             : {}; // eslint-disable-line @typescript-eslint/ban-types
 
-export type Cell<T extends CellType> = CellDimension<T> & DatumElement<ElementType.Cell, Descendant[]> & {
+export type Cell<T extends CellType=CellType> = CellDimension<T> & DatumElement<ElementType.Cell, Descendant[]> & {
     cellType: T;
 };
 
-const elementIsCell = (el: Element): el is Cell<CellType> => (
+const elementIsCell = (el: Element): el is Cell => (
     el.type === ElementType.Cell
 );
 

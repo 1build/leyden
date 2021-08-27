@@ -6,7 +6,7 @@ import { newMockTable } from './data/generate';
 import { useEditor, useRender } from './Datum';
 
 export const Demo: FC = () => {
-    const [descendants, setDescendants] = useState<Descendant[]>([newMockTable(20, 20)]);
+    const [descendants, setDescendants] = useState<Descendant[]>(() => [newMockTable(100, 100)]);
 
     const editor = useEditor();
     const render = useRender();
@@ -15,7 +15,7 @@ export const Demo: FC = () => {
         <Slate
             editor={editor}
             value={descendants}
-            onChange={newVal => setDescendants(newVal)}
+            onChange={setDescendants}
         >
             <Editable {...render} />
         </Slate>

@@ -18,8 +18,8 @@ export const TableRenderer: FC<RenderDatumElementProps<Table>> = ({
             gridTemplateRows: `repeat(${rowCount}, auto)`,
             gap: '1px',
             backgroundColor: 'rgba(100, 100, 100, 0.2)',
-            alignItems: 'center',
-            justifyItems: 'start',
+            alignItems: 'stretch',
+            justifyItems: 'stretch',
             width: 'fit-content',
             fontFamily: 'Arial,Helvetica Neue,Helvetica,sans-serif',
         };
@@ -27,8 +27,8 @@ export const TableRenderer: FC<RenderDatumElementProps<Table>> = ({
 
     return (
         <div
-            {...attributes}
             style={style}
+            {...attributes}
         >
             {children}
         </div>
