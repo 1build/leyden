@@ -1,9 +1,10 @@
 import { Element } from 'slate';
 
-import { DatumElement, ElementType } from '.'
 import {
     Cell,
     CellType,
+    DatumElement,
+    ElementType,
 } from '.';
 
 export enum RowType {
@@ -11,56 +12,37 @@ export enum RowType {
     Header,
 }
 
-interface AnyRow<T extends RowType, C extends Cell[]> extends DatumElement<ElementType.Cell, C> {
-    rowType: RowType;
+type RowMap = {
+    [RowType.Body]: [
+        Cell<CellType.RowHeader>,
+        Cell<CellType.Content>,
+        ...Cell<CellType.Content>[],
+    ],
+    [RowType.Header]: [
+        Cell<CellType.Origin>,
+        Cell<CellType.ColumnHeader>,
+        ...Cell<CellType.ColumnHeader>[],
+    ]
 }
 
-export type BodyRow = AnyRow<RowType.Body, [
-    Cell<CellType.RowHeader>,
-    Cell,
-    ...Cell[],
-]>;
-
-export type HeaderRow = AnyRow<RowType.Header, [
-    Cell<CellType.Origin>,
-    Cell<CellType.ColumnHeader>,
-    ...Cell<CellType.ColumnHeader>[],
-]>;
-
-export type Row =
-    | BodyRow
-    | HeaderRow;
-
-export interface RowInterface {
-    isBodyRow: (value: Row) => value is BodyRow;
-    isHeaderRow: (value: Row) => value is HeaderRow;
-    isRow: (value: any) => value is Row;
+export interface Row<T extends RowType> extends DatumElement<ElementType.Row, RowMap[T]> {
+    rowType: T;
 }
 
-const isRow = (value: any): value is Row => (
-    Element.isElement(value) && value.type === ElementType.Row
-)
+const elementIsRow = (el: Element): el is Row<RowType> => (
+    el.type === ElementType.Row
+);
 
-export const Row: RowInterface = {
+export const Row = {
     /**
-     * Check if a row is a body row.
+     * Check if an element is a `Row`.
+     * If `type` is passed, only return true if the passed value is a row of the specified type.
      */
 
-    isBodyRow(value: Row): value is BodyRow {
-        return value.rowType === RowType.Body;
-    },
-
-    /**
-     * Check if a row is a header row.
-     */
-
-    isHeaderRow(value: Row): value is HeaderRow {
-        return value.rowType === RowType.Header;
-    },
-
-    /**
-     * Check if a value implements the `Row` interface.
-     */
-
-     isRow,
-}
+    isRow: <T extends RowType>(
+        el: Element,
+        type?: T,
+    ): el is Row<T extends RowType ? T : RowType> => (
+        elementIsRow(el) && (type === undefined || el.rowType === type)
+    )
+};

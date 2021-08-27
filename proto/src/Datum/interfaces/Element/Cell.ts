@@ -1,30 +1,38 @@
 import { Descendant, Element } from 'slate';
-import { DatumElement, ElementType } from '.'
+import { DatumElement, ElementType } from '.';
 
 export enum CellType {
     ColumnHeader,
+    Content,
     Origin,
     RowHeader,
-    Standard,
 }
 
-export interface Cell<T extends CellType=CellType.Standard> extends DatumElement<ElementType.Cell, Descendant[]> {
-    cellType: CellType;
-}
+type CellDimension<T extends CellType> =
+    T extends CellType.RowHeader
+        ? { height: number|null }
+        : T extends CellType.ColumnHeader
+            ? { width: number|null }
+            : {}; // eslint-disable-line @typescript-eslint/ban-types
 
-export interface CellInterface {
-    isCell: (value: any) => value is Cell;
-}
+export type Cell<T extends CellType> = CellDimension<T> & DatumElement<ElementType.Cell, Descendant[]> & {
+    cellType: T;
+};
 
-const isCell = (value: any): value is Cell => (
-    Element.isElement(value) && value.type === ElementType.Cell
-)
+const elementIsCell = (el: Element): el is Cell<CellType> => (
+    el.type === ElementType.Cell
+);
 
-export const Cell: CellInterface = {
-
+export const Cell = {
     /**
-     * Check if a value implements the `Cell` interface.
+     * Check if an element is a `Cell`.
+     * If `type` is passed, only return true if the passed value is a cell of the specified type.
      */
 
-    isCell,
-}
+    isCell: <T extends CellType>(
+        el: Element,
+        type?: T,
+    ): el is Cell<T extends CellType ? T : CellType> => (
+        elementIsCell(el) && (type === undefined || el.cellType === type)
+    ),
+};

@@ -5,20 +5,18 @@ import {
     TextType,
 } from '.';
 
-export type FormattedText = DatumText<TextType.FormattedText>;
-
-export interface FormattedTextInterface {
-    isFormattedText: (value: any) => value is FormattedText;
+export interface FormattedText extends DatumText<TextType.FormattedText> {
+    bold?: boolean;
 }
 
-const isFormattedText = (value: any): value is FormattedText => (
+const isFormattedText = (value: Text): value is FormattedText => (
     Text.isText(value) && value.type === TextType.FormattedText
-)
+);
 
-export const FormattedText: FormattedTextInterface = {
+export const FormattedText = {
     /**
-     * Check if a value implements the `FormattedText` interface.
+     * Check if text is `FormattedText`.
      */
 
     isFormattedText,
-}
+};

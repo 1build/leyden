@@ -49,10 +49,10 @@ export const Element: FC<RenderElementProps> = ({
 
     if (Cell.isCell(element)) {
         switch (element.cellType) {
-            case CellType.ColumnHeader:
-                const headerPath = ReactEditor.findPath(editor, element);
+            case CellType.ColumnHeader: {
+                const path = ReactEditor.findPath(editor, element);
                 // Logic is slightly off - goes from "Z" to "BA" instead of "AA" 
-                const cellPositionInRow = headerPath[headerPath.length-1]-1;
+                const cellPositionInRow = path[path.length-1]-1;
                 const positionBase26 = cellPositionInRow.toString(26);
                 let label = '';
                 for (let i = 0; i < positionBase26.length; i++) {
@@ -83,7 +83,8 @@ export const Element: FC<RenderElementProps> = ({
                         {label}
                     </div>
                 );
-            case CellType.RowHeader: 
+            }
+            case CellType.RowHeader: {
                 const path = ReactEditor.findPath(editor, element);
                 const rowPositionInTable = path[path.length-2];
                 return (
@@ -104,6 +105,7 @@ export const Element: FC<RenderElementProps> = ({
                         {rowPositionInTable}
                     </div>
                 );
+            }
             default:
                 return (
                     <div {...attributes} style={{

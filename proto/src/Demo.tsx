@@ -1,16 +1,16 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { Descendant } from 'slate';
 import { Editable, Slate } from 'slate-react';
 
-import { newMockTable } from './stub';
-import { useEditor } from './Datum/editor';
-import { renderElement, renderLeaf } from './Datum/render';
+import { newMockTable } from './data/generate';
+import { useEditor, useRender } from './Datum';
 
 export const Demo: FC = () => {
     const [descendants, setDescendants] = useState<Descendant[]>([newMockTable(80, 30)]);
 
     const editor = useEditor();
 
+    const render = useRender();
     
 
     return (
@@ -19,10 +19,7 @@ export const Demo: FC = () => {
             value={descendants}
             onChange={newVal => setDescendants(newVal)}
         >
-            <Editable
-                renderElement={renderElement}
-                renderLeaf={renderLeaf}
-            />
+            <Editable {...render} />
         </Slate>
     );
 };

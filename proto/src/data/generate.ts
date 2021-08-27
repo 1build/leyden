@@ -1,3 +1,15 @@
+import {
+    Cell,
+    CellType,
+    ElementType,
+    FormattedText,
+    Row,
+    RowType,
+    Table,
+    TextType,
+    Void,
+} from '../Datum';
+
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
  ┃ TEXT                                                  ┃
  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
@@ -6,39 +18,43 @@ const randomNumericString = (): string => (
     Math.floor(Math.pow(Math.random()*100, 2)).toString(10)
 );
 
-const newEmptyText = () => ({
+const newVoidText = (): Void => ({
     text: '',
-    type: 'emptyText',
+    type: TextType.Void,
 });
 
-const newFormattedText = () => ({
+const newFormattedText = (): FormattedText => ({
     text: randomNumericString(),
-    type: 'formattedText',
+    type: TextType.FormattedText,
 });
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
  ┃ CELL                                                  ┃
  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
-const newColumnHeaderCell = () => ({
-    type: 'tableColumnHeaderCell',
-    children: [newEmptyText()],
+const newColumnHeaderCell = (): Cell<CellType.ColumnHeader> => ({
+    type: ElementType.Cell,
+    cellType: CellType.ColumnHeader,
+    children: [newVoidText()],
     width: null,
 });
 
-const newOriginCell = () => ({
-    type: 'tableOriginCell',
-    children: [newEmptyText()],
+const newOriginCell = (): Cell<CellType.Origin> => ({
+    type: ElementType.Cell,
+    cellType: CellType.Origin,
+    children: [newVoidText()],
 });
 
-const newRowHeaderCell = () => ({
-    type: 'tableRowHeaderCell',
-    children: [newEmptyText()],
+const newRowHeaderCell = (): Cell<CellType.RowHeader> => ({
+    type: ElementType.Cell,
+    cellType: CellType.RowHeader,
+    children: [newVoidText()],
     height: null,
 });
 
-const newTableBodyCell = () => ({
-    type: 'tableBodyCell',
+const newTableContentCell = (): Cell<CellType.Content> => ({
+    type: ElementType.Cell,
+    cellType: CellType.Content,
     children: [newFormattedText()],
 });
 
@@ -46,8 +62,9 @@ const newTableBodyCell = () => ({
  ┃ ROW                                                   ┃
  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
-const newHeaderRow = (columns: number) => ({
-    type: 'tableHeaderRow',
+const newHeaderRow = (columns: number): Row<RowType.Header> => ({
+    type: ElementType.Row,
+    rowType: RowType.Header,
     children: [
         newOriginCell(),
         newColumnHeaderCell(),
@@ -55,12 +72,13 @@ const newHeaderRow = (columns: number) => ({
     ],
 });
 
-const newBodyRow = (columns: number) => ({
-    type: 'tableBodyRow',
+const newBodyRow = (columns: number): Row<RowType.Body> => ({
+    type: ElementType.Row,
+    rowType: RowType.Body,
     children: [
         newRowHeaderCell(),
-        newTableBodyCell(),
-        ...(Array.from({ length: columns-2 }, newTableBodyCell)),
+        newTableContentCell(),
+        ...(Array.from({ length: columns-2 }, newTableContentCell)),
     ],
 });
 
@@ -71,8 +89,8 @@ const newBodyRow = (columns: number) => ({
 export const newMockTable = (
     columns: number,
     rows: number,
-) => ({
-    type: 'table',
+): Table => ({
+    type: ElementType.Table,
     children: [
         newHeaderRow(columns),
         newBodyRow(columns),
