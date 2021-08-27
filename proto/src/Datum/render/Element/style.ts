@@ -42,6 +42,7 @@ export const makeTableClass = (
     columns: number,
     rows: number,
 ): string => style({
+    position: 'relative',
     display: 'grid',
     gridTemplateColumns: `fit-content(1.5rem) repeat(${columns-1}, auto)`,
     gridTemplateRows: `repeat(${rows}, auto)`,

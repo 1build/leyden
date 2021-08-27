@@ -1,4 +1,8 @@
-import { Descendant, Editor, Element } from 'slate';
+import {
+    Descendant,
+    Editor,
+    Element,
+} from 'slate';
 
 import {
     Coordinates,

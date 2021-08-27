@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { Descendant } from 'slate';
+import { Descendant, Transforms } from 'slate';
 import { Editable, Slate } from 'slate-react';
 
 import { newMockTable } from './data/generate';
@@ -17,7 +17,26 @@ export const Demo: FC = () => {
             value={descendants}
             onChange={value => setDescendants(value)}
         >
-            <Editable {...render} />
+            <Editable
+                {...render}
+                onKeyDown={e => {
+                    if (e.defaultPrevented) {
+                        return;
+                    }
+                    const { selection } = editor;
+                    if (e.key === 'Enter' && selection && selection.focus.path.length >= 4) {
+                        const { path } = selection.focus;
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log(path);
+                        Transforms.select(editor, [
+                            ...path.slice(0, 2),
+                            path[2]+1,
+                            path[3],
+                        ]);
+                    }
+                }}
+            />
         </Slate>
     );
 };
