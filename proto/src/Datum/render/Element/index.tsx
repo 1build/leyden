@@ -5,6 +5,7 @@ import {
     useSlateStatic,
 } from 'slate-react';
 
+import { TableRenderer } from './Table';
 import {
     Cell,
     CellType,
@@ -20,30 +21,14 @@ export const Element: FC<RenderElementProps> = ({
     const editor = useSlateStatic();
 
     if (Row.isRow(element)) {
-        return <> {children} </>;
+        return <>{children}</>;
     }
 
     if (Table.isTable(element)) {
-        const colCount = element.children[0].children.length;
-        const rowCount = element.children.length;
-
         return (
-            <div
-                {...attributes}
-                style={{
-                    display: 'grid',
-                    gridTemplateColumns: `fit-content(1.5rem) repeat(${colCount-1}, auto)`,
-                    gridTemplateRows: `repeat(${rowCount}, auto)`,
-                    gap: '1px',
-                    backgroundColor: 'rgba(100, 100, 100, 0.2)',
-                    alignItems: 'center',
-                    justifyItems: 'start',
-                    width: 'fit-content',
-                    fontFamily: 'Arial,Helvetica Neue,Helvetica,sans-serif',
-                }}
-            >
+            <TableRenderer attributes={attributes} element={element}>
                 {children}
-            </div>
+            </TableRenderer>
         );
     }
 

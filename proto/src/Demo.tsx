@@ -6,12 +6,10 @@ import { newMockTable } from './data/generate';
 import { useEditor, useRender } from './Datum';
 
 export const Demo: FC = () => {
-    const [descendants, setDescendants] = useState<Descendant[]>([newMockTable(80, 30)]);
+    const [descendants, setDescendants] = useState<Descendant[]>([newMockTable(20, 20)]);
 
     const editor = useEditor();
-
     const render = useRender();
-    
 
     return (
         <Slate
