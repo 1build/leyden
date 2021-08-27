@@ -1,13 +1,13 @@
 import { Element } from 'slate';
 
-import { DatumElement } from 'datum';
-
 import {
     BodyRow,
+    DatumElement,
+    ElementType,
     HeaderRow,
 } from '.';
 
-export type Table = DatumElement<'table', [
+export type Table = DatumElement<ElementType.Table, [
     HeaderRow,
     BodyRow,
     ...BodyRow[],
@@ -18,7 +18,7 @@ export interface TableInterface {
 }
 
 const isTable = (value: any): value is Table => (
-    Element.isElement(value) && value.type === 'table'
+    Element.isElement(value) && value.type === ElementType.Table
 )
 
 export const Table: TableInterface = {
