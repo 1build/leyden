@@ -1,5 +1,10 @@
-import { Descendant, Element } from 'slate';
-import { DatumElement, ElementType } from '.';
+import { Descendant, Editor, Element } from 'slate';
+
+import {
+    Coordinates,
+    DatumElement,
+    ElementType,
+} from '.';
 
 export enum CellType {
     ColumnHeader,
@@ -42,5 +47,17 @@ export const Cell = {
 
     isEditable: (cell: Cell): boolean => (
         cell.cellType === CellType.Content
-    )
+    ),
+
+    /**
+     * Get a cell's coordinates.
+     */
+
+    getCoordinates: (editor: Editor, cell: Cell): Coordinates => {
+        const path = DatumElement.getPath(editor, cell);
+        return {
+            x: path[path.length-1],
+            y: path[path.length-2],
+        };
+    }
 };

@@ -1,5 +1,5 @@
 import React, { FC, useMemo } from 'react';
-import { ReactEditor, useSlateStatic } from 'slate-react';
+import { useSlateStatic } from 'slate-react';
 import { RenderDatumElementProps } from './types';
 
 import { Cell, CellType } from '../..';
@@ -32,8 +32,7 @@ export const CellRenderer: FC<RenderDatumElementProps<Cell>> = ({
                     class: originCellClass,
                 };
             case CellType.ColumnHeader: {
-                const path = ReactEditor.findPath(editor, element);
-                const cellPositionInRow = path[path.length-1]-1;
+                const cellPositionInRow = Cell.getCoordinates(editor, element).x-1;
                 const positionBase26 = cellPositionInRow.toString(26);
                 let label = '';
                 for (let i = 0; i < positionBase26.length; i++) {
@@ -55,8 +54,7 @@ export const CellRenderer: FC<RenderDatumElementProps<Cell>> = ({
                 };
             }
             case CellType.RowHeader: {
-                const path = ReactEditor.findPath(editor, element);
-                const rowPositionInTable = path[path.length-2];
+                const rowPositionInTable = Cell.getCoordinates(editor, element).y;
                 return {
                     child: rowPositionInTable.toString(),
                     class: rowHeaderCellClass,
