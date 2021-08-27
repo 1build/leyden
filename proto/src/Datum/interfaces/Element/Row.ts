@@ -25,7 +25,7 @@ type RowMap = {
     ]
 }
 
-export interface Row<T extends RowType> extends DatumElement<ElementType.Row, RowMap[T]> {
+export interface Row<T extends RowType=RowType> extends DatumElement<ElementType.Row, RowMap[T]> {
     rowType: T;
 }
 

@@ -35,4 +35,12 @@ export const Cell = {
     ): el is Cell<T extends CellType ? T : CellType> => (
         elementIsCell(el) && (type === undefined || el.cellType === type)
     ),
+
+    /**
+     * Check if a cell is editable.
+     */
+
+    isEditable: (cell: Cell): boolean => (
+        cell.cellType === CellType.Content
+    )
 };

@@ -33,7 +33,6 @@ export const CellRenderer: FC<RenderDatumElementProps<Cell>> = ({
                 };
             case CellType.ColumnHeader: {
                 const path = ReactEditor.findPath(editor, element);
-                // Logic is slightly off - goes from "Z" to "BA" instead of "AA" 
                 const cellPositionInRow = path[path.length-1]-1;
                 const positionBase26 = cellPositionInRow.toString(26);
                 let label = '';
@@ -44,6 +43,9 @@ export const CellRenderer: FC<RenderDatumElementProps<Cell>> = ({
                         adjustedCharCode = originalCharCode + 17;
                     } else {
                         adjustedCharCode = originalCharCode - 22;
+                    }
+                    if (i < positionBase26.length-1) {
+                        adjustedCharCode -= 1;
                     }
                     label = `${label}${String.fromCharCode(adjustedCharCode)}`;
                 }
@@ -63,7 +65,7 @@ export const CellRenderer: FC<RenderDatumElementProps<Cell>> = ({
             default:
                 return {};
         }
-    }, [element.cellType]);
+    }, [editor, element.cellType]);
 
     if (content.child === undefined) {
         return (

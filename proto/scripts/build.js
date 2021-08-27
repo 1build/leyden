@@ -101,7 +101,7 @@ const writeIndex = () => new Promise((res, rej) => fs.writeFile(INDEX_PATH, `<!D
         ':${HOTRELOAD_PORT}/livereload.js?snipver=1"></' + 'script>')
     </script>
     </head>
-    <body>
+    <body style="margin: 0; padding: 0;">
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <script src="/${BUNDLE_NAME}"></script>

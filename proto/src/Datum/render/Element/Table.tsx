@@ -1,4 +1,6 @@
-import React, { CSSProperties, FC, useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
+
+import { makeTableClass } from './style';
 import { RenderDatumElementProps } from './types';
 
 import { Table } from '../..';
@@ -8,26 +10,14 @@ export const TableRenderer: FC<RenderDatumElementProps<Table>> = ({
     children,
     element,
 }) => {
-    const style = useMemo<CSSProperties>(() => {
-        const columnCount = element.children[0].children.length;
-        const rowCount = element.children.length;
-
-        return {
-            display: 'grid',
-            gridTemplateColumns: `fit-content(1.5rem) repeat(${columnCount-1}, auto)`,
-            gridTemplateRows: `repeat(${rowCount}, auto)`,
-            gap: '1px',
-            backgroundColor: 'rgba(100, 100, 100, 0.2)',
-            alignItems: 'stretch',
-            justifyItems: 'stretch',
-            width: 'fit-content',
-            fontFamily: 'Arial,Helvetica Neue,Helvetica,sans-serif',
-        };
-    }, [element.children.length, element.children[0].children.length]);
+    const className = useMemo(() => makeTableClass(
+        element.children[0].children.length,
+        element.children.length,
+    ), [element.children.length, element.children[0].children.length]);
 
     return (
         <div
-            style={style}
+            className={className}
             {...attributes}
         >
             {children}

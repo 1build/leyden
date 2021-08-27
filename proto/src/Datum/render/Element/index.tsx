@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { RenderElementProps } from 'slate-react';
 
 import { CellRenderer } from './Cell';
+import { RowRenderer } from './Row';
 import { TableRenderer } from './Table';
 import { Cell, Row, Table } from '../..';
 
@@ -19,7 +20,11 @@ export const Element: FC<RenderElementProps> = ({
     }
 
     if (Row.isRow(element)) {
-        return <>{children}</>;
+        return (
+            <RowRenderer attributes={attributes} element={element}>
+                {children}
+            </RowRenderer>
+        );
     }
 
     if (Table.isTable(element)) {

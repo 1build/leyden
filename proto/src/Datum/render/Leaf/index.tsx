@@ -12,5 +12,5 @@ export const Leaf: FC<RenderLeafProps> = ({
         children = <strong>{children}</strong>;
     }
 
-    return <span {...attributes}>{children}</span>;
+    return <div {...attributes}>{children}</div>;
 };
