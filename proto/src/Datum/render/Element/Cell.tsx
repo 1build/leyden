@@ -73,7 +73,6 @@ export const CellRenderer: FC<RenderDatumElementProps<Cell>> = ({
     }, [editor, element.cellType]);
 
     const selected = useMemo(() => {
-        // console.log({ sel: editor.selection, me: DatumElement.getPath(editor, element) });
         return editor.selection !== null && Path.isChild(
             editor.selection.focus.path,
             DatumElement.getPath(editor, element)
@@ -99,7 +98,6 @@ export const CellRenderer: FC<RenderDatumElementProps<Cell>> = ({
     return (
         <div
             {...attributes}
-            contentEditable={false}
             className={classes}
         >
             {content.child}

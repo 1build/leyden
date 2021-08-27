@@ -14,6 +14,7 @@ export const selectedCellClass = style({
         },
         '&::after': {
             content: '\'\'',
+            cursor: 'crosshair',
             position: 'absolute',
             bottom: -3,
             right: -3,
@@ -30,10 +31,10 @@ export const selectedCellClass = style({
 
 export const columnHeaderCellClass = style({
     position: 'relative',
-    backgroundColor: 'rgb(230, 230, 230)',
+    backgroundColor: '#f8f9fa',
     boxSizing: 'border-box',
-    color: 'rgba(75, 75, 75)',
-    minWidth: '3rem',
+    color: '#61656a',
+    minWidth: '6.875rem',
     width: '100%',
     height: '100%',
     padding: '0.25rem',
@@ -54,6 +55,7 @@ export const columnHeaderCellClass = style({
 });
 
 export const contentCellClass = style({
+    cursor: 'default',
     position: 'relative',
     boxSizing: 'border-box',
     backgroundColor: 'white',
@@ -67,18 +69,43 @@ export const contentCellClass = style({
 export const originCellClass = style({
     position: 'relative',
     boxSizing: 'border-box',
-    backgroundColor: 'rgb(230, 230, 230)',
+    backgroundColor: '#f8f9fa',
+    minHeight: '1.25rem',
+    minWidth: '2.825rem',
     width: '100%',
     height: '100%',
-    margin: '0 3px 3px 0',
+    $nest: {
+        '&::before': {
+            content: '\'\'',
+            position: 'absolute',
+            top: -1,
+            left: -1,
+            bottom: -1,
+            right: -1,
+            boxSizing: 'border-box',
+            border: '1px solid #c0c0c0',
+        },
+        '&::after': {
+            content: '\'\'',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            bottom: 0,
+            right: 0,
+            boxSizing: 'border-box',
+            borderBottom: '4px solid #bcbcbc',
+            borderRight: '4px solid #bcbcbc',
+        },
+    }
 });
 
 export const rowHeaderCellClass = style({
     position: 'relative',
     boxSizing: 'border-box',
-    backgroundColor: 'rgb(230, 230, 230)',
-    color: 'rgba(75, 75, 75)',
+    backgroundColor: '#f8f9fa',
+    color: '#61656a',
     minWidth: '2rem',
+    minHeight: '1.25rem',
     width: '100%',
     height: '100%',
     padding: '0.25rem',
