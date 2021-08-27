@@ -1,10 +1,9 @@
-import { Descendant, Element } from 'slate';
+import { DatumElement } from 'datum';
+import { Element } from 'slate';
 
 import {
     Cell,
     CellType,
-    DatumElement,
-    ElementType,
 } from '.';
 
 export enum RowType {
@@ -12,7 +11,7 @@ export enum RowType {
     Header,
 }
 
-interface AnyRow<T extends RowType, C extends Cell[]> extends DatumElement<ElementType.Cell, C> {
+interface AnyRow<T extends RowType, C extends Cell[]> extends DatumElement<'cell', C> {
     rowType: RowType;
 }
 
@@ -39,7 +38,7 @@ export interface RowInterface {
 }
 
 const isRow = (value: any): value is Row => (
-    Element.isElement(value) && value.type === ElementType.Row
+    Element.isElement(value) && value.type === 'row'
 )
 
 export const Row: RowInterface = {

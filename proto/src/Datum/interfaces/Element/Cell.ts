@@ -1,6 +1,5 @@
 import { Descendant, Element } from 'slate';
-
-import { DatumElement, ElementType } from '.';
+import { DatumElement } from 'datum';
 
 export enum CellType {
     ColumnHeader,
@@ -9,7 +8,7 @@ export enum CellType {
     Standard,
 }
 
-export interface Cell<T extends CellType=CellType.Standard> extends DatumElement<ElementType.Cell, Descendant[]> {
+export interface Cell<T extends CellType=CellType.Standard> extends DatumElement<'cell', Descendant[]> {
     cellType: CellType;
 }
 
@@ -18,7 +17,7 @@ export interface CellInterface {
 }
 
 const isCell = (value: any): value is Cell => (
-    Element.isElement(value) && value.type === ElementType.Cell
+    Element.isElement(value) && value.type === 'cell'
 )
 
 export const Cell: CellInterface = {

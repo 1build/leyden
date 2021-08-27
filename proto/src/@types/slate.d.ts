@@ -1,11 +1,10 @@
-import { BaseEditor, Descendant } from 'slate';
+import { SlateDatumElement } from 'datum';
+import { BaseEditor } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { HistoryEditor } from 'slate-history';
 
 import {
-    DatumElement,
     DatumText,
-    ElementType,
     TextType,
 } from '../Datum';
 
@@ -17,7 +16,7 @@ type Editor =
 declare module 'slate' {
     interface CustomTypes {
         Editor: Editor;
-        Element: DatumElement<ElementType, Descendant[]>;
+        Element: SlateDatumElement;
         Text: DatumText<TextType>;
     }
 }
