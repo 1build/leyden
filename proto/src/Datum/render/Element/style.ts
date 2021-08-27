@@ -51,5 +51,5 @@ export const makeTableClass = (
     justifyItems: 'stretch',
     width: 'fit-content',
     fontFamily: 'Arial,Helvetica Neue,Helvetica,sans-serif',
-    padding: '1px',
+    padding: '0 1px 1px 0',
 });
