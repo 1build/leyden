@@ -20,10 +20,14 @@
         "jsx": "react-jsx",
         "baseUrl": ".",
         "paths": {
-            "*": ["src/@types"]
+            "*": ["./src/@types"]
         }
     },
     "include": [
         "src"
+    ],
+    "references": [
+        { "path": "../../packages/datum" },
+        { "path": "../../packages/datum-react" }
     ]
 }

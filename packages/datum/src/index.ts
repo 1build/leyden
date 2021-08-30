@@ -1,13 +1,10 @@
-export interface Hello {
-    something: string;
-}
+export * from './editor/withDatum';
 
-export const testExport: Hello = {
-    something: 'tester',
-};
+export * from './interfaces/Element/Cell';
+export * from './interfaces/Element/Row';
+export * from './interfaces/Element/Table';
+export * from './interfaces/Element/types';
 
-export const blah = (something: string): Hello => {
-    return  {
-        something,
-    };
-};
+export * from './interfaces/Text/FormattedText';
+export * from './interfaces/Text/Void';
+export * from './interfaces/Text/types';

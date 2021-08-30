@@ -1,10 +1,10 @@
+import { Cell, Row, Table } from 'datum';
 import React, { FC } from 'react';
 import { RenderElementProps } from 'slate-react';
 
 import { CellRenderer } from './Cell';
 import { RowRenderer } from './Row';
 import { TableRenderer } from './Table';
-import { Cell, Row, Table } from '../..';
 
 export const Element: FC<RenderElementProps> = ({
     attributes,

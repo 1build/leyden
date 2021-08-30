@@ -1,11 +1,7 @@
 import { Element } from 'slate';
 
-import {
-    DatumElement,
-    ElementType,
-    Row,
-    RowType,
-} from '.';
+import { Row, RowType } from './Row';
+import { DatumElement, ElementType } from './types';
 
 export type Table = DatumElement<ElementType.Table, [
     Row<RowType.Header>,

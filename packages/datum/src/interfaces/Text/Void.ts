@@ -3,7 +3,7 @@ import { Text } from 'slate';
 import {
     DatumText,
     TextType,
-} from '.';
+} from './types';
 
 export type Void = DatumText<TextType.Void>;
 

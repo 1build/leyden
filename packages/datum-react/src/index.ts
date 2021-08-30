@@ -1,1 +1,2 @@
-export const testExport = 'tester';
+export * from './Editable';
+export * from './Slate';

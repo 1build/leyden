@@ -5,6 +5,9 @@
         "rootDir": "./src",
         "outDir": "./lib",
     },
+    "paths": {
+        "*": ["./src/@types"]
+    },
     "references": [
         { "path": "../datum" }
     ]

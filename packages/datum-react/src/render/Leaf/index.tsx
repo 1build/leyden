@@ -1,7 +1,6 @@
+import { FormattedText } from 'datum';
 import React, { FC } from 'react';
 import { RenderLeafProps } from 'slate-react';
-
-import { FormattedText } from '../..';
 
 export const Leaf: FC<RenderLeafProps> = ({
     attributes,

@@ -1,14 +1,10 @@
+import { Cell, CellType } from 'datum';
 import React, { FC, useMemo } from 'react';
-import { Path } from 'slate';
 import { useSlateStatic } from 'slate-react';
 import { RenderDatumElementProps } from './types';
 
 import { notUndefined } from './helpers';
-import {
-    Cell,
-    CellType,
-    DatumElement,
-} from '../..';
+
 import {
     columnHeaderCellClass,
     contentCellClass,
@@ -39,31 +35,32 @@ export const CellRenderer: FC<RenderDatumElementProps<Cell>> = ({
                     class: originCellClass,
                 };
             case CellType.ColumnHeader: {
-                const cellPositionInRow = Cell.getCoordinates(editor, element).x-1;
-                const positionBase26 = cellPositionInRow.toString(26);
-                let label = '';
-                for (let i = 0; i < positionBase26.length; i++) {
-                    const originalCharCode = positionBase26.charCodeAt(i);
-                    let adjustedCharCode: number;
-                    if (originalCharCode <= 57) {
-                        adjustedCharCode = originalCharCode + 17;
-                    } else {
-                        adjustedCharCode = originalCharCode - 22;
-                    }
-                    if (i < positionBase26.length-1) {
-                        adjustedCharCode -= 1;
-                    }
-                    label = `${label}${String.fromCharCode(adjustedCharCode)}`;
-                }
+                // const cellPositionInRow = Cell.getCoordinates(editor, element).x-1;
+                // const positionBase26 = cellPositionInRow.toString(26);
+                // let label = '';
+                // for (let i = 0; i < positionBase26.length; i++) {
+                //     const originalCharCode = positionBase26.charCodeAt(i);
+                //     let adjustedCharCode: number;
+                //     if (originalCharCode <= 57) {
+                //         adjustedCharCode = originalCharCode + 17;
+                //     } else {
+                //         adjustedCharCode = originalCharCode - 22;
+                //     }
+                //     if (i < positionBase26.length-1) {
+                //         adjustedCharCode -= 1;
+                //     }
+                //     label = `${label}${String.fromCharCode(adjustedCharCode)}`;
+                // }
                 return {
-                    child: label,
+                    child: 'A',
                     class: columnHeaderCellClass,
                 };
             }
             case CellType.RowHeader: {
-                const rowPositionInTable = Cell.getCoordinates(editor, element).y;
+                // const rowPositionInTable = Cell.getCoordinates(editor, element).y;
+                // const label = rowPositionInTable.toString();
                 return {
-                    child: rowPositionInTable.toString(),
+                    child: '1',
                     class: rowHeaderCellClass,
                 };
             }
@@ -73,10 +70,11 @@ export const CellRenderer: FC<RenderDatumElementProps<Cell>> = ({
     }, [editor, element.cellType]);
 
     const selected = useMemo(() => {
-        return editor.selection !== null && Path.isChild(
-            editor.selection.focus.path,
-            DatumElement.getPath(editor, element)
-        );
+        return false;
+        // return editor.selection !== null && Path.isChild(
+        //     editor.selection.focus.path,
+        //     DatumElement.getPath(editor, element)
+        // );
     }, [editor.selection?.focus.path]);
 
     const classes = useMemo(() => ([

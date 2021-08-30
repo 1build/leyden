@@ -1,13 +1,7 @@
-import { BaseEditor, Descendant } from 'slate';
+import { SlateDatumElement, SlateDatumText } from 'datum';
+import { BaseEditor } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { HistoryEditor } from 'slate-history';
-
-import {
-    DatumElement,
-    DatumText,
-    ElementType,
-    TextType,
-} from '../Datum';
 
 type Editor =
     & BaseEditor
@@ -15,12 +9,9 @@ type Editor =
     & ReactEditor;
 
 declare module 'slate' {
-    // If not pre-defined, `Element` imports from `slate` as `any` - possibly a circular issue?
-    type SlateDatumElement = DatumElement<ElementType, Descendant[]>;
-
     interface CustomTypes {
         Editor: Editor;
         Element: SlateDatumElement;
-        Text: DatumText<TextType>;
+        Text: SlateDatumText;
     }
 }

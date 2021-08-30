@@ -1,6 +1,5 @@
+import { DatumElement, ElementType } from 'datum';
 import { RenderElementProps } from 'slate-react';
-
-import { DatumElement, ElementType } from '../..';
 
 export interface RenderDatumElementProps<
     T extends DatumElement<ElementType>

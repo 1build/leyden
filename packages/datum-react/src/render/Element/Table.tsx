@@ -1,9 +1,8 @@
+import { Table } from 'datum';
 import React, { FC, useMemo } from 'react';
 
 import { makeTableClass } from './style';
 import { RenderDatumElementProps } from './types';
-
-import { Table } from '../..';
 
 export const TableRenderer: FC<RenderDatumElementProps<Table>> = ({
     attributes,

@@ -1,15 +1,14 @@
 import React, { FC, useState } from 'react';
 import { Descendant, Transforms } from 'slate';
-import { Editable, Slate } from 'slate-react';
+import { Editable, Slate } from 'datum-react';
 
 import { newMockTable } from './data/generate';
-import { useEditor, useRender } from './Datum';
+import { useEditor } from './editor';
 
 export const Demo: FC = () => {
     const [descendants, setDescendants] = useState<Descendant[]>(() => [newMockTable(50, 50)]);
 
     const editor = useEditor();
-    const render = useRender();
 
     return (
         <Slate

@@ -1,11 +1,7 @@
 import { Element } from 'slate';
 
-import {
-    Cell,
-    CellType,
-    DatumElement,
-    ElementType,
-} from '.';
+import { Cell, CellType } from './Cell';
+import { DatumElement, ElementType } from './types';
 
 export enum RowType {
     Body,

@@ -8,7 +8,7 @@ import {
     Table,
     TextType,
     Void,
-} from '../Datum';
+} from 'datum';
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
  ┃ TEXT                                                  ┃
