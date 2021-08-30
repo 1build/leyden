@@ -2,7 +2,15 @@
   "name": "datum",
   "version": "0.0.1",
   "description": "Editable data tables powered by Slate",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
+  "umd": "dist/datum-react.js",
+  "umdMin": "dist/datum-react.min.js",
+  "sideEffects": false,
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,5 +19,8 @@
     "url": "git+https://github.com/1build/datum.git"
   },
   "author": "Michael Darr",
-  "license": "closed"
+  "license": "closed",
+  "dependencies": {
+    "slate": "^0.65.3"
+  }
 }

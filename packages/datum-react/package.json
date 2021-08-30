@@ -2,10 +2,21 @@
   "name": "datum-react",
   "version": "0.0.1",
   "description": "React-specific logic for Datum",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
+  "umd": "dist/datum.js",
+  "umdMin": "dist/datum.min.js",
+  "sideEffects": false,
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Michael Darr",
-  "license": "closed"
+  "license": "closed",
+  "devDependencies": {
+    "react": "^17.0.2"
+  }
 }
