@@ -1,0 +1,7 @@
+*.md
+.github/
+dist/
+lib/
+node_modules/
+
+proto/scripts/build.js

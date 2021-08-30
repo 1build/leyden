@@ -1,77 +1,75 @@
-module.exports = {
+{
     "env": {
         "browser": true,
-        "node": true,
+        "node": true
     },
     "extends": [
         "eslint:recommended",
         "plugin:react/recommended",
         "plugin:@typescript-eslint/eslint-recommended",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:@typescript-eslint/recommended-requiring-type-checking"
+        "plugin:@typescript-eslint/recommended"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
-        "project": "tsconfig.json",
         "sourceType": "module",
+        "ecmaVersion": 2020,
         "ecmaFeatures": {
-            "jsx": true,
-        },
+            "jsx": true
+        }
     },
     "plugins": [
         "react",
-        "@typescript-eslint",
+        "@typescript-eslint"
     ],
     "rules": {
         "array-bracket-spacing": [
             "error",
-            "never",
+            "never"
         ],
         "eol-last": [
             "error",
-            "always",
+            "always"
         ],
         "eqeqeq": [
             "error",
             "always",
-            { "null": "ignore" },
+            { "null": "ignore" }
         ],
         "max-len": [
             "error",
             {
                 "code": 120,
                 "ignoreUrls": true,
-                "tabWidth": 4,
+                "tabWidth": 4
             }
         ],
         "no-console": "error",
         "object-curly-spacing": [
             "error",
-            "always",
+            "always"
         ],
         "semi": [
             "error",
-            "always",
+            "always"
         ],
         "@typescript-eslint/indent": [
             "error",
-            4,
+            4
         ],
         "@typescript-eslint/no-unused-vars": [
             "error",
             {"argsIgnorePattern": "^_"}
         ],
-        "@typescript-eslint/unbound-method": "error",
         "@typescript-eslint/quotes": [
             "error",
             "single",
-            { "avoidEscape": true },
+            { "avoidEscape": true }
         ],
-        'react/prop-types': 0,
+        "react/prop-types": 0
     },
     "settings": {
         "react": {
-            "version": "detect",
+            "version": "detect"
         }
     }
-};
+}

@@ -1,0 +1,33 @@
+{
+  "name": "datum-packages",
+  "version": "0.0.1",
+  "description": "Editable data tables powered by Slate",
+  "main": "index.js",
+  "scripts": {
+    "lint": "npm run lint:eslint && npm run lint:typescript",
+    "lint:eslint": "eslint \"./{packages,proto}/**/*.{js,jsx,ts,tsx}\"",
+    "lint:typescript": "tsc --build ./ --force"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1build/datum.git"
+  },
+  "author": "Michael Darr",
+  "license": "closed",
+  "bugs": {
+    "url": "https://github.com/1build/datum/issues"
+  },
+  "homepage": "https://github.com/1build/datum#readme",
+  "devDependencies": {
+    "@types/react": "^17.0.19",
+    "@types/react-dom": "^17.0.9",
+    "@typescript-eslint/eslint-plugin": "^4.30.0",
+    "@typescript-eslint/parser": "^4.30.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-react": "^7.25.1",
+    "typescript": "^4.4.2"
+  },
+  "dependencies": {
+    "react": "^17.0.2"
+  }
+}
