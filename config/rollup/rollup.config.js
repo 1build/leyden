@@ -62,6 +62,8 @@ function configure(pkg, env, target) {
             namedExports: {
                 'react-dom': ['findDOMNode'],
                 'react-dom/server': ['renderToStaticMarkup'],
+                'node_modules/esrever/esrever.js': ['reverse'],
+                [`packages/${pkg.name}/node_modules/esrever/esrever.js`]: ['reverse'],
             },
         }),
 
