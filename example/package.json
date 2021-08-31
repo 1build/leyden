@@ -1,7 +1,7 @@
 {
-  "name": "datum-proto",
-  "version": "1.0.0",
-  "description": "An exploratory prototype of datum's future functionality",
+  "name": "datum-example",
+  "version": "0.0.1",
+  "description": "An example of datum's functionality",
   "main": "src/index.tsx",
   "scripts": {
     "lint": "./scripts/lint.sh",

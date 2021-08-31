@@ -17,10 +17,15 @@
   "author": "Michael Darr",
   "license": "closed",
   "devDependencies": {
-    "react": "^17.0.2"
-  },
-  "dependencies": {
+    "esrever": "^0.2.0",
+    "react": "^17.0.2",
+    "react-dom": ">=17.0.2",
+    "slate": ">=0.65.3",
     "slate-react": "^0.65.3",
     "typestyle": "^2.1.0"
+  },
+  "peerDependencies": {
+    "react": ">=17.0.2",
+    "react-dom": ">=17.0.2"
   }
 }
