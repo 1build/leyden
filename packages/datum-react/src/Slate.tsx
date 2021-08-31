@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Slate as SlateReactSlate } from 'slate-react';
 
-export const Slate: typeof SlateReactSlate = (props) => {
+export const Slate: FC<Parameters<typeof SlateReactSlate>[0]> = ({
+    children,
+    ...props
+}) => {
     return (
-        <Slate {...props}/>
+        <SlateReactSlate {...props}>
+            {children}
+        </SlateReactSlate>
     );
 };

@@ -1,6 +1,12 @@
-import React, { FC, useState } from 'react';
-import { Descendant, Transforms } from 'slate';
-import { Editable, Slate } from 'datum-react';
+import { Element, Leaf } from 'datum-react';
+import React, { FC, useCallback, useState } from 'react';
+import { Descendant } from 'slate';
+import {
+    Editable,
+    Slate,
+    RenderElementProps,
+    RenderLeafProps,
+} from 'slate-react';
 
 import { newMockTable } from './data/generate';
 import { useEditor } from './editor';
@@ -10,6 +16,14 @@ export const Demo: FC = () => {
 
     const editor = useEditor();
 
+    const renderElement = useCallback<(rep: RenderElementProps) => JSX.Element>(rep => (
+        <Element {...rep} />
+    ), []);
+    
+    const renderLeaf = useCallback<(rlp: RenderLeafProps) => JSX.Element>(rlp => (
+        <Leaf {...rlp} />
+    ), []);
+
     return (
         <Slate
             editor={editor}
@@ -17,49 +31,8 @@ export const Demo: FC = () => {
             onChange={value => setDescendants(value)}
         >
             <Editable
-                {...render}
-                onKeyDown={e => {
-                    const { selection } = editor;
-                    if (e.defaultPrevented || !selection || !selection.focus.path.length) {
-                        return;
-                    }
-                    switch (e.key) {
-                        case 'ArrowUp':{
-                            const { path } = selection.focus;
-                            e.preventDefault();
-                            e.stopPropagation();
-                            Transforms.select(editor, [
-                                path[0],
-                                path[1]-1,
-                                path[2],
-                            ]);
-                            break;
-                        }
-                        case 'ArrowDown':
-                        case 'Enter': {
-                            const { path } = selection.focus;
-                            e.preventDefault();
-                            e.stopPropagation();
-                            Transforms.select(editor, [
-                                path[0],
-                                path[1]+1,
-                                path[2],
-                            ]);
-                            break;
-                        }
-                        case 'Tab': {
-                            const { path } = selection.focus;
-                            e.preventDefault();
-                            e.stopPropagation();
-                            Transforms.select(editor, [
-                                path[0],
-                                path[1],
-                                path[2]+1,
-                            ]);
-                            break;
-                        }
-                    }
-                }}
+                renderElement={renderElement}
+                renderLeaf={renderLeaf}
             />
         </Slate>
     );

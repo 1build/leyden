@@ -27,7 +27,7 @@
         "src"
     ],
     "references": [
-        { "path": "../../packages/datum" },
-        { "path": "../../packages/datum-react" }
+        { "path": "../packages/datum" },
+        { "path": "../packages/datum-react" }
     ]
 }
