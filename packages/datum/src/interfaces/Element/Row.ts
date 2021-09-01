@@ -1,7 +1,7 @@
 import { Element } from 'slate';
 
 import { Cell, CellType } from './Cell';
-import { DatumElement, ElementType } from './types';
+import { ElementType, TypedElement } from './types';
 
 export enum RowType {
     Body,
@@ -21,7 +21,7 @@ type RowMap = {
     ]
 }
 
-export interface Row<T extends RowType=RowType> extends DatumElement<ElementType.Row, RowMap[T]> {
+export interface Row<T extends RowType=RowType> extends TypedElement<ElementType.Row, RowMap[T]> {
     rowType: T;
 }
 

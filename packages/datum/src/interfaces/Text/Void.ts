@@ -1,11 +1,11 @@
 import { Text } from 'slate';
 
 import {
-    DatumText,
+    TypedText,
     TextType,
 } from './types';
 
-export type Void = DatumText<TextType.Void>;
+export type Void = TypedText<TextType.Void>;
 
 const isVoid = (value: Text): value is Void => (
     Text.isText(value) && value.type === TextType.Void

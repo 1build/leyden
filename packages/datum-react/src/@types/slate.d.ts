@@ -1,8 +1,8 @@
-import { SlateDatumElement, SlateDatumText } from 'datum';
+import { DatumElement, DatumText } from 'datum';
 
 declare module 'slate' {
     interface CustomTypes {
-        Element: SlateDatumElement;
-        Text: SlateDatumText;
+        Element: DatumElement;
+        Text: DatumText;
     }
 }

@@ -1,8 +1,9 @@
 import { FormattedText } from 'datum';
 import React, { FC } from 'react';
-import { RenderLeafProps } from 'slate-react';
 
-export const Leaf: FC<RenderLeafProps> = ({
+import { RenderDatumLeafProps } from './types';
+
+export const Leaf: FC<RenderDatumLeafProps> = ({
     attributes,
     children,
     leaf,

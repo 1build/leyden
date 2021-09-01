@@ -1,8 +1,8 @@
 import { Text } from 'slate';
 
-import { DatumText, TextType } from './types';
+import { TypedText, TextType } from './types';
 
-export interface FormattedText extends DatumText<TextType.FormattedText> {
+export interface FormattedText extends TypedText<TextType.FormattedText> {
     bold?: boolean;
 }
 

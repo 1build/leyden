@@ -1,6 +1,6 @@
 import { Descendant, Element } from 'slate';
 
-import { DatumElement, ElementType } from './types';
+import { ElementType, TypedElement } from './types';
 
 export enum CellType {
     ColumnHeader,
@@ -16,7 +16,7 @@ type CellDimension<T extends CellType> =
             ? { width: number|null }
             : {}; // eslint-disable-line @typescript-eslint/ban-types
 
-export type Cell<T extends CellType=CellType> = CellDimension<T> & DatumElement<ElementType.Cell, Descendant[]> & {
+export type Cell<T extends CellType=CellType> = CellDimension<T> & TypedElement<ElementType.Cell, Descendant[]> & {
     cellType: T;
 };
 

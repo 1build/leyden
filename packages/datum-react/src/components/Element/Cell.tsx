@@ -1,9 +1,9 @@
 import { Cell, CellType } from 'datum';
 import React, { FC, useMemo } from 'react';
 import { useSlateStatic } from 'slate-react';
-import { RenderDatumElementProps } from './types';
 
-import { notUndefined } from './helpers';
+import { RenderDatumElementProps } from './types';
+import { notUndefined } from '../../utils/typeGuards';
 
 import {
     columnHeaderCellClass,

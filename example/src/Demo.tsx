@@ -1,27 +1,22 @@
-import { useRender } from 'datum-react';
+import { Datum, Sheet } from 'datum-react';
 import React, { FC, useState } from 'react';
 import { Descendant } from 'slate';
-import { Editable, Slate } from 'slate-react';
 
 import { newMockTable } from './data/generate';
 import { useEditor } from './editor';
 
 export const Demo: FC = () => {
-    const [descendants, setDescendants] = useState<Descendant[]>(() => [newMockTable(50, 50)]);
+    const [descendants, setDescendants] = useState<Descendant[]>(() => [newMockTable(10, 10)]);
 
     const editor = useEditor();
 
-    const render = useRender();
-
     return (
-        <Slate
+        <Datum
             editor={editor}
             value={descendants}
             onChange={value => setDescendants(value)}
         >
-            <Editable
-                {...render}
-            />
-        </Slate>
+            <Sheet />
+        </Datum>
     );
 };

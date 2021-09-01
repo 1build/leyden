@@ -1,36 +1,10 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC } from 'react';
 import { Transforms } from 'slate';
-import {
-    Editable as SlateReactEditable,
-    RenderElementProps,
-    RenderLeafProps,
-    useSlateStatic,
-} from 'slate-react';
+import { Editable, useSlateStatic } from 'slate-react';
 
-import { Element } from './render/Element';
-import { Leaf } from './render/Leaf';
+import { useRender } from '../hooks/use-render';
 
-export interface UseRenderPayload {
-    renderElement: (rep: RenderElementProps) => JSX.Element;
-    renderLeaf: (rep: RenderLeafProps) => JSX.Element;
-}
-
-export const useRender = (): UseRenderPayload => {
-    const renderElement = useCallback<(rep: RenderElementProps) => JSX.Element>(rep => (
-        <Element {...rep} />
-    ), []);
-    
-    const renderLeaf = useCallback<(rlp: RenderLeafProps) => JSX.Element>(rlp => (
-        <Leaf {...rlp} />
-    ), []);
-
-    return {
-        renderElement,
-        renderLeaf,
-    };
-};
-
-export const Editable: FC<Parameters<typeof SlateReactEditable>[0]> = ({
+export const Sheet: FC<Parameters<typeof Editable>[0]> = ({
     children,
     ...props
 }) => {
@@ -42,7 +16,7 @@ export const Editable: FC<Parameters<typeof SlateReactEditable>[0]> = ({
     } = useRender();
 
     return (
-        <SlateReactEditable
+        <Editable
             renderElement={renderElement}
             renderLeaf={renderLeaf}
             onKeyDown={e => {
@@ -90,6 +64,6 @@ export const Editable: FC<Parameters<typeof SlateReactEditable>[0]> = ({
             {...props}
         >
             {children}
-        </SlateReactEditable>
+        </Editable>
     );
 };

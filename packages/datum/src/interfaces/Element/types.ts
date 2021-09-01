@@ -7,13 +7,13 @@ export enum ElementType {
     Table,
 }
 
-export interface DatumElement<T extends ElementType, C extends Descendant[]=Descendant[]> {
+export interface TypedElement<T extends ElementType, C extends Descendant[]=Descendant[]> {
     type: T;
     children: C;
 }
 
 // If not pre-defined, `Element` imports from `slate` as `any` - possibly a circular issue?
-export type SlateDatumElement = DatumElement<ElementType, Descendant[]>;
+export type DatumElement = TypedElement<ElementType, Descendant[]>;
 
 export const DatumElement = {
 };
