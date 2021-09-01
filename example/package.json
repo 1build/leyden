@@ -5,7 +5,8 @@
   "main": "src/index.tsx",
   "scripts": {
     "lint": "./scripts/lint.sh",
-    "start": "node ./scripts/build.js"
+    "start": "node ./scripts/build.js",
+    "refreshLibs": "cd .. && npm run build && cd - && yarn add ../packages/datum ../packages/datum-react"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,8 @@
     "@types/react-dom": "^17.0.9",
     "@typescript-eslint/eslint-plugin": "^4.29.3",
     "@typescript-eslint/parser": "^4.29.3",
+    "datum": "../packages/datum",
+    "datum-react": "../packages/datum-react",
     "esbuild": "^0.12.22",
     "eslint": "^7.32.0",
     "eslint-plugin-react": "^7.24.0",

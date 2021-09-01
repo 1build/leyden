@@ -32,6 +32,6 @@
   },
   "umdGlobals": {
     "react": "React",
-    "slate": "Datum"
+    "datum": "Datum"
   }
 }

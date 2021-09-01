@@ -25,9 +25,5 @@
     },
     "include": [
         "src"
-    ],
-    "references": [
-        { "path": "../packages/datum" },
-        { "path": "../packages/datum-react" }
     ]
 }
