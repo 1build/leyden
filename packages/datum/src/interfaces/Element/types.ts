@@ -2,9 +2,8 @@ import { Descendant } from 'slate';
 
 export enum ElementType {
     Cell,
-    Row,
     Selection,
-    Table,
+    Sheet,
 }
 
 export interface TypedElement<T extends ElementType, C extends Descendant[]=Descendant[]> {

@@ -1,8 +1,8 @@
-export * from './editor/withDatum';
+export * from './plugin/datum-editor';
+export * from './plugin/with-datum';
 
 export * from './interfaces/Element/Cell';
-export * from './interfaces/Element/Row';
-export * from './interfaces/Element/Table';
+export * from './interfaces/Element/Sheet';
 export * from './interfaces/Element/types';
 
 export * from './interfaces/Text/FormattedText';

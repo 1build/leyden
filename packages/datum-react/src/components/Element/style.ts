@@ -125,13 +125,13 @@ export const rowHeaderCellClass = style({
     }
 });
 
-export const makeTableClass = (
-    columns: number,
+export const makeSheetClass = (
+    cols: number,
     rows: number,
 ): string => style({
     position: 'relative',
     display: 'grid',
-    gridTemplateColumns: `fit-content(1.5rem) repeat(${columns-1}, auto)`,
+    gridTemplateColumns: `fit-content(1.5rem) repeat(${cols-1}, auto)`,
     gridTemplateRows: `repeat(${rows}, auto)`,
     gap: '1px',
     backgroundColor: 'rgb(226,227,227)',

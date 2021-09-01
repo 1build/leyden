@@ -24,3 +24,9 @@ npm start
 ### Hot Reloading
 
 To enable hot reloading, you may need to disable network caching. To do so, check the **Disable cache** checkbox in the **Network** DevTools tab of your browser.
+
+## Troubleshooting
+
+## Invalid Hook Call
+
+`yarn` must be used to install the example's modules (**not npm**).

@@ -12,5 +12,5 @@ export const Leaf: FC<RenderDatumLeafProps> = ({
         children = <strong>{children}</strong>;
     }
 
-    return <div {...attributes}>{children}</div>;
+    return <span {...attributes}>{children}</span>;
 };

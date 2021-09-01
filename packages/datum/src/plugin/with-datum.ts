@@ -1,7 +1,5 @@
 import { Editor } from 'slate';
 
-import { Cell } from '../interfaces/Element/Cell';
-
 export const withDatum = (editor: Editor): Editor => {
     const { insertText, isVoid } = editor;
 
@@ -10,9 +8,6 @@ export const withDatum = (editor: Editor): Editor => {
     };
 
     editor.isVoid = element => {
-        if (Cell.isCell(element)) {
-            return !Cell.isEditable(element);
-        }
         return isVoid(element);
     };
 

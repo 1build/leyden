@@ -1,9 +1,8 @@
-import { Cell, Row, Table } from 'datum';
+import { Cell, Sheet } from 'datum';
 import React, { FC } from 'react';
 
 import { CellRenderer } from './Cell';
-import { RowRenderer } from './Row';
-import { TableRenderer } from './Table';
+import { SheetRenderer } from './Sheet';
 import { RenderDatumElementProps } from './types';
 
 export const Element: FC<RenderDatumElementProps> = ({
@@ -19,19 +18,11 @@ export const Element: FC<RenderDatumElementProps> = ({
         );
     }
 
-    if (Row.isRow(element)) {
+    if (Sheet.isSheet(element)) {
         return (
-            <RowRenderer attributes={attributes} element={element}>
+            <SheetRenderer attributes={attributes} element={element}>
                 {children}
-            </RowRenderer>
-        );
-    }
-
-    if (Table.isTable(element)) {
-        return (
-            <TableRenderer attributes={attributes} element={element}>
-                {children}
-            </TableRenderer>
+            </SheetRenderer>
         );
     }
 

@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "./scripts/lint.sh",
     "start": "node ./scripts/build.js",
-    "refreshLibs": "cd .. && npm run build && cd - && yarn add ../packages/datum ../packages/datum-react"
+    "refreshDatum": "yarn add ../packages/datum ../packages/datum-react"
   },
   "repository": {
     "type": "git",
