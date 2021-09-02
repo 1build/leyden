@@ -95,7 +95,7 @@ export const css = stylesheet({
                 borderTop: 'none',
                 borderLeft: 'none',
             }),
-        }
+        },
     },
     columnHeaderCell: headerCell,
     rowHeaderCell: {

@@ -13,10 +13,11 @@ export const SheetRenderer: FC<RenderDatumElementProps<Sheet>> = ({
     children,
     element,
 }) => {
-    const sheetGridTemplateClass = useMemo(() => makeSheetGridTemplateClass(
-        element.cols,
-        element.rows,
-    ), [element.cols, element.rows]);
+    const sheetGridTemplateClass = useMemo(() => {
+        const cols = element.genRowHeader ? element.cols+1 : element.cols;
+        const rows = element.genColHeader ? element.rows+1 : element.rows;
+        return makeSheetGridTemplateClass(cols, rows);
+    }, [element.cols, element.rows, element.genColHeader, element.genRowHeader]);
 
     type headerInfo = {
         class: string,
