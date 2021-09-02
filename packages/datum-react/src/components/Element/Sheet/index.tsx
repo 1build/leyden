@@ -2,19 +2,18 @@ import { Sheet } from 'datum';
 import React, { FC, useMemo } from 'react';
 
 import {
-    makeColumnHeaderCellClass,
-    makeRowHeaderCellClass,
-    makeSheetClass,
-    originCellClass,
+    css,
+    makeGridPositionClass,
+    makeSheetGridTemplateClass,
 } from './style';
-import { RenderDatumElementProps } from './types';
+import { RenderDatumElementProps } from '../types';
 
 export const SheetRenderer: FC<RenderDatumElementProps<Sheet>> = ({
     attributes,
     children,
     element,
 }) => {
-    const className = useMemo(() => makeSheetClass(
+    const sheetGridTemplateClass = useMemo(() => makeSheetGridTemplateClass(
         element.cols,
         element.rows,
     ), [element.cols, element.rows]);
@@ -36,7 +35,7 @@ export const SheetRenderer: FC<RenderDatumElementProps<Sheet>> = ({
         }
         const columnHeaderOffset = hasOrigin ? 2 : 1;
         return Array.from({ length: element.cols }, (_, i) => ({
-            class: makeColumnHeaderCellClass(i+columnHeaderOffset),
+            class: makeGridPositionClass(1, i+columnHeaderOffset),
             pos: i,
             val: genColHeader(i),
         }));
@@ -49,7 +48,7 @@ export const SheetRenderer: FC<RenderDatumElementProps<Sheet>> = ({
         }
         const rowHeaderOffset = hasOrigin ? 2 : 1;
         return Array.from({ length: element.rows }, (_, i) => ({
-            class: makeRowHeaderCellClass(i+rowHeaderOffset),
+            class: makeGridPositionClass(i+rowHeaderOffset, 1),
             pos: i,
             val: genRowHeader(i),
         }));
@@ -57,15 +56,15 @@ export const SheetRenderer: FC<RenderDatumElementProps<Sheet>> = ({
 
     return (
         <div
-            className={className}
+            className={[sheetGridTemplateClass, css.sheet].join(' ')}
             {...attributes}
         >
-            {hasOrigin && <div className={originCellClass} />}
+            {hasOrigin && <div className={css.originCell} />}
             {columnHeaders.map(h => (
-                <div key={h.pos} className={h.class}>{h.val}</div>
+                <div key={h.pos} className={[h.class, css.columnHeaderCell].join(' ')}>{h.val}</div>
             ))}
             {rowHeaders.map(h => (
-                <div key={h.pos} className={h.class}>{h.val}</div>
+                <div key={h.pos} className={[h.class, css.rowHeaderCell].join(' ')}>{h.val}</div>
             ))}
             {children}
         </div>

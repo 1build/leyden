@@ -1,8 +1,8 @@
 import { Cell, Sheet } from 'datum';
 import React, { FC } from 'react';
 
-import { CellRenderer } from './Cell';
 import { SheetRenderer } from './Sheet';
+import { CellRenderer } from './Sheet/Cell';
 import { RenderDatumElementProps } from './types';
 
 export const Element: FC<RenderDatumElementProps> = ({

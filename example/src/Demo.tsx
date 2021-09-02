@@ -5,7 +5,7 @@ import { Descendant } from 'slate';
 import { newSheet } from './data/generate';
 
 export const Demo: FC = () => {
-    const [descendants, setDescendants] = useState<Descendant[]>([newSheet(50, 50)]);
+    const [descendants, setDescendants] = useState<Descendant[]>([newSheet(30, 30)]);
 
     return (
         <Datum
