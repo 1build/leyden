@@ -17,6 +17,9 @@ export type DatumElement = TypedElement<ElementType, Descendant[]>;
 export const DatumElement = {
 };
 
+// SheetHeaderFunc generates column/row header strings from their positition.
+export type HeaderGenerator = Generator<string, void, undefined>;
+
 export interface Coordinates {
     x: number;
     y: number;
