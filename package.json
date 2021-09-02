@@ -11,6 +11,8 @@
     "lint:eslint": "eslint \"./{packages,proto}/**/*.{js,jsx,ts,tsx}\"",
     "lint:typescript": "tsc --build ./ --force"
   },
+  "author": "Michael Darr",
+  "license": "MIT",
   "devDependencies": {
     "@babel/cli": "^7.14.8",
     "@babel/core": "^7.15.0",
