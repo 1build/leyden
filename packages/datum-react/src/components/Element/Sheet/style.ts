@@ -97,11 +97,11 @@ export const css = stylesheet({
             }),
         },
     },
-    columnHeaderCell: headerCell,
-    rowHeaderCell: {
+    columnHeaderCell: {
         ...headerCell,
         minWidth: rem(6.25),
     },
+    rowHeaderCell: headerCell,
     selectedCell: {
         ...baseCell,
         $nest: {

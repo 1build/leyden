@@ -1,6 +1,7 @@
 import { Sheet } from 'datum';
 import React, { FC, useMemo } from 'react';
 
+import { Headers } from './Headers';
 import {
     css,
     makeGridPositionClass,
@@ -19,41 +20,23 @@ export const SheetRenderer: FC<RenderDatumElementProps<Sheet>> = ({
         return makeSheetGridTemplateClass(cols, rows);
     }, [element.cols, element.rows, element.genColHeader, element.genRowHeader]);
 
-    type headerInfo = {
-        class: string,
-        pos: number,
-        val: string,
-    }
-
     const hasOrigin = useMemo(() => (
         element.genColHeader && element.genRowHeader
     ), [element.genColHeader, element.genRowHeader]);
 
-    const columnHeaders = useMemo<headerInfo[]>(() => {
-        const genColHeader = element.genColHeader;
-        if (!genColHeader) {
-            return [];
-        }
-        const columnHeaderOffset = hasOrigin ? 2 : 1;
-        return Array.from({ length: element.cols }, (_, i) => ({
-            class: makeGridPositionClass(1, i+columnHeaderOffset),
-            pos: i,
-            val: genColHeader(i),
-        }));
-    }, [element.genColHeader, element.cols, hasOrigin]);
-
-    const rowHeaders = useMemo<headerInfo[]>(() => {
-        const genRowHeader = element.genRowHeader;
-        if (!genRowHeader) {
-            return [];
-        }
-        const rowHeaderOffset = hasOrigin ? 2 : 1;
-        return Array.from({ length: element.rows }, (_, i) => ({
-            class: makeGridPositionClass(i+rowHeaderOffset, 1),
-            pos: i,
-            val: genRowHeader(i),
-        }));
-    }, [element.genRowHeader, element.rows, hasOrigin]);
+    const genHeaderClasses = useMemo(() => {
+        const offset = hasOrigin ? 2 : 1;
+        return {
+            col: (pos: number) => ([
+                makeGridPositionClass(pos+offset, 1),
+                css.columnHeaderCell,
+            ]),
+            row: (pos: number) => ([
+                makeGridPositionClass(1, pos+offset),
+                css.rowHeaderCell,
+            ]),
+        };
+    }, [hasOrigin]);
 
     return (
         <div
@@ -61,12 +44,16 @@ export const SheetRenderer: FC<RenderDatumElementProps<Sheet>> = ({
             {...attributes}
         >
             {hasOrigin && <div className={css.originCell} />}
-            {columnHeaders.map(h => (
-                <div key={h.pos} className={[h.class, css.columnHeaderCell].join(' ')}>{h.val}</div>
-            ))}
-            {rowHeaders.map(h => (
-                <div key={h.pos} className={[h.class, css.rowHeaderCell].join(' ')}>{h.val}</div>
-            ))}
+            {element.genColHeader && <Headers
+                quantity={element.cols}
+                genValue={element.genColHeader}
+                genClasses={genHeaderClasses.col}
+            />}
+            {element.genRowHeader && <Headers
+                quantity={element.rows}
+                genValue={element.genRowHeader}
+                genClasses={genHeaderClasses.row}
+            />}
             {children}
         </div>
     );
