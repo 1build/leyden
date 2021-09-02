@@ -27,6 +27,8 @@ export const newSheet = (
     type: ElementType.Sheet,
     cols,
     rows,
+    colHeaders: Sheet.genNumeric(),
+    rowHeaders: Sheet.genNumeric(),
     children: [
         ...(Array.from({ length: cols*rows }, newCell)),
     ],

@@ -74,6 +74,8 @@ export const originCellClass = style({
     minWidth: '2.825rem',
     width: '100%',
     height: '100%',
+    gridRow: '1 / 2',
+    gridColumn: '1 / 2',
     $nest: {
         '&::before': {
             content: '\'\'',

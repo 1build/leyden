@@ -1,7 +1,10 @@
 import { Sheet } from 'datum';
 import React, { FC, useMemo } from 'react';
 
-import { makeSheetClass } from './style';
+import {
+    makeSheetClass,
+    originCellClass,
+} from './style';
 import { RenderDatumElementProps } from './types';
 
 export const SheetRenderer: FC<RenderDatumElementProps<Sheet>> = ({
@@ -19,6 +22,7 @@ export const SheetRenderer: FC<RenderDatumElementProps<Sheet>> = ({
             className={className}
             {...attributes}
         >
+            {element.colHeaders && element.rowHeaders && <div className={originCellClass} />}
             {children}
         </div>
     );
