@@ -4,7 +4,9 @@ import { Demo } from './Demo';
 
 export const App: FC = () => {
     return (
-        <div>
+        <div style={{
+            marginTop: '-1px',
+        }}>
             <Demo />
         </div>
     );

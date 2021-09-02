@@ -35,10 +35,8 @@ const baseCell: types.NestedCSSProperties = {
     cursor: 'default',
     position: 'relative',
     boxSizing: 'border-box',
-    width: '100%',
-    height: '100%',
     fontSize: 12,
-    letterSpacing: em(0.5),
+    letterSpacing: em(0.05),
     backgroundColor: colors.white.toString(),
 };
 
@@ -74,6 +72,17 @@ export const makeSheetGridTemplateClass = (
 // PRIMARY STYLESHEET
 
 export const css = stylesheet({
+    sheet: {
+        padding: px(1),
+        position: 'relative',
+        display: 'grid',
+        gap: px(1),
+        backgroundColor: colors.gray.lighter.toString(),
+        alignItems: 'stretch',
+        justifyItems: 'stretch',
+        width: 'fit-content',
+        fontFamily: fonts.arial,
+    },
     cell: baseCell,
     originCell: {
         ...headerCell,
@@ -88,11 +97,11 @@ export const css = stylesheet({
             }),
         }
     },
-    columnHeaderCell: {
+    columnHeaderCell: headerCell,
+    rowHeaderCell: {
         ...headerCell,
-        minWidth: rem(6.875),
+        minWidth: rem(6.25),
     },
-    rowHeaderCell: headerCell,
     selectedCell: {
         ...baseCell,
         $nest: {
@@ -113,15 +122,4 @@ export const css = stylesheet({
             ),
         },
     },
-    sheet: {
-        padding: `0, ${px(1)}, ${px(1)}, 0`,
-        position: 'relative',
-        display: 'grid',
-        gap: px(1),
-        backgroundColor: colors.gray.lighter.toString(),
-        alignItems: 'stretch',
-        justifyItems: 'stretch',
-        width: 'fit-content',
-        fontFamily: fonts.arial,
-    }
 });
