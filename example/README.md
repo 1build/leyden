@@ -6,27 +6,16 @@ An exploratory prototype of datum's future functionality.
 
 ## Setup
 
-After setup, the application is served at [localhost:8081](http://localhost:8081/).
+1. `yarn install`
+2. `yarn start`
+3. Navigate to [localhost:8081](http://localhost:8081/)
 
-### Dockerized
-
-```
-./scripts/run.sh
-```
-
-### Local
-
-```
-npm install
-npm start
-```
-
-### Hot Reloading
+## Hot Reloading
 
 To enable hot reloading, you may need to disable network caching. To do so, check the **Disable cache** checkbox in the **Network** DevTools tab of your browser.
 
 ## Troubleshooting
 
-## Invalid Hook Call
+### Invalid Hook Call
 
 `yarn` must be used to install the example's modules (**not npm**).
