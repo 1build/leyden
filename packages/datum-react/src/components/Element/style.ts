@@ -29,7 +29,9 @@ export const selectedCellClass = style({
     },
 });
 
-export const columnHeaderCellClass = style({
+export const makeColumnHeaderCellClass = (
+    col: number,
+): string => style({
     position: 'relative',
     backgroundColor: '#f8f9fa',
     boxSizing: 'border-box',
@@ -37,6 +39,8 @@ export const columnHeaderCellClass = style({
     minWidth: '6.875rem',
     width: '100%',
     height: '100%',
+    gridColumn: `${col} / ${col+1}`,
+    gridRow: '1 / 2',
     padding: '0.25rem',
     textAlign: 'center',
     fontSize: 10,
@@ -74,6 +78,8 @@ export const originCellClass = style({
     minWidth: '2.825rem',
     width: '100%',
     height: '100%',
+    gridRow: '1 / 2',
+    gridColumn: '1 / 2',
     $nest: {
         '&::before': {
             content: '\'\'',
@@ -99,7 +105,9 @@ export const originCellClass = style({
     }
 });
 
-export const rowHeaderCellClass = style({
+export const makeRowHeaderCellClass = (
+    row: number,
+): string => style({
     position: 'relative',
     boxSizing: 'border-box',
     backgroundColor: '#f8f9fa',
@@ -108,6 +116,8 @@ export const rowHeaderCellClass = style({
     minHeight: '1.25rem',
     width: '100%',
     height: '100%',
+    gridColumn: '1 / 2',
+    gridRow: `${row} / ${row+1}`,
     padding: '0.25rem',
     textAlign: 'center',
     fontSize: 10,
