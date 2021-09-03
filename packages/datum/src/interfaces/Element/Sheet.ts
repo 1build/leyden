@@ -21,7 +21,7 @@ export const Sheet = {
     ]),
 
     /**
-     * Generate an alphabetic column/row header from its 0-indexed position. 
+     * Generate an alphabetic column/row header from its 0-indexed position.
      */
 
     genAlphabeticHeader: (pos: number): string => {
