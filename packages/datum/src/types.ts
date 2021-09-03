@@ -70,6 +70,9 @@ type TupleOfCombinedPowersOfTwo<T, N extends number, R extends T[][], B extends 
  *
  * T - tuple entry type
  * N - tuple length
+ *
+ * Adapted from:
+ * https://github.com/microsoft/TypeScript/issues/26223#issuecomment-674514787
  */
 export type TupleOf<T, N extends number> = {
     [K in N]: PowersOfTwoLengthTuples<T, K, [[T]]> extends infer U
