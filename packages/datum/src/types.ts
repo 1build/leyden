@@ -34,7 +34,7 @@ export enum Direction2D {
  * T - tuple entry type
  * N - static cap on the length of tuples included in `R`
  * R - recursively expanding solution array of tuples of `2^x` length
- **/
+ */
 type PowersOfTwoLengthTuples<T, N extends number, R extends T[][]> =
     R[0][N] extends T
         ? R extends [R[0], ...infer U]
