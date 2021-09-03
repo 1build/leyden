@@ -35,13 +35,14 @@ export enum Direction2D {
  * N - static cap on the length of tuples included in `R`
  * R - recursively expanding solution array of tuples of `2^x` length
  **/
-type PowersOfTwoLengthTuples<T, N extends number, R extends T[][]> = R[0][N] extends T
-    ? R extends [R[0], ...infer U]
-        ? U extends T[][]
-            ? U
+type PowersOfTwoLengthTuples<T, N extends number, R extends T[][]> =
+    R[0][N] extends T
+        ? R extends [R[0], ...infer U]
+            ? U extends T[][]
+                ? U
+                : never
             : never
-        : never
-    : PowersOfTwoLengthTuples<T, N, [[...R[0], ...R[0]], ...R]>;
+        : PowersOfTwoLengthTuples<T, N, [[...R[0], ...R[0]], ...R]>;
 
 /**
  * A `T` tuple of length `N`, made by combining the largest members of `R` until length `N` is reached
@@ -51,19 +52,17 @@ type PowersOfTwoLengthTuples<T, N extends number, R extends T[][]> = R[0][N] ext
  * R - recursively shrinking array of tuples of length `2^x` from which to construct `B`
  * B - recursively expanding solution tuple with target length `N`
  */
-type TupleOfCombinedPowersOfTwo<T, N extends number, R extends T[][], B extends T[]> = B['length'] extends N
-    ? B
-    : [...R[0], ...B][N] extends T
-        ? TupleOfCombinedPowersOfTwo<T, N, R extends [R[0], ...infer U]
-            ? U extends T[][]
-                ? U
-                : never
-            : never, B>
+type TupleOfCombinedPowersOfTwo<T, N extends number, R extends T[][], B extends T[]> =
+    B['length'] extends N
+        ? B
         : TupleOfCombinedPowersOfTwo<T, N, R extends [R[0], ...infer U]
             ? U extends T[][]
                 ? U
                 : never
-            : never, [...R[0], ...B]>;
+            : never,
+        [...R[0], ...B][N] extends T
+            ? B
+            : [...R[0], ...B]>;
 
 /**
  * A `T` tuple of length `N`
