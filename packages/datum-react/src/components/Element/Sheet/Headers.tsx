@@ -13,12 +13,12 @@ export const Headers: FC<Headers> = ({
 }) => (
     <>
         {...Array.from({ length: quantity }, (_, i) => (
-            <div
+            <button
                 key={i}
                 className={genClasses(i).join(' ')}
             >
                 {genValue(i)}
-            </div>
+            </button>
         ))}
     </>
 );

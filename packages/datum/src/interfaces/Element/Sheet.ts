@@ -1,10 +1,8 @@
-import { Element } from 'slate';
+import { Element, Path } from 'slate';
 
 import { Cell } from './Cell';
-import {
-    ElementType,
-    TypedElement,
-} from './types';
+import { Coordinates } from '../Coordinates';
+import { ElementType, TypedElement } from '../../types';
 
 export interface Sheet extends TypedElement<ElementType.Sheet, Cell[]> {
     cols: number;
@@ -15,16 +13,17 @@ export interface Sheet extends TypedElement<ElementType.Sheet, Cell[]> {
 
 export const Sheet = {
     /**
-     * Check if an element is a `Sheet`.
+     * coordPath returns a path to a cell located at the provided coordinates.
      */
 
-    isSheet: (el: Element): el is Sheet => (
-        el.type === ElementType.Sheet
-    ),
+    coordPath: (sheet: Sheet, coords: Coordinates): Path => ([
+        0, (coords.y*sheet.cols)+coords.x
+    ]),
 
     /**
      * Generate an alphabetic column/row header from its 0-indexed position. 
      */
+
     genAlphabeticHeader: (pos: number): string => {
         const positionBase26 = pos.toString(26);
         let label = '';
@@ -45,9 +44,35 @@ export const Sheet = {
     },
 
     /**
-     * Generate a numeric column/row header from its 0-indexed position. 
+     * Generate a numeric column/row header from its 0-indexed position.
      */
+
     genNumericHeader: (pos: number): string => (
         (pos+1).toString(10)
+    ),
+
+    /**
+     * Get the coordinates of the cell at the nth position of the flat cell list.
+     */
+
+    getNthCellCoords: (sheet: Sheet, n: number): Coordinates => ({
+        x: n % sheet.cols,
+        y: Math.floor(n/sheet.cols),
+    }),
+
+    /**
+     * Return true if a coordinate pair lies within the provided sheet.
+     */
+
+    hasCoords: (sheet: Sheet, coords: Coordinates): boolean => (
+        coords.x<sheet.cols && coords.y<sheet.rows
+    ),
+
+    /**
+     * Check if an element is a `Sheet`.
+     */
+
+    isSheet: (el: Element): el is Sheet => (
+        el.type === ElementType.Sheet
     ),
 };

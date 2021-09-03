@@ -28,6 +28,10 @@ const fonts = {
     arial: 'Arial, Helvetica Neue, Helvetica, sans-serif',
 };
 
+// RAW CLASS NAMES
+
+export const cellClass = 'datum-cell';
+
 // EXTENDABLE STYLES
 
 const baseCell: types.NestedCSSProperties = {
@@ -44,6 +48,9 @@ const headerCell: types.NestedCSSProperties = {
     ...baseCell,
     minHeight: rem(1.25),
     backgroundColor: colors.gray.lightest.toString(),
+    border: 'none',
+    font: 'inherit',
+    outline: 'inherit',
     color: colors.gray.dark.toString(),
     fontSize: 10,
     textAlign: 'center',
@@ -67,6 +74,30 @@ export const makeSheetGridTemplateClass = (
 ): string => style({
     gridTemplateColumns: `fit-content(1.5rem) repeat(${cols-1}, auto)`,
     gridTemplateRows: `repeat(${rows}, auto)`,
+});
+
+export const makeNestedSelectedCellClass = (n: number): string => style({
+    $nest: {
+        [`div:nth-of-type(${n})`]: {
+            $nest: {
+                ...afterPsuedoElement({
+                    ...basePsuedoElement,
+                    cursor: 'crosshair',
+                    bottom: -3,
+                    right: -3,
+                    height: 7,
+                    width: 7,
+                    backgroundColor: colors.blue.toString(),
+                    borderTop: solidBorder(1, colors.white),
+                    borderLeft: solidBorder(1, colors.white),
+                    zIndex: 2,
+                }),
+                ...beforePsuedoElement(
+                    borderPsuedoElement(1, 2, colors.blue)
+                ),
+            }
+        }
+    },
 });
 
 // PRIMARY STYLESHEET

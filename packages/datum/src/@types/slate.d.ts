@@ -1,8 +1,10 @@
-import { DatumElement } from '../interfaces/Element/types';
-import { DatumText } from '../interfaces/Text/types';
+import { DatumEditor } from '../interfaces/DatumEditor';
+import { DatumElement } from '../interfaces/Element/DatumElement';
+import { DatumText } from '../interfaces/Text/DatumText';
 
 declare module 'slate' {
     interface CustomTypes {
+        Editor: DatumEditor;
         Element: DatumElement;
         Text: DatumText;
     }

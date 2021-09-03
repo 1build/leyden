@@ -1,16 +1,20 @@
-import { withDatum } from 'datum';
-import React, { FC, useMemo } from 'react';
+import { withDatum, Sheet } from 'datum';
+import React, { FC, ReactNode, useCallback, useMemo } from 'react';
 import { createEditor, Descendant } from 'slate';
 import { Slate, withReact } from 'slate-react';
 
-export interface Datum {
-    value: Descendant[];
-    onChange: (value: Descendant[]) => void;
-} 
+import { isSingleSheet } from '../utils/typeGuards';
 
-export const Datum: FC<Omit<Parameters<typeof Slate>[0], 'editor'>> = ({
+export interface Datum {
+    children: ReactNode;
+    value: Sheet;
+    onChange: (value: Sheet) => void;
+}
+
+export const Datum: FC<Datum> = ({
     children,
-    ...props
+    value,
+    onChange,
 }) => {
     const editor = useMemo(() => (
         withDatum(
@@ -20,10 +24,17 @@ export const Datum: FC<Omit<Parameters<typeof Slate>[0], 'editor'>> = ({
         )
     ), []);
 
+    const handleChange = useCallback((newValue: Descendant[]) => {
+        if (isSingleSheet(newValue)) {
+            onChange(newValue[0]);
+        }
+    }, [onChange]);
+
     return (
         <Slate
             editor={editor}
-            {...props}
+            value={[value]}
+            onChange={handleChange}
         >
             {children}
         </Slate>

@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 
 import { RenderDatumElementProps } from '../types';
 
-import { css } from './style';
+import { cellClass, css } from './style';
 
 export const CellRenderer: FC<RenderDatumElementProps<Cell>> = ({
     attributes,
@@ -12,7 +12,7 @@ export const CellRenderer: FC<RenderDatumElementProps<Cell>> = ({
     return (
         <div
             {...attributes}
-            className={css.cell}
+            className={`${cellClass} ${css.cell}`}
         >
             {children}
         </div>

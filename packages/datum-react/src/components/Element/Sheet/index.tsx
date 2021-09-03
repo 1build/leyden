@@ -1,19 +1,24 @@
-import { Sheet } from 'datum';
+import { DatumEditor, Sheet } from 'datum';
 import React, { FC, useMemo } from 'react';
+import { useSlateStatic } from 'slate-react';
 
 import { Headers } from './Headers';
 import {
     css,
     makeGridPositionClass,
+    makeNestedSelectedCellClass,
     makeSheetGridTemplateClass,
 } from './style';
 import { RenderDatumElementProps } from '../types';
+import { notUndefined } from '../../../utils/typeGuards';
 
 export const SheetRenderer: FC<RenderDatumElementProps<Sheet>> = ({
     attributes,
     children,
     element,
 }) => {
+    const editor = useSlateStatic();
+
     const sheetGridTemplateClass = useMemo(() => {
         const cols = element.genRowHeader ? element.cols+1 : element.cols;
         const rows = element.genColHeader ? element.rows+1 : element.rows;
@@ -38,12 +43,31 @@ export const SheetRenderer: FC<RenderDatumElementProps<Sheet>> = ({
         };
     }, [hasOrigin]);
 
+    const selectedCellClass = useMemo(() => {
+        const selectedCoords = DatumEditor.getSelectedCellCoords(editor);
+        if (selectedCoords === null) {
+            return null;
+        }
+        const nthEl = (selectedCoords.y*element.cols)+selectedCoords.x+1;
+        return makeNestedSelectedCellClass(nthEl);
+    }, [editor.selection, element.cols]);
+
+    const className = useMemo(() => [
+        css.sheet,
+        selectedCellClass,
+        sheetGridTemplateClass,
+    ].filter(
+        notUndefined
+    ).join(
+        ' '
+    ), [sheetGridTemplateClass, selectedCellClass]);
+
     return (
         <div
-            className={[sheetGridTemplateClass, css.sheet].join(' ')}
+            className={className}
             {...attributes}
         >
-            {hasOrigin && <div className={css.originCell} />}
+            {hasOrigin && <button className={css.originCell} />}
             {element.genColHeader && <Headers
                 quantity={element.cols}
                 genValue={element.genColHeader}
