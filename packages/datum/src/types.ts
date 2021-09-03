@@ -29,37 +29,37 @@ export enum Direction2D {
 }
 
 /**
- * All `T` tuples of length `2^x`, where `2^x<=N`
+ * An array of all `T` tuples of length `2^x`, where `2^x<=N`
  *
  * T - tuple entry type
- * N - static length of longest tuple
- * R - recursively expanding array of `never` tuples
+ * N - static cap on the length of tuples included in `R`
+ * R - recursively expanding solution array of tuples of `2^x` length
  **/
-type BuildPowersOf2LengthArrays<T, N extends number, R extends T[][]> = R[0][N] extends T
+type PowersOfTwoLengthTuples<T, N extends number, R extends T[][]> = R[0][N] extends T
     ? R extends [R[0], ...infer U]
         ? U extends T[][]
             ? U
             : never
         : never
-    : BuildPowersOf2LengthArrays<T, N, [[...R[0], ...R[0]], ...R]>;
+    : PowersOfTwoLengthTuples<T, N, [[...R[0], ...R[0]], ...R]>;
 
 /**
  * A `T` tuple of length `N`, made by combining the largest members of `R` until length `N` is reached
  *
  * T - tuple entry type
  * N - static tuple length target
- * R - array of `T` tuples of length 2^x from which to construct B
- * B - solution `T` tuple, grows recursively until length `N`
+ * R - recursively shrinking array of tuples of length `2^x` from which to construct `B`
+ * B - recursively expanding solution tuple with target length `N`
  */
-type ConcatLargestUntilDone<T, N extends number, R extends T[][], B extends T[]> = B['length'] extends N
+type TupleOfCombinedPowersOfTwo<T, N extends number, R extends T[][], B extends T[]> = B['length'] extends N
     ? B
     : [...R[0], ...B][N] extends T
-        ? ConcatLargestUntilDone<T, N, R extends [R[0], ...infer U]
+        ? TupleOfCombinedPowersOfTwo<T, N, R extends [R[0], ...infer U]
             ? U extends T[][]
                 ? U
                 : never
             : never, B>
-        : ConcatLargestUntilDone<T, N, R extends [R[0], ...infer U]
+        : TupleOfCombinedPowersOfTwo<T, N, R extends [R[0], ...infer U]
             ? U extends T[][]
                 ? U
                 : never
@@ -72,9 +72,9 @@ type ConcatLargestUntilDone<T, N extends number, R extends T[][], B extends T[]>
  * N - tuple length
  */
 export type TupleOf<T, N extends number> = {
-    [K in N]: BuildPowersOf2LengthArrays<T, K, [[T]]> extends infer U
+    [K in N]: PowersOfTwoLengthTuples<T, K, [[T]]> extends infer U
         ? U extends T[][]
-            ? ConcatLargestUntilDone<T, K, U, []>
+            ? TupleOfCombinedPowersOfTwo<T, K, U, []>
             : never
         : never;
 }[N];
