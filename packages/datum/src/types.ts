@@ -29,55 +29,55 @@ export enum Direction2D {
 }
 
 /**
- * An array of all `T` tuples of length `2^x`, where `2^x<=N`
+ * An array of all `T` tuples of length `2^x`, where `2^x<=L`
  *
  * T - tuple entry type
- * N - static cap on the length of tuples included in `R`
+ * L - static cap on the length of tuples included in `R`
  * R - recursively expanding solution array of tuples of `2^x` length
  */
-type PowersOfTwoLengthTuples<T, N extends number, R extends T[][]> =
+type PowersOfTwoLengthTuples<T, L extends number, R extends T[][]> =
     [...R[0], ...R[0]] extends infer U
         ? U extends T[]
-            ? U[N] extends T // test: (length of next power of two candidate) > (length of `N`)
+            ? U[L] extends T // test: (length of next power of two candidate) > `L`
                 ? R // base case
-                : PowersOfTwoLengthTuples<T, N, [U, ...R]>
+                : PowersOfTwoLengthTuples<T, L, [U, ...R]>
             : never
         : never;
 
 /**
- * A `T` tuple of length `N`, made by combining the largest members of `R` until length `N` is reached
+ * A `T` tuple of length `L`, made by combining the largest members of `R` until length `L` is reached
  *
  * T - tuple entry type
- * N - static tuple length target
+ * L - static tuple length target
  * R - recursively shrinking array of tuples of length `2^x` from which to construct `B`
- * B - recursively expanding solution tuple with target length `N`
+ * B - recursively expanding solution tuple with target length `L`
  */
-type TupleOfCombinedPowersOfTwo<T, N extends number, R extends T[][], B extends T[]> =
-    B['length'] extends N
-        ? B // base case (tuple of length `N` created)
-        : TupleOfCombinedPowersOfTwo<T, N, R extends [R[0], ...infer U] // omit first `R` entry in next loop
+type TupleOfCombinedPowersOfTwo<T, L extends number, R extends T[][], B extends T[]> =
+    B['length'] extends L
+        ? B // base case (tuple of length `L` created)
+        : TupleOfCombinedPowersOfTwo<T, L, R extends [R[0], ...infer U] // omit first `R` entry in next loop
             ? U extends T[][]
                 ? U
                 : never
             : never,
-        [...R[0], ...B][N] extends T // test: ((length of to-be-omitted `R` entry) + (length of `B`)) > (length of `N`)
+        [...R[0], ...B][L] extends T // test: ((length of to-be-omitted `R` entry) + (length of `B`)) > `L`
             ? B
             : [...R[0], ...B]>;
 
 /**
- * A `T` tuple of length `N`
+ * A `T` tuple of length `L`
  *
  * T - tuple entry type
- * N - tuple length
+ * L - tuple length
  *
  * Adapted from:
  * https://github.com/microsoft/TypeScript/issues/26223#issuecomment-674514787
  */
-export type TupleOf<T, N extends number> =
-    N extends N // distribute over union
-        ? PowersOfTwoLengthTuples<T, N, [[T]]> extends infer U
+export type TupleOf<T, L extends number> =
+    L extends L // distribute over union
+        ? PowersOfTwoLengthTuples<T, L, [[T]]> extends infer U
             ? U extends T[][]
-                ? TupleOfCombinedPowersOfTwo<T, N, U, []>
+                ? TupleOfCombinedPowersOfTwo<T, L, U, []>
                 : never
             : never
         : never
