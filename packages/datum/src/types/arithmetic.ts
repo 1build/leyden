@@ -5,7 +5,7 @@
  * L - static cap on the length of tuples included in `R`
  * R - recursively expanding solution array of tuples of `2^x` length
  */
-    type PowersOfTwoLengthTuples<T, L extends number, R extends T[][]> =
+type PowersOfTwoLengthTuples<T, L extends number, R extends T[][]> =
     [...R[0], ...R[0]] extends infer U
         ? U extends T[]
             ? U[L] extends T // test: (length of next power of two candidate) > `L`
