@@ -36,13 +36,13 @@ export enum Direction2D {
  * R - recursively expanding solution array of tuples of `2^x` length
  */
 type PowersOfTwoLengthTuples<T, N extends number, R extends T[][]> =
-    R[0][N] extends T
-        ? R extends [R[0], ...infer U]
-            ? U extends T[][]
-                ? U
-                : never
+    [...R[0], ...R[0]] extends infer U
+        ? U extends T[]
+            ? U[N] extends T // test: (length of next power of two candidate) > (length of `N`)
+                ? R // base case
+                : PowersOfTwoLengthTuples<T, N, [U, ...R]>
             : never
-        : PowersOfTwoLengthTuples<T, N, [[...R[0], ...R[0]], ...R]>;
+        : never;
 
 /**
  * A `T` tuple of length `N`, made by combining the largest members of `R` until length `N` is reached
@@ -54,13 +54,13 @@ type PowersOfTwoLengthTuples<T, N extends number, R extends T[][]> =
  */
 type TupleOfCombinedPowersOfTwo<T, N extends number, R extends T[][], B extends T[]> =
     B['length'] extends N
-        ? B
-        : TupleOfCombinedPowersOfTwo<T, N, R extends [R[0], ...infer U]
+        ? B // base case (tuple of length `N` created)
+        : TupleOfCombinedPowersOfTwo<T, N, R extends [R[0], ...infer U] // omit first `R` entry in next loop
             ? U extends T[][]
                 ? U
                 : never
             : never,
-        [...R[0], ...B][N] extends T
+        [...R[0], ...B][N] extends T // test: ((length of to-be-omitted `R` entry) + (length of `B`)) > (length of `N`)
             ? B
             : [...R[0], ...B]>;
 
@@ -73,10 +73,11 @@ type TupleOfCombinedPowersOfTwo<T, N extends number, R extends T[][], B extends 
  * Adapted from:
  * https://github.com/microsoft/TypeScript/issues/26223#issuecomment-674514787
  */
-export type TupleOf<T, N extends number> = {
-    [K in N]: PowersOfTwoLengthTuples<T, K, [[T]]> extends infer U
-        ? U extends T[][]
-            ? TupleOfCombinedPowersOfTwo<T, K, U, []>
+export type TupleOf<T, N extends number> =
+    N extends N // distribute over union
+        ? PowersOfTwoLengthTuples<T, N, [[T]]> extends infer U
+            ? U extends T[][]
+                ? TupleOfCombinedPowersOfTwo<T, N, U, []>
+                : never
             : never
-        : never;
-}[N];
+        : never
