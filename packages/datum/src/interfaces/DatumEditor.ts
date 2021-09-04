@@ -8,9 +8,12 @@ import { Sheet } from './Element/Sheet';
 import { Coordinates } from './Coordinates';
 import { Direction2D } from '../types';
 
-export interface DatumEditor extends Omit<BaseEditor, 'children'> {
-    children: [Sheet];
-    getSheet: (editor: DatumEditor) => Sheet;
+export interface DatumEditor<
+    Cols extends number=number,
+    Rows extends number=number,
+> extends Omit<BaseEditor, 'children'> {
+    children: [Sheet<Cols, Rows>];
+    getSheet: (editor: DatumEditor<Cols, Rows>) => Sheet<Cols, Rows>;
 }
 
 export const DatumEditor = {
@@ -18,7 +21,10 @@ export const DatumEditor = {
      * Get the coordinates of the cell located at the provided path.
      */
 
-    getCellCoordsAtPath: (editor: DatumEditor, path: Path): Coordinates|null => {
+    getCellCoordsAtPath: <Cols extends number, Rows extends number>(
+        editor: DatumEditor<Cols, Rows>,
+        path: Path,
+    ): Coordinates|null => {
         if (path[0] !== 0) {
             return null;
         }
@@ -29,7 +35,9 @@ export const DatumEditor = {
      * Get the coordinates of the currently selected cell.
      */
 
-    getSelectedCellCoords: (editor: DatumEditor): Coordinates|null => {
+    getSelectedCellCoords: <Cols extends number, Rows extends number>(
+        editor: DatumEditor<Cols, Rows>
+    ): Coordinates|null => {
         const { selection } = editor;
         if (!selection) {
             return null;
@@ -41,7 +49,9 @@ export const DatumEditor = {
      * Get the sheet within a datum editor.
      */
 
-    getSheet: (editor: DatumEditor): Sheet => (
+    getSheet: <Cols extends number, Rows extends number>(
+        editor: DatumEditor<Cols, Rows>
+    ): Sheet<Cols, Rows> => (
         editor.children[0]
     ),
 
@@ -49,7 +59,10 @@ export const DatumEditor = {
      * Move the current cell selection in the provided direction.
      */
 
-    moveCellSelection: (editor: DatumEditor, direction: Direction2D): void => {
+    moveCellSelection: <Cols extends number, Rows extends number>(
+        editor: DatumEditor<Cols, Rows>,
+        direction: Direction2D
+    ): void => {
         const { selection } = editor;
         if (!selection) {
             return;
@@ -66,12 +79,25 @@ export const DatumEditor = {
      * Select a cell at the provided coordinates.
      */
 
-    selectCell: (editor: DatumEditor, coords: Coordinates): void => {
+    selectCell: <Cols extends number, Rows extends number>(
+        editor: DatumEditor<Cols, Rows>,
+        coords: Coordinates
+    ): void => {
         const sheet = DatumEditor.getSheet(editor);
         if (!Sheet.hasCoords(sheet, coords)) {
             return;
         }
         const newPath = Sheet.coordPath(sheet, coords);
-        Transforms.select(editor, newPath);
+        Transforms.select(DatumEditor.stripDimensions(editor), newPath);
+    },
+
+    /**
+     * Strip dimensional information from an editor (useful when calling Slate functions).
+     */
+
+    stripDimensions: <Cols extends number, Rows extends number>(
+        editor: DatumEditor<Rows, Cols>
+    ): DatumEditor<number, number> => {
+        return editor as unknown as DatumEditor<number, number>;
     },
 };

@@ -12,14 +12,14 @@ import {
 import { RenderDatumElementProps } from '../types';
 import { notUndefined } from '../../../utils/typeGuards';
 
-export type SheetRenderer<Cols extends number=1, Rows extends number=1> =
+export type SheetRenderer<Cols extends number, Rows extends number> =
     RenderDatumElementProps<Sheet<Cols, Rows>>;
 
-export const SheetRenderer: FC<SheetRenderer> = ({
+export const SheetRenderer = <Cols extends number, Rows extends number>({
     attributes,
     children,
     element,
-}) => {
+}: SheetRenderer<Cols, Rows>): ReturnType<FC<SheetRenderer<Cols, Rows>>> => {
     const editor = useSlateStatic();
 
     const sheetGridTemplateClass = useMemo(() => {

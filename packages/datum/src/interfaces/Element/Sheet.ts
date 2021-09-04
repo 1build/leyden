@@ -10,8 +10,8 @@ import {
 } from '../../types';
 
 export interface Sheet<
-    Cols extends number=1,
-    Rows extends number=1,
+    Cols extends number,
+    Rows extends number,
 > extends TypedElement<ElementType.Sheet, TupleOf<Cell, Multiply<Cols, Rows>>> {
     cols: Cols;
     rows: Rows;
@@ -35,7 +35,10 @@ export const Sheet = {
      * coordPath returns a path to a cell located at the provided coordinates.
      */
 
-    coordPath: (sheet: Sheet, coords: Coordinates): Path => ([
+    coordPath: <Cols extends number, Rows extends number>(
+        sheet: Sheet<Cols, Rows>,
+        coords: Coordinates,
+    ): Path => ([
         0, (coords.y*sheet.cols)+coords.x
     ]),
 
@@ -84,7 +87,10 @@ export const Sheet = {
      * Get the coordinates of the cell at the nth position of the flat cell list.
      */
 
-    getNthCellCoords: (sheet: Sheet, n: number): Coordinates => ({
+    getNthCellCoords: <Cols extends number, Rows extends number>(
+        sheet: Sheet<Cols, Rows>,
+        n: number
+    ): Coordinates => ({
         x: n % sheet.cols,
         y: Math.floor(n/sheet.cols),
     }),
@@ -93,7 +99,10 @@ export const Sheet = {
      * Return true if a coordinate pair lies within the provided sheet.
      */
 
-    hasCoords: (sheet: Sheet, coords: Coordinates): boolean => (
+    hasCoords: <Cols extends number, Rows extends number>(
+        sheet: Sheet<Cols, Rows>,
+        coords: Coordinates
+    ): boolean => (
         coords.x<sheet.cols && coords.y<sheet.rows
     ),
 
@@ -101,7 +110,7 @@ export const Sheet = {
      * Check if an element is a `Sheet`.
      */
 
-    isSheet: (el: Element): el is Sheet => (
+    isSheet: (el: Element): el is Sheet<number, number> => (
         el.type === ElementType.Sheet
     ),
 
