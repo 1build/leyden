@@ -2,6 +2,7 @@ import {
     Cell,
     ElementType,
     FormattedText,
+    Multiply,
     Sheet,
     TextType,
 } from 'datum';
@@ -20,16 +21,35 @@ const newCell = (): Cell => ({
     children: [newFormattedText()],
 });
 
-export const newSheet = (
-    cols: number,
-    rows: number,
-): Sheet => ({
+export const newSheet = <Cols extends number, Rows extends number>(
+    cols: Cols,
+    rows: Rows,
+    totalCells: Multiply<Cols, Rows>,
+): Sheet<Cols, Rows> => {
+    const cells = Array.from({ length: totalCells }, newCell);
+    if (!Sheet.cellsFitSheet(cells, totalCells)) {
+        throw new Error(`Wrong cell length (expected ${cols*rows}, got ${cells.length}`);
+    }
+    return {
+        type: ElementType.Sheet,
+        cols,
+        rows,
+        genColHeader: Sheet.genAlphabeticHeader,
+        genRowHeader: Sheet.genNumericHeader,
+        children: cells,
+    };
+};
+
+export const newExplicitSheet = (): Sheet<3, 4> => ({
     type: ElementType.Sheet,
-    cols,
-    rows,
+    cols: 3,
+    rows: 4,
     genColHeader: Sheet.genAlphabeticHeader,
     genRowHeader: Sheet.genNumericHeader,
     children: [
-        ...(Array.from({ length: cols*rows }, newCell)),
+        newCell(), newCell(), newCell(),
+        newCell(), newCell(), newCell(),
+        newCell(), newCell(), newCell(),
+        newCell(), newCell(), newCell(),
     ],
 });

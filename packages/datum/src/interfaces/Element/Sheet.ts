@@ -2,16 +2,35 @@ import { Element, Path } from 'slate';
 
 import { Cell } from './Cell';
 import { Coordinates } from '../Coordinates';
-import { ElementType, TypedElement } from '../../types';
+import {
+    ElementType,
+    Multiply,
+    TupleOf,
+    TypedElement,
+} from '../../types';
 
-export interface Sheet extends TypedElement<ElementType.Sheet, Cell[]> {
-    cols: number;
-    rows: number;
+export interface Sheet<
+    Cols extends number=1,
+    Rows extends number=1,
+> extends TypedElement<ElementType.Sheet, TupleOf<Cell, Multiply<Cols, Rows>>> {
+    cols: Cols;
+    rows: Rows;
     genColHeader?: (pos: number) => string;
     genRowHeader?: (pos: number) => string;
 }
 
 export const Sheet = {
+    /**
+     * cellsFitSheet is a typeguard to check if an array of cells conforms to sheet dimensions.
+     */
+
+    cellsFitSheet: <Cols extends number, Rows extends number>(
+        cells: Cell[],
+        count: Multiply<Cols, Rows>,
+    ): cells is TupleOf<Cell, Multiply<Cols, Rows>> => (
+        cells.length === count
+    ),
+
     /**
      * coordPath returns a path to a cell located at the provided coordinates.
      */
@@ -52,6 +71,16 @@ export const Sheet = {
     ),
 
     /**
+     * Get the total number of cells within a sheet as a number literal type.
+     */
+
+    getCellCount: <Cols extends number, Rows extends number>(
+        sheet: Sheet<Cols, Rows>
+    ): Multiply<Cols, Rows> => (
+        sheet.cols*sheet.rows as Multiply<Cols, Rows>
+    ),
+
+    /**
      * Get the coordinates of the cell at the nth position of the flat cell list.
      */
 
@@ -75,4 +104,14 @@ export const Sheet = {
     isSheet: (el: Element): el is Sheet => (
         el.type === ElementType.Sheet
     ),
+
+    /**
+     * Check if an element is a `Sheet` with specific dimensions.
+     */
+
+    isDimensionalSheet: <Cols extends number, Rows extends number>(
+        el: Element,
+    ): el is Sheet<Cols, Rows> => (
+        Sheet.isSheet(el) && Sheet.cellsFitSheet(el.children, Sheet.getCellCount(el))
+    )
 };

@@ -4,10 +4,10 @@ import React, { FC, useState } from 'react';
 import { newSheet } from './data/generate';
 
 export const Demo: FC = () => {
-    const [descendants, setDescendants] = useState(newSheet(10, 15));
+    const [descendants, setDescendants] = useState(newSheet(10, 15, 150));
 
     return (
-        <Datum
+        <Datum<10, 15>
             value={descendants}
             onChange={setDescendants}
         >

@@ -12,7 +12,10 @@ import {
 import { RenderDatumElementProps } from '../types';
 import { notUndefined } from '../../../utils/typeGuards';
 
-export const SheetRenderer: FC<RenderDatumElementProps<Sheet>> = ({
+export type SheetRenderer<Cols extends number=1, Rows extends number=1> =
+    RenderDatumElementProps<Sheet<Cols, Rows>>;
+
+export const SheetRenderer: FC<SheetRenderer> = ({
     attributes,
     children,
     element,
