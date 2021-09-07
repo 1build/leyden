@@ -28,7 +28,7 @@ export const newSheet = <Cols extends number, Rows extends number>(
 ): Sheet<Cols, Rows> => {
     const cells = Array.from({ length: totalCells }, newCell);
     if (!Sheet.cellsFitSheet(cells, totalCells)) {
-        throw new Error(`Wrong cell length (expected ${cols*rows}, got ${cells.length}`);
+        throw new Error(`Wrong cell length (expected ${cols*rows}, got ${cells.length})`);
     }
     return {
         type: ElementType.Sheet,
