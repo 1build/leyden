@@ -1,2 +1,2 @@
-export * from './arithmetic';
+export * from './math';
 export * from './types';
