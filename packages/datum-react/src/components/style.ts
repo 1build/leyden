@@ -54,6 +54,7 @@ const headerCell: types.NestedCSSProperties = {
     color: colors.gray.dark.toString(),
     fontSize: 10,
     textAlign: 'center',
+    userSelect: 'none',
     $nest: {
         ...beforePsuedoElement(
             borderPsuedoElement(1, 1, colors.gray.light)

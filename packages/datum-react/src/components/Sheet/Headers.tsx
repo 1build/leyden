@@ -16,6 +16,7 @@ export const Headers: FC<Headers> = ({
             <button
                 key={i}
                 className={genClasses(i).join(' ')}
+                contentEditable={false}
             >
                 {genValue(i)}
             </button>
