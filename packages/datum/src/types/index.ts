@@ -19,3 +19,13 @@ export enum Direction2D {
     Down,
     Left,
 }
+
+/**
+ * Distribute a type over its union.
+ *
+ * Can transform `keyof X` to a string union of the keys
+ */
+export type Distribute<T> =
+    T extends T
+        ? T
+        : never;

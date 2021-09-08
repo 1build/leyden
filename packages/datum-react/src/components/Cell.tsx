@@ -1,4 +1,4 @@
-import { Cell as DatumCell } from 'datum';
+import { Cell as DatumCell, CellType } from 'datum';
 import React, { FC } from 'react';
 import { RenderElementProps } from 'slate-react';
 
@@ -6,7 +6,7 @@ import { RenderElementProps } from 'slate-react';
 import { cellClass, css } from './style';
 
 export interface Cell extends Omit<RenderElementProps, 'element'> {
-    element: DatumCell;
+    element: DatumCell<CellType>;
 }
 
 export const Cell: FC<Cell> = ({

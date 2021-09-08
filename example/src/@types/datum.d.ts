@@ -1,12 +1,19 @@
-import { ElementType, TypedElement } from 'datum';
-import { Text } from 'slate';
+import 'datum';
 
-export interface TestCell extends TypedElement<ElementType.Cell, Text[]> {
-    isCool: string;
-}
+type MyCellData = {
+    CSI: {
+        div: number;
+    },
+    Quantity: {
+        quantity: number;
+    },
+    UnitOfMeasure: {
+        uom: number;
+    }
+};
 
 declare module 'datum' {
     interface CustomTypes {
-        Cell: TestCell;
+        CellData: MyCellData;
     }
 }
