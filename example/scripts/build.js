@@ -20,7 +20,7 @@ const SRC_DIR = path.join(ROOT_DIR, 'src');
 const ENTRYPOINT_PATH = path.join(SRC_DIR, ENTRYPOINT_NAME);
 const FAVICON_DIST_PATH = path.join(DIST_DIR, FAVICON_NAME);
 const FAVICON_SRC_PATH = path.join(ASSET_DIR, FAVICON_NAME);
-const INDEX_PATH = path.join(DIST_DIR, `index.html`);
+const INDEX_PATH = path.join(DIST_DIR, 'index.html');
 
 const bundle = () => esbuild.build({
     bundle: true,
@@ -28,6 +28,7 @@ const bundle = () => esbuild.build({
         ENTRYPOINT_PATH
     ],
     outfile: path.join(DIST_DIR, BUNDLE_NAME),
+    sourcemap: 'inline',
     watch: {
         onRebuild: err => {
             if (err) {
