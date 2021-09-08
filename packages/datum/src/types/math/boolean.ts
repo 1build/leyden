@@ -1,41 +1,41 @@
 export type Bool = true|false;
 
-export type Buffer<A extends Bool> =
-    A extends A
-        ? A
+export type Buffer<X extends Bool> =
+    X extends X
+        ? X
         : never;
 
-export type Not<A extends Bool> =
-    A extends true
+export type Not<X extends Bool> =
+    X extends true
         ? false
         : true;
 
-export type And<A extends Bool, B extends Bool> =
-    A extends true
-        ? Buffer<B>
+export type And<X extends Bool, Y extends Bool> =
+    X extends true
+        ? Buffer<Y>
         : false;
 
-export type Or<A extends Bool, B extends Bool> =
-    A extends true
+export type Or<X extends Bool, Y extends Bool> =
+    X extends true
         ? true
-        : Buffer<B>;
+        : Buffer<Y>;
 
-export type Nand<A extends Bool, B extends Bool> =
-    A extends true
-        ? Not<B>
+export type Nand<X extends Bool, Y extends Bool> =
+    X extends true
+        ? Not<Y>
         : true;
 
-export type Nor<A extends Bool, B extends Bool> =
-    A extends true
+export type Nor<X extends Bool, Y extends Bool> =
+    X extends true
         ? false
-        : Not<B>;
+        : Not<Y>;
 
-export type Xor<A extends Bool, B extends Bool> =
-    A extends true
-        ? Not<B>
-        : Buffer<B>;
+export type Xor<X extends Bool, Y extends Bool> =
+    X extends true
+        ? Not<Y>
+        : Buffer<Y>;
 
-export type Xnor<A extends Bool, B extends Bool> =
-    A extends true
-        ? Buffer<B>
-        : Not<B>;
+export type Xnor<X extends Bool, Y extends Bool> =
+    X extends true
+        ? Buffer<Y>
+        : Not<Y>;
