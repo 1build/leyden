@@ -1,14 +1,14 @@
 import { em, px, rem, rgb } from 'csx';
 import { style, stylesheet, types } from 'typestyle';
 
-import { solidBorder } from '../../../styles/border';
-import { gridPosition } from '../../../styles/grid';
+import { solidBorder } from '../styles/border';
+import { gridPosition } from '../styles/grid';
 import {
     afterPsuedoElement,
     basePsuedoElement,
     beforePsuedoElement,
     borderPsuedoElement,
-} from '../../../styles/psuedo';
+} from '../styles/psuedo';
 
 // HELPERS
 

@@ -4,14 +4,19 @@ import React, {
     KeyboardEventHandler,
     useCallback,
 } from 'react';
-import { Editable, useSlateStatic } from 'slate-react';
+import {
+    Editable as SlateReactEditable,
+    useSlateStatic,
+} from 'slate-react';
 
-import { useRender } from '../hooks/use-render';
+import { useRender } from '../hooks/useRender';
 import { cellNavigationKeys } from '../utils/keys';
 
-export type Sheet = Omit<Parameters<typeof Editable>[0], 'renderElement'|'renderLeaf'>
+export interface Editable extends Omit<Parameters<typeof SlateReactEditable>[0], 'renderElement'|'renderLeaf'> {
+    renderCell: () => void;
+}
 
-export const Sheet: FC<Sheet> = ({
+export const Editable: FC<Editable> = ({
     onKeyDown,
     ...props
 }) => {
@@ -33,7 +38,7 @@ export const Sheet: FC<Sheet> = ({
     }, [onKeyDown]);
 
     return (
-        <Editable
+        <SlateReactEditable
             {...render}
             {...props}
             onKeyDown={handleKeyDown}

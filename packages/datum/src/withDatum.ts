@@ -1,15 +1,13 @@
 import { Editor } from 'slate';
 
-export const withDatum = (editor: Editor): Editor => {
-    const { insertText, isVoid } = editor;
+import { DatumEditor } from '.';
 
-    editor.insertText = text => {
-        return insertText(text);
-    };
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const withDatum = <
+    Cols extends number,
+    Rows extends number,
+>(editor: Editor) => {
+    const e = editor as unknown as DatumEditor<Cols, Rows>;
 
-    editor.isVoid = element => {
-        return isVoid(element);
-    };
-
-    return editor;
+    return e;
 };

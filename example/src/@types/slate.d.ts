@@ -1,16 +1,9 @@
 import { SlateDatumElement, SlateDatumText } from 'datum';
-import { BaseEditor } from 'slate';
-import { ReactEditor } from 'slate-react';
-import { HistoryEditor } from 'slate-history';
-
-type Editor =
-    & BaseEditor
-    & HistoryEditor
-    & ReactEditor;
+import { DatumReactEditor } from 'datum-react';
 
 declare module 'slate' {
     interface CustomTypes {
-        Editor: Editor;
+        Editor: DatumReactEditor;
         Element: SlateDatumElement;
         Text: SlateDatumText;
     }

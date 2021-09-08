@@ -1,11 +1,15 @@
-import { Cell } from 'datum';
+import { Cell as DatumCell } from 'datum';
 import React, { FC } from 'react';
+import { RenderElementProps } from 'slate-react';
 
-import { RenderDatumElementProps } from '../types';
 
 import { cellClass, css } from './style';
 
-export const CellRenderer: FC<RenderDatumElementProps<Cell>> = ({
+export interface Cell extends Omit<RenderElementProps, 'element'> {
+    element: DatumCell;
+}
+
+export const Cell: FC<Cell> = ({
     attributes,
     children,
 }) => {

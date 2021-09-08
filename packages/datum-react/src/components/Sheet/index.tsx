@@ -1,6 +1,9 @@
-import { DatumEditor, Sheet } from 'datum';
+import {
+    DatumEditor,
+    Sheet as DatumSheet,
+} from 'datum';
 import React, { FC, useMemo } from 'react';
-import { useSlateStatic } from 'slate-react';
+import { RenderElementProps, useSlateStatic } from 'slate-react';
 
 import { Headers } from './Headers';
 import {
@@ -8,18 +11,21 @@ import {
     makeGridPositionClass,
     makeNestedSelectedCellClass,
     makeSheetGridTemplateClass,
-} from './style';
-import { RenderDatumElementProps } from '../types';
-import { notUndefined } from '../../../utils/typeGuards';
+} from '../style';
+import { notUndefined } from '../../utils/typeGuards';
 
-export type SheetRenderer<Cols extends number, Rows extends number> =
-    RenderDatumElementProps<Sheet<Cols, Rows>>;
+export interface Sheet<
+    Cols extends number,
+    Rows extends number
+> extends Omit<RenderElementProps, 'element'> {
+    element: DatumSheet<Cols, Rows>;
+}
 
-export const SheetRenderer = <Cols extends number, Rows extends number>({
+export const Sheet = <Cols extends number, Rows extends number>({
     attributes,
     children,
     element,
-}: SheetRenderer<Cols, Rows>): ReturnType<FC<SheetRenderer<Cols, Rows>>> => {
+}: Sheet<Cols, Rows>): ReturnType<FC<Sheet<Cols, Rows>>> => {
     const editor = useSlateStatic();
 
     const sheetGridTemplateClass = useMemo(() => {

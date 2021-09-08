@@ -9,8 +9,8 @@ import { Coordinates } from './Coordinates';
 import { Direction2D } from '../types';
 
 export interface DatumEditor<
-    Cols extends number=number,
-    Rows extends number=number,
+    Cols extends number,
+    Rows extends number,
 > extends Omit<BaseEditor, 'children'> {
     children: [Sheet<Cols, Rows>];
     getSheet: (editor: DatumEditor<Cols, Rows>) => Sheet<Cols, Rows>;

@@ -1,10 +1,10 @@
 import { DatumElement, DatumText } from 'datum';
 
-import { DatumReactEditor } from '../plugin/datum-react-editor';
+import { ReactEditor } from '../plugin/ReactEditor';
 
 declare module 'slate' {
     interface CustomTypes {
-        Editor: DatumReactEditor;
+        Editor: ReactEditor<number, number>;
         Element: DatumElement;
         Text: DatumText;
     }

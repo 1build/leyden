@@ -6,4 +6,5 @@ export * from './interfaces/Text/DatumText';
 export * from './interfaces/Text/FormattedText';
 export * from './interfaces/Text/Void';
 export * from './types';
+export * from './createEditor';
 export * from './withDatum';

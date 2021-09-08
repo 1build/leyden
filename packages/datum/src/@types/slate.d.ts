@@ -4,7 +4,7 @@ import { DatumText } from '../interfaces/Text/DatumText';
 
 declare module 'slate' {
     interface CustomTypes {
-        Editor: DatumEditor;
+        Editor: DatumEditor<number, number>;
         Element: DatumElement;
         Text: DatumText;
     }
