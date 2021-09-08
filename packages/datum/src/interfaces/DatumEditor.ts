@@ -4,7 +4,7 @@ import {
     Transforms,
 } from 'slate';
 
-import { Sheet } from './Element/Sheet';
+import { Sheet } from './Sheet';
 import { Coordinates } from './Coordinates';
 import { Direction2D } from '../types';
 

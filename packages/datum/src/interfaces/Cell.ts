@@ -3,7 +3,7 @@ import { Element } from 'slate';
 import {
     ElementType,
     TypedElement,
-} from '../../types';
+} from '../types';
 
 export type Cell = TypedElement<ElementType.Cell>;
 

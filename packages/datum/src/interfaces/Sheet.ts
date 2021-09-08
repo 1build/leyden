@@ -1,13 +1,13 @@
 import { Element, Path } from 'slate';
 
 import { Cell } from './Cell';
-import { Coordinates } from '../Coordinates';
+import { Coordinates } from './Coordinates';
 import {
     ElementType,
     Multiply,
     TupleOf,
     TypedElement,
-} from '../../types';
+} from '../types';
 
 export interface Sheet<
     Cols extends number,

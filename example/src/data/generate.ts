@@ -1,19 +1,16 @@
 import {
     Cell,
     ElementType,
-    FormattedText,
     Multiply,
     Sheet,
-    TextType,
 } from 'datum';
 
 const randomNumericString = (): string => (
     Math.floor(Math.pow(Math.random()*100, 2)).toString(10)
 );
 
-const newFormattedText = (): FormattedText => ({
+const newFormattedText = () => ({
     text: randomNumericString(),
-    type: TextType.FormattedText,
 });
 
 const newCell = (): Cell => ({

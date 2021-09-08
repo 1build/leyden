@@ -1,6 +1,7 @@
 import { createEditor as createSlateEditor } from 'slate';
 
-import { DatumEditor, withDatum } from '.';
+import { withDatum } from './withDatum';
+import { DatumEditor } from './interfaces/DatumEditor';
 
 export const createEditor = <
     Cols extends number,
