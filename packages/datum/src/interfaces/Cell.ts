@@ -24,9 +24,9 @@ export type CellData =
 
 export type CellType = Distribute<keyof CellData>;
 
-export interface Cell<T extends CellType> extends TypedElement<ElementType.Cell> {
+export interface Cell<T extends string=string> extends TypedElement<ElementType.Cell> {
     cellType: T;
-    data: CellData[T];
+    data: T extends CellType ? CellData[T] : never;
 }
 
 export const Cell = {
@@ -34,7 +34,7 @@ export const Cell = {
      * Check if an element is a `Cell`.
      */
 
-    isCell: (el: Element): el is Cell<CellType> => (
+    isCell: (el: Element): el is Cell => (
         el.type === ElementType.Cell
     ),
 
@@ -42,8 +42,8 @@ export const Cell = {
      * Check if a cell is specific cell type.
      */
 
-    cellIs: <T extends CellType>(
-        cell: Cell<CellType>,
+    cellIs: <T extends string>(
+        cell: Cell,
         cellType: T,
     ): cell is Cell<T> => (
         cell.cellType === cellType
