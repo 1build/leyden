@@ -3,6 +3,8 @@ export {
     CellRenderers,
     ElementRenderer,
     ElementRenderers,
+    TextRenderer,
+    TextRenderers,
 } from './utils/types';
 export { Datum } from './components/Datum';
 export { Editable } from './components/Editable';

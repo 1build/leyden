@@ -18,6 +18,7 @@ const colors = {
         dark: rgb(97, 101, 106),
         base: rgb(188, 188, 188),
         light: rgb(192, 192, 192),
+        lightish: rgb(215,225,229),
         lighter: rgb(226, 227, 227),
         lightest: rgb(248, 249, 250),
     },
@@ -75,7 +76,7 @@ export const makeSheetGridTemplateClass = (
 
 export const makeNestedSelectedCellClass = (n: number): string => style({
     $nest: {
-        [`div:nth-of-type(${n})`]: {
+        [`& > div:nth-of-type(${n})`]: {
             position: 'relative',
             $nest: {
                 ...afterPsuedoElement({
@@ -106,7 +107,7 @@ export const css = stylesheet({
         position: 'relative',
         display: 'grid',
         gap: px(1),
-        backgroundColor: colors.gray.lighter.toString(),
+        backgroundColor: colors.gray.lightish.toString(),
         alignItems: 'stretch',
         justifyItems: 'stretch',
         width: 'fit-content',

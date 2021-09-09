@@ -1,11 +1,11 @@
 import { CellRenderers } from 'datum-react';
 
-import { CSICell } from './CSICell';
-import { QuantityCell } from './QuantityCell';
-import { UnitOfMeasureCell } from './UnitOfMeasureCell';
+import { CSI } from './CSI';
+import { Quantity } from './Quantity';
+import { UnitOfMeasure } from './UnitOfMeasure';
 
 export const cellRenderers: CellRenderers = {
-    'CSI': CSICell,
-    'Quantity': QuantityCell,
-    'UnitOfMeasure': UnitOfMeasureCell
+    CSI,
+    Quantity,
+    UnitOfMeasure,
 };

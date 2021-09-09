@@ -5,6 +5,7 @@ import { withHistory } from 'slate-history';
 
 import { cellRenderers } from './cells';
 import { elementRenderers } from './elements';
+import { textRenderers } from './text';
 import { newSheet } from './data/generate';
 
 export const Demo: FC = () => {
@@ -13,7 +14,7 @@ export const Demo: FC = () => {
     const editor = useMemo(() => (
         withHistory(
             withReact(
-                createEditor<3, 4>()
+                createEditor<3, 6>()
             )
         )
     ), []);
@@ -27,6 +28,7 @@ export const Demo: FC = () => {
             <Editable
                 cellRenderers={cellRenderers}
                 elementRenderers={elementRenderers}
+                textRenderers={textRenderers}
             />
         </Datum>
     );

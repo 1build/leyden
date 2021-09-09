@@ -1,9 +1,7 @@
 import { ElementRenderers } from 'datum-react';
 
-import { ColorBox } from './ColorBox';
-import { OutlineBox } from './OutlineBox';
+import { ColorCodedCSI } from './ColorCodedCSI';
 
 export const elementRenderers: ElementRenderers = {
-    'ColorBox': ColorBox,
-    'OutlineBox': OutlineBox,
+    ColorCodedCSI,
 };

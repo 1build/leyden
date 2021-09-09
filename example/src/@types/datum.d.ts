@@ -1,29 +1,44 @@
-import { Element } from 'datum';
-import { Text } from 'slate';
+import { Element, Text } from 'datum';
+
+import { CSI, UOM } from '../types';
 
 declare module 'datum' {
     interface CustomTypes {
         Cells: {
             CSI: {
-                children: [Element<'ColorBox'>];
+                children: [Element<'ColorCodedCSI'>];
             };
             Quantity: {
-                children: [Element<'OutlineBox'>];
+                children: [Text<'Decimal'>];
             };
             UnitOfMeasure: {
-                children: [Text];
+                children: [Text<'UOM'>];
             };
         };
         Elements: {
-            OutlineBox: {
-                children: Text[];
-            };
-            ColorBox: {
-                children: Text[];
-                data: {
-                    color: string;
-                };
+            ColorCodedCSI: {
+                children: [Text<'CSI'>];
             };
         },
+        Text: {
+            CSI: {
+                text: '';
+                data: {
+                    value: CSI;
+                }
+            };
+            Decimal: {
+                text: '';
+                data: {
+                    value: number;
+                }
+            },
+            UOM: {
+                text: '';
+                data: {
+                    value: UOM;
+                }
+            },
+        }
     }
 }

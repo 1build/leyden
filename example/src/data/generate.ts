@@ -1,75 +1,79 @@
-import { Text } from 'slate';
 import {
     Cell,
     Element,
     DatumElementType,
     Sheet,
+    Text,
 } from 'datum';
 
-const randomNumericString = (): string => (
-    Math.floor(Math.pow(Math.random()*100, 2)).toString(10)
-);
+import { CSI, UOM } from '../types';
 
-const newFormattedText = () => ({
-    text: randomNumericString(),
+const newCSIText = (value: CSI): Text<'CSI'> => ({
+    type: 'CSI',
+    text: '',
+    data: { value },
 });
 
-const newColorBox = (children: Text[]): Element<'ColorBox'> => ({
+const newDecimalText = (value: number): Text<'Decimal'> => ({
+    type: 'Decimal',
+    text: '',
+    data: { value },
+});
+
+const newUOMText = (value: UOM): Text<'UOM'> => ({
+    type: 'UOM',
+    text: '',
+    data: { value },
+});
+
+const newColorCodedCSIElement = (value: CSI): Element<'ColorCodedCSI'> => ({
     type: DatumElementType.Element,
-    subType: 'ColorBox',
-    children,
-    data: {
-        color: ['blue', 'yellow', 'green'][Math.floor(Math.random()*3)]
-    }
+    subType: 'ColorCodedCSI',
+    children: [newCSIText(value)],
 });
 
-const newOutlineBox = (children: Text[]): Element<'OutlineBox'> => ({
-    type: DatumElementType.Element,
-    subType: 'OutlineBox',
-    children,
-});
-
-const newCSICell = (): Cell<'CSI'> => ({
+const newCSICell = (value: CSI): Cell<'CSI'> => ({
     type: DatumElementType.Cell,
     subType: 'CSI',
-    children: [newColorBox([newFormattedText()])],
+    children: [newColorCodedCSIElement(value)],
 });
 
-const newQuantityCell = (): Cell<'Quantity'> => ({
+const newQuantityCell = (value: number): Cell<'Quantity'> => ({
     type: DatumElementType.Cell,
     subType: 'Quantity',
-    children: [newOutlineBox([newFormattedText()])],
+    children: [newDecimalText(value)],
 });
 
-const newUnitOfMeasureCell = (): Cell<'UnitOfMeasure'> => ({
+const newUnitOfMeasureCell = (value: UOM): Cell<'UnitOfMeasure'> => ({
     type: DatumElementType.Cell,
     subType: 'UnitOfMeasure',
-    children: [newFormattedText()],
+    children: [newUOMText(value)],
 });
 
 const genColHeader = (col: number): string => {
     switch(col) {
         case 0:
-            return 'CSI';
-        case 1:
             return 'Quantity';
-        case 2:
+        case 1:
             return 'UOM';
+        case 2:
+            return 'CSI';
         default:
             return Sheet.genAlphabeticHeader(col);
     }
 };
 
-export const newSheet = (): Sheet<3, 4> => ({
+export const newSheet = (): Sheet<3, 6> => ({
     type: DatumElementType.Sheet,
     cols: 3,
-    rows: 4,
+    rows: 6,
     genColHeader: genColHeader,
-    genRowHeader: Sheet.genNumericHeader,
     children: [
-        newCSICell(), newQuantityCell(), newUnitOfMeasureCell(),
-        newCSICell(), newQuantityCell(), newUnitOfMeasureCell(),
-        newCSICell(), newQuantityCell(), newUnitOfMeasureCell(),
-        newCSICell(), newQuantityCell(), newUnitOfMeasureCell(),
+        newQuantityCell(1805.56), newUnitOfMeasureCell(UOM.SF), newCSICell(CSI.Div09),
+        newQuantityCell(84), newUnitOfMeasureCell(UOM.ManHour), newCSICell(CSI.Div09),
+        newQuantityCell(8), newUnitOfMeasureCell(UOM.Gallons), newCSICell(CSI.Div09),
+        newQuantityCell(2404.8), newUnitOfMeasureCell(UOM.SF), newCSICell(CSI.WoodAndPlastics),
+        newQuantityCell(1805.56), newUnitOfMeasureCell(UOM.SF), newCSICell(CSI.ThermalAndMoisture),
+        newQuantityCell(12), newUnitOfMeasureCell(UOM.Each), newCSICell(CSI.DoorsAndWindows),
     ],
 });
