@@ -6,21 +6,27 @@ import {
 import React, { FC } from 'react';
 import { RenderElementProps } from 'slate-react';
 
-import { Cell } from './Cell';
+import { Cell, CellRenderers } from './Cell';
 import { Sheet } from './Sheet';
 
 export interface Element extends Omit<RenderElementProps, 'element'> {
+    cellRenderers: CellRenderers;
     element: DatumElement;
 }
 
 export const Element: FC<Element> = ({
     attributes,
+    cellRenderers,
     children,
     element,
 }) => {
     if (DatumCell.isCell(element)) {
         return (
-            <Cell attributes={attributes} element={element}>
+            <Cell
+                cellRenderers={cellRenderers}
+                attributes={attributes}
+                element={element}
+            >
                 {children}
             </Cell>
         );
@@ -28,7 +34,10 @@ export const Element: FC<Element> = ({
 
     if (DatumSheet.isSheet(element)) {
         return (
-            <Sheet attributes={attributes} element={element}>
+            <Sheet
+                attributes={attributes}
+                element={element}
+            >
                 {children}
             </Sheet>
         );

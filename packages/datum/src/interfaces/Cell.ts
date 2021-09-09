@@ -15,18 +15,20 @@ export type BaseCellData = {
     default: null;
 }
 
-export type CellData =
+type AllCellData =
     ExtendedType<'CellData', BaseCellData> extends infer U
         ? U extends Record<string, unknown>
             ? U
             : BaseCellData
         : BaseCellData;
 
-export type CellType = Distribute<keyof CellData>;
+export type CellType = Distribute<keyof AllCellData>;
 
-export interface Cell<T extends string=string> extends TypedElement<ElementType.Cell> {
+export type CellData<T extends CellType> = AllCellData[T];
+
+export interface Cell<T extends CellType> extends TypedElement<ElementType.Cell> {
     cellType: T;
-    data: T extends CellType ? CellData[T] : never;
+    data: CellData<T>;
 }
 
 export const Cell = {
@@ -34,18 +36,7 @@ export const Cell = {
      * Check if an element is a `Cell`.
      */
 
-    isCell: (el: Element): el is Cell => (
+    isCell: (el: Element): el is Cell<CellType> => (
         el.type === ElementType.Cell
-    ),
-
-    /**
-     * Check if a cell is specific cell type.
-     */
-
-    cellIs: <T extends string>(
-        cell: Cell,
-        cellType: T,
-    ): cell is Cell<T> => (
-        cell.cellType === cellType
     ),
 };

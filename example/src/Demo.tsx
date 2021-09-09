@@ -3,15 +3,16 @@ import { Datum, Editable, withReact } from 'datum-react';
 import React, { FC, useMemo, useState } from 'react';
 import { withHistory } from 'slate-history';
 
+import { cellRenderers } from './cells';
 import { newSheet } from './data/generate';
 
 export const Demo: FC = () => {
-    const [descendants, setDescendants] = useState(newSheet(10, 15, 150));
+    const [descendants, setDescendants] = useState(newSheet());
 
     const editor = useMemo(() => (
         withHistory(
             withReact(
-                createEditor<10, 15>()
+                createEditor<3, 4>()
             )
         )
     ), []);
@@ -22,12 +23,7 @@ export const Demo: FC = () => {
             value={descendants}
             onChange={setDescendants}
         >
-            <Editable
-                renderCell={(): void => {
-                    // eslint-disable-next-line no-console
-                    console.log('test');
-                }}
-            />
+            <Editable cellRenderers={cellRenderers} />
         </Datum>
     );
 };

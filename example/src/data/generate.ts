@@ -1,7 +1,6 @@
 import {
     Cell,
     ElementType,
-    Multiply,
     Sheet,
 } from 'datum';
 
@@ -13,40 +12,37 @@ const newFormattedText = () => ({
     text: randomNumericString(),
 });
 
-const newCell = (): Cell => ({
+const newCSICell = (): Cell<'CSI'> => ({
     type: ElementType.Cell,
+    cellType: 'CSI',
     children: [newFormattedText()],
+    data: { div: 5 },
 });
 
-export const newSheet = <Cols extends number, Rows extends number>(
-    cols: Cols,
-    rows: Rows,
-    totalCells: Multiply<Cols, Rows>,
-): Sheet<Cols, Rows> => {
-    const cells = Array.from({ length: totalCells }, newCell);
-    if (!Sheet.cellsFitSheet(cells, totalCells)) {
-        throw new Error(`Wrong cell length (expected ${cols*rows}, got ${cells.length})`);
-    }
-    return {
-        type: ElementType.Sheet,
-        cols,
-        rows,
-        genColHeader: Sheet.genAlphabeticHeader,
-        genRowHeader: Sheet.genNumericHeader,
-        children: cells,
-    };
-};
+const newQuantityCell = (): Cell<'Quantity'> => ({
+    type: ElementType.Cell,
+    cellType: 'Quantity',
+    children: [newFormattedText()],
+    data: { quantity: 5 },
+});
 
-export const newExplicitSheet = (): Sheet<3, 4> => ({
+const newUnitOfMeasureCell = (): Cell<'UnitOfMeasure'> => ({
+    type: ElementType.Cell,
+    cellType: 'UnitOfMeasure',
+    children: [newFormattedText()],
+    data: { uom: 5 },
+});
+
+export const newSheet = (): Sheet<3, 4> => ({
     type: ElementType.Sheet,
     cols: 3,
     rows: 4,
     genColHeader: Sheet.genAlphabeticHeader,
     genRowHeader: Sheet.genNumericHeader,
     children: [
-        newCell(), newCell(), newCell(),
-        newCell(), newCell(), newCell(),
-        newCell(), newCell(), newCell(),
-        newCell(), newCell(), newCell(),
+        newCSICell(), newQuantityCell(), newUnitOfMeasureCell(),
+        newCSICell(), newQuantityCell(), newUnitOfMeasureCell(),
+        newCSICell(), newQuantityCell(), newUnitOfMeasureCell(),
+        newCSICell(), newQuantityCell(), newUnitOfMeasureCell(),
     ],
 });

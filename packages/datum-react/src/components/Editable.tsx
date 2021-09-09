@@ -9,19 +9,21 @@ import {
     useSlateStatic,
 } from 'slate-react';
 
+import { CellRenderers } from './Cell';
 import { useRender } from '../hooks/useRender';
 import { cellNavigationKeys } from '../utils/keys';
 
 export interface Editable extends Omit<Parameters<typeof SlateReactEditable>[0], 'renderElement'|'renderLeaf'> {
-    renderCell: () => void;
+    cellRenderers: CellRenderers;
 }
 
 export const Editable: FC<Editable> = ({
+    cellRenderers,
     onKeyDown,
     ...props
 }) => {
     const editor = useSlateStatic();
-    const render = useRender();
+    const render = useRender(cellRenderers);
 
     const handleKeyDown = useCallback<KeyboardEventHandler<HTMLDivElement>>(e => {
         if (onKeyDown) {

@@ -1,6 +1,6 @@
 import { Element, Path } from 'slate';
 
-import { Cell } from './Cell';
+import { Cell, CellType } from './Cell';
 import { Coordinates } from './Coordinates';
 import {
     ElementType,
@@ -12,7 +12,7 @@ import {
 export interface Sheet<
     Cols extends number,
     Rows extends number,
-> extends TypedElement<ElementType.Sheet, TupleOf<Cell, Multiply<Cols, Rows>>> {
+> extends TypedElement<ElementType.Sheet, TupleOf<Cell<CellType>, Multiply<Cols, Rows>>> {
     cols: Cols;
     rows: Rows;
     genColHeader?: (pos: number) => string;
@@ -24,10 +24,10 @@ export const Sheet = {
      * cellsFitSheet is a typeguard to check if an array of cells conforms to sheet dimensions.
      */
 
-    cellsFitSheet: <Cols extends number, Rows extends number>(
-        cells: Cell[],
+    cellsFitSheet: <Cols extends number, Rows extends number, T extends CellType>(
+        cells: Cell<T>[],
         count: Multiply<Cols, Rows>,
-    ): cells is TupleOf<Cell, Multiply<Cols, Rows>> => (
+    ): cells is TupleOf<Cell<T>, Multiply<Cols, Rows>> => (
         cells.length === count
     ),
 

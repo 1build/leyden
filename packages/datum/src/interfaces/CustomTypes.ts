@@ -17,4 +17,4 @@ export type ExtendedType<
     B
 > = unknown extends CustomTypes[K]
     ? B
-    : CustomTypes[K] & B;
+    : CustomTypes[K];
