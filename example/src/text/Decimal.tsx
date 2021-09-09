@@ -3,7 +3,7 @@ import React from 'react';
 
 export const Decimal: TextRenderer<'Decimal'> = ({
     attributes,
-    text,
+    children,
 }) => {
     return (
         <span
@@ -16,7 +16,7 @@ export const Decimal: TextRenderer<'Decimal'> = ({
                 lineHeight: '14px',
             }}
         >
-            {text.data.value}
+            {children}
         </span>
     );
 };

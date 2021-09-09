@@ -10,18 +10,21 @@ import { CSI, UOM } from '../types';
 
 const newCSIText = (value: CSI): Text<'CSI'> => ({
     type: 'CSI',
+    validator: 'csi',
     text: '',
     data: { value },
 });
 
 const newDecimalText = (value: number): Text<'Decimal'> => ({
     type: 'Decimal',
-    text: '',
+    validator: 'numeric',
+    text: value.toString(),
     data: { value },
 });
 
 const newUOMText = (value: UOM): Text<'UOM'> => ({
     type: 'UOM',
+    validator: 'uom',
     text: '',
     data: { value },
 });

@@ -4,17 +4,20 @@ import React, { FC, useMemo, useState } from 'react';
 import { withHistory } from 'slate-history';
 
 import { cellRenderers } from './cells';
+import { newSheet } from './data/generate';
 import { elementRenderers } from './elements';
 import { textRenderers } from './text';
-import { newSheet } from './data/generate';
+import { withExample } from './withExample';
 
 export const Demo: FC = () => {
     const [descendants, setDescendants] = useState(newSheet());
 
     const editor = useMemo(() => (
-        withHistory(
-            withReact(
-                createEditor<3, 6>()
+        withExample(
+            withHistory(
+                withReact(
+                    createEditor<3, 6>()
+                )
             )
         )
     ), []);

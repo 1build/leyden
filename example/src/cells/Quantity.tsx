@@ -16,7 +16,6 @@ export const Quantity: CellRenderer<'Quantity'> = ({
                 height: '3rem',
                 padding: '0 2.75rem 0 0.75rem',
             }}
-            contentEditable={false}
         >
             {children}
         </div>

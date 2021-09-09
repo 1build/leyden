@@ -7,6 +7,7 @@
 
 import { Descendant } from 'slate';
 
+import { Validator } from './Validator';
 import {
     DatumElementType,
     TypedElement,
@@ -21,44 +22,58 @@ type ExtendableElementTypes =
 type ExtendableTextTypes =
     | 'Text';
 
-type ExtendableTypes = 
+type ExtendableComponentTypes =
     | ExtendableElementTypes
     | ExtendableTextTypes;
+
+type ExtendableExtraTypes =
+    | 'Validator';
+
+type ExtendableTypes = 
+    | ExtendableComponentTypes
+    | ExtendableExtraTypes;
 
 export interface CustomTypes {
     [key: string]: unknown;
 }
 
-interface ExtendedElementTypeEntry {
+export interface ExtendedElementTypeEntry {
     children: Descendant[];
     data?: unknown;
 }
 
 type ExtendedTextTypeEntry = {
     text: string;
+    validator?: Validator;
     data?: unknown;
 };
 
-type ExtendedTypeEntry<T extends ExtendableTypes> =
+type ExtendedComponentTypeEntry<T extends ExtendableComponentTypes> =
     T extends ExtendableElementTypes
         ? ExtendedElementTypeEntry
         : T extends ExtendableTextTypes
             ? ExtendedTextTypeEntry
             : never;
 
-type ExtendedTypeEntries<T extends ExtendableTypes> =
-    Record<string, ExtendedTypeEntry<T>>;
+type ExtendedComponentTypeEntries<T extends ExtendableComponentTypes> =
+    Record<string, ExtendedComponentTypeEntry<T>>;
 
-type BaseExtendedTypeEntries<T extends ExtendableTypes> = {
-    default: ExtendedTypeEntry<T>
+type BaseExtendedComponentTypeEntries<T extends ExtendableComponentTypes> = {
+    default: ExtendedComponentTypeEntry<T>
 };
 
 export type ExtendedType<T extends ExtendableTypes> =
     CustomTypes[T] extends infer K
-        ? K extends ExtendedTypeEntries<T> 
-            ? K
-            : BaseExtendedTypeEntries<T>
-        : BaseExtendedTypeEntries<T>;
+        ? T extends ExtendableComponentTypes
+            ? K extends ExtendedComponentTypeEntries<T> 
+                ? K
+                : BaseExtendedComponentTypeEntries<T>
+            : T extends 'Validator'
+                ? K extends string
+                    ? K
+                    : 1
+                : 2
+        : never;
 
 export type ExtendedElementType<
     E extends DatumElementType,
@@ -72,5 +87,9 @@ export type ExtendedTextType<
     T extends string,
     R extends Record<T, ExtendedTextTypeEntry>
 > = R[T] extends { data: unknown }
-    ? { type: T; data: R[T]['data'] } & TypedText<R[T]['text']>
-    : { type: T } & TypedText<R[T]['text']>;
+    ? R[T] extends { validator: Validator }
+        ? { type: T; data: R[T]['data'] } & { validator: R[T]['validator'] } & TypedText<R[T]['text']>
+        : { type: T; data: R[T]['data'] } & TypedText<R[T]['text']>
+    : R[T] extends { validator: Validator }
+        ? { type: T } & { validator: R[T]['validator'] } & TypedText<R[T]['text']>
+        : { type: T } & TypedText<R[T]['text']>;
