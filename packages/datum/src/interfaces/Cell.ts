@@ -1,18 +1,13 @@
 import { Element } from 'slate';
 
-import { ExtendedType } from './CustomTypes';
-import {
-    DatumElementType,
-    Keys,
-    TypedElement,
-} from '../types';
+import { ExtendedElementType, ExtendedType } from './CustomTypes';
+import { DatumElementType, Keys } from '../types';
 
 export type Cells = ExtendedType<'Cells'>;
 export type CellType = Keys<Cells>;
-export interface Cell<T extends CellType> extends TypedElement<DatumElementType.Cell, Cells[T]['children']> {
-    subType: T;
-    data: Cells[T]['data'];
-}
+
+export type Cell<T extends CellType> =
+    ExtendedElementType<DatumElementType.Element, T, Cells>;
 
 export const Cell = {
     /**

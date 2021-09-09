@@ -5,6 +5,7 @@ import { DatumElementType, Keys } from '../types';
 
 export type CustomElements = ExtendedType<'Elements'>;
 export type CustomElementType = Keys<CustomElements>;
+
 export type CustomElement<T extends CustomElementType> =
     ExtendedElementType<DatumElementType.Element, T, CustomElements>;
 
