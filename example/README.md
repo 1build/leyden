@@ -1,6 +1,7 @@
 # Datum Example
 
-![Screenshot Capture - 2021-08-24 - 23-56-04](https://user-images.githubusercontent.com/3399889/130724121-6ca9cdf5-156d-4a1c-b6a0-416dc08335c1.png)
+![Screenshot Capture - 2021-09-09 - 03-46-56](https://user-images.githubusercontent.com/3399889/132645410-b1b79ea7-f56e-40a6-ae20-cdb71d208c3b.png)
+
 
 ## Setup
 
