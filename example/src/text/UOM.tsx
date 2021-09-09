@@ -18,7 +18,7 @@ export const UOM: TextRenderer<'UOM'> = ({
                 lineHeight: '14px',
             }}
         >
-            {UOMString[text.data.value]}
+            {UOMString[text.text]}
         </span>
     );
 };

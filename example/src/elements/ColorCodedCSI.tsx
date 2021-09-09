@@ -15,7 +15,7 @@ export const ColorCodedCSI: ElementRenderer<'ColorCodedCSI'> = ({
             justifyContent: 'center',
             height: '1.5rem',
             padding: '0 0.75rem',
-            backgroundColor: CSIColor[element.children[0].data.value],
+            backgroundColor: CSIColor[element.children[0].text],
             borderRadius: 3,
         }}>
             {children}

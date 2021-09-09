@@ -83,13 +83,17 @@ export type ExtendedElementType<
     ? { subType: T; data: R[T]['data'] } & TypedElement<E, R[T]['children']>
     : { subType: T } & TypedElement<E, R[T]['children']>;
 
+export type ExtractTextValidator<T extends ExtendedTextTypeEntry> =
+    T extends { validator: Validator }
+        ? { validator: T['validator'] }
+        : Record<string, unknown>;
+
+export type ExtractTextData<T extends ExtendedTextTypeEntry> =
+    T extends { data: infer D }
+        ? D
+        : Record<string, unknown>;
+
 export type ExtendedTextType<
     T extends string,
     R extends Record<T, ExtendedTextTypeEntry>
-> = R[T] extends { data: unknown }
-    ? R[T] extends { validator: Validator }
-        ? { type: T; data: R[T]['data'] } & { validator: R[T]['validator'] } & TypedText<R[T]['text']>
-        : { type: T; data: R[T]['data'] } & TypedText<R[T]['text']>
-    : R[T] extends { validator: Validator }
-        ? { type: T } & { validator: R[T]['validator'] } & TypedText<R[T]['text']>
-        : { type: T } & TypedText<R[T]['text']>;
+> = { type: T } & ExtractTextData<R[T]> & ExtractTextValidator<R[T]> & TypedText<R[T]['text']>;

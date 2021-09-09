@@ -22,25 +22,16 @@ declare module 'datum' {
         },
         Text: {
             CSI: {
-                text: '';
+                text: CSI;
                 validator: 'csi';
-                data: {
-                    value: CSI;
-                };
             };
             Decimal: {
                 text: string;
                 validator: 'numeric';
-                data: {
-                    value: number;
-                };
             },
             UOM: {
-                text: '';
+                text: UOM;
                 validator: 'uom';
-                data: {
-                    value: UOM;
-                };
             };
         };
         Validator: 'csi'|'uom';

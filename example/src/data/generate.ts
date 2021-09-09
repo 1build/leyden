@@ -8,25 +8,22 @@ import {
 
 import { CSI, UOM } from '../types';
 
-const newCSIText = (value: CSI): Text<'CSI'> => ({
+const newCSIText = (text: CSI): Text<'CSI'> => ({
     type: 'CSI',
     validator: 'csi',
-    text: '',
-    data: { value },
+    text,
 });
 
 const newDecimalText = (value: number): Text<'Decimal'> => ({
     type: 'Decimal',
     validator: 'numeric',
     text: value.toString(),
-    data: { value },
 });
 
-const newUOMText = (value: UOM): Text<'UOM'> => ({
+const newUOMText = (text: UOM): Text<'UOM'> => ({
     type: 'UOM',
     validator: 'uom',
-    text: '',
-    data: { value },
+    text,
 });
 
 const newColorCodedCSIElement = (value: CSI): Element<'ColorCodedCSI'> => ({

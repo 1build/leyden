@@ -1,8 +1,8 @@
 export enum UOM {
-    SF,
-    ManHour,
-    Gallons,
-    Each,
+    SF='SF',
+    ManHour='ManHour',
+    Gallons='Gallons',
+    Each='Each',
 }
 
 export const UOMString: Record<UOM, string> = {
@@ -13,10 +13,10 @@ export const UOMString: Record<UOM, string> = {
 };
 
 export enum CSI {
-    Div09,
-    DoorsAndWindows,
-    ThermalAndMoisture,
-    WoodAndPlastics,
+    Div09='Div09',
+    DoorsAndWindows='DoorsAndWindows',
+    ThermalAndMoisture='ThermalAndMoisture',
+    WoodAndPlastics='WoodAndPlastics',
 }
 
 export const CSIString: Record<CSI, string> = {

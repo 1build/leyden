@@ -19,7 +19,7 @@ export const CSI: TextRenderer<'CSI'> = ({
                 userSelect: 'none',
             }}
         >
-            {CSIString[text.data.value]}
+            {CSIString[text.text]}
         </span>
     );
 };
