@@ -1,15 +1,14 @@
 import React, { useCallback } from 'react';
 
-import { CustomElementRenderers } from '../components/CustomElement';
-import { CellRenderers } from '../components/Cell';
 import { Element } from '../components/Element';
 import { Leaf } from '../components/Leaf';
+import { CellRenderers, ElementRenderers } from '../utils/types';
 
-type ElementNoRenderers = Omit<Element, 'cellRenderers'|'customElementRenderers'>;
+type ElementNoRenderers = Omit<Element, 'cellRenderers'|'elementRenderers'>;
 
 interface useRenderProps {
     cellRenderers: CellRenderers,
-    customElementRenderers: CustomElementRenderers,
+    elementRenderers: ElementRenderers,
 }
 
 interface UseRenderPayload {
@@ -19,13 +18,13 @@ interface UseRenderPayload {
 
 export const useRender = ({
     cellRenderers,
-    customElementRenderers,
+    elementRenderers,
 }: useRenderProps): UseRenderPayload => {
     const renderElement = useCallback((rep: ElementNoRenderers) => (
         <Element
             {...rep}
             cellRenderers={cellRenderers}
-            customElementRenderers={customElementRenderers}
+            elementRenderers={elementRenderers}
         />
     ), [cellRenderers]);
     

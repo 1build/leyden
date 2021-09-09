@@ -1,14 +1,14 @@
-import { CustomElement } from 'datum';
+import { Element } from 'datum';
 import { Text } from 'slate';
 
 declare module 'datum' {
     interface CustomTypes {
         Cells: {
             CSI: {
-                children: [CustomElement<'ColorBox'>];
+                children: [Element<'ColorBox'>];
             };
             Quantity: {
-                children: [CustomElement<'OutlineBox'>];
+                children: [Element<'OutlineBox'>];
             };
             UnitOfMeasure: {
                 children: [Text];

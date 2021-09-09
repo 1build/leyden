@@ -1,7 +1,7 @@
 import { Text } from 'slate';
 import {
     Cell,
-    CustomElement,
+    Element,
     DatumElementType,
     Sheet,
 } from 'datum';
@@ -14,7 +14,7 @@ const newFormattedText = () => ({
     text: randomNumericString(),
 });
 
-const newColorBox = (children: Text[]): CustomElement<'ColorBox'> => ({
+const newColorBox = (children: Text[]): Element<'ColorBox'> => ({
     type: DatumElementType.Element,
     subType: 'ColorBox',
     children,
@@ -23,7 +23,7 @@ const newColorBox = (children: Text[]): CustomElement<'ColorBox'> => ({
     }
 });
 
-const newOutlineBox = (children: Text[]): CustomElement<'OutlineBox'> => ({
+const newOutlineBox = (children: Text[]): Element<'OutlineBox'> => ({
     type: DatumElementType.Element,
     subType: 'OutlineBox',
     children,
@@ -33,21 +33,18 @@ const newCSICell = (): Cell<'CSI'> => ({
     type: DatumElementType.Cell,
     subType: 'CSI',
     children: [newColorBox([newFormattedText()])],
-    data: { div: 5 },
 });
 
 const newQuantityCell = (): Cell<'Quantity'> => ({
     type: DatumElementType.Cell,
     subType: 'Quantity',
     children: [newOutlineBox([newFormattedText()])],
-    data: { quantity: 5 },
 });
 
 const newUnitOfMeasureCell = (): Cell<'UnitOfMeasure'> => ({
     type: DatumElementType.Cell,
     subType: 'UnitOfMeasure',
     children: [newFormattedText()],
-    data: { uom: 5 },
 });
 
 const genColHeader = (col: number): string => {

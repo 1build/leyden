@@ -1,7 +1,7 @@
-import { CustomElementRenderer } from 'datum-react';
+import { ElementRenderer } from 'datum-react';
 import React from 'react';
 
-export const ColorBox: CustomElementRenderer<'ColorBox'> = ({
+export const ColorBox: ElementRenderer<'ColorBox'> = ({
     attributes,
     children,
     element,

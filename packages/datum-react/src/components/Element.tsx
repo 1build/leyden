@@ -1,50 +1,49 @@
 import {
-    Cell as DatumCell,
+    Cell,
     DatumElement,
-    CustomElement as DatumCustomElement,
+    Element as DatumCustomElement,
     Sheet as DatumSheet,
 } from 'datum';
 import React, { FC } from 'react';
 import { RenderElementProps } from 'slate-react';
 
-import { Cell, CellRenderers } from './Cell';
-import { CustomElement, CustomElementRenderers } from './CustomElement';
 import { Sheet } from './Sheet';
+import { CellRenderers, ElementRenderers } from '../utils/types';
 
 export interface Element extends Omit<RenderElementProps, 'element'> {
     cellRenderers: CellRenderers;
-    customElementRenderers: CustomElementRenderers;
+    elementRenderers: ElementRenderers;
     element: DatumElement;
 }
 
 export const Element: FC<Element> = ({
     attributes,
     cellRenderers,
-    customElementRenderers,
+    elementRenderers,
     children,
     element,
 }) => {
-    if (DatumCell.isCell(element)) {
+    if (Cell.isCell(element)) {
+        const CellFC = cellRenderers[element.subType];
         return (
-            <Cell
-                cellRenderers={cellRenderers}
+            <CellFC
                 attributes={attributes}
                 element={element}
             >
                 {children}
-            </Cell>
+            </CellFC>
         );
     }
 
-    if (DatumCustomElement.isCustomElement(element)) {
+    if (DatumCustomElement.isElement(element)) {
+        const ElementFC = elementRenderers[element.subType];
         return (
-            <CustomElement
-                customElementRenderers={customElementRenderers}
+            <ElementFC
                 attributes={attributes}
                 element={element}
             >
                 {children}
-            </CustomElement>
+            </ElementFC>
         );
     }
 

@@ -1,7 +1,7 @@
-import { CustomElementRenderer } from 'datum-react';
+import { ElementRenderer } from 'datum-react';
 import React from 'react';
 
-export const OutlineBox: CustomElementRenderer<'OutlineBox'> = ({
+export const OutlineBox: ElementRenderer<'OutlineBox'> = ({
     attributes,
     children,
 }) => {

@@ -4,7 +4,7 @@ import React, { FC, useMemo, useState } from 'react';
 import { withHistory } from 'slate-history';
 
 import { cellRenderers } from './cells';
-import { customElementRenderers } from './elements';
+import { elementRenderers } from './elements';
 import { newSheet } from './data/generate';
 
 export const Demo: FC = () => {
@@ -26,7 +26,7 @@ export const Demo: FC = () => {
         >
             <Editable
                 cellRenderers={cellRenderers}
-                customElementRenderers={customElementRenderers}
+                elementRenderers={elementRenderers}
             />
         </Datum>
     );
