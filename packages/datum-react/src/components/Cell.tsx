@@ -2,8 +2,6 @@ import { Cell as DatumCell, CellType } from 'datum';
 import React, { FC } from 'react';
 import { RenderElementProps } from 'slate-react';
 
-import { cellClass, css } from './style';
-
 export type RenderCellProps<T extends CellType> =
     & Omit<RenderElementProps, 'element'>
     & { element: DatumCell<T> };
@@ -28,13 +26,8 @@ export const Cell: FC<Cell> = ({
     const CellFC = cellRenderers[element.cellType];
 
     return (
-        <div
-            className={`${cellClass} ${css.cell}`}
-        >
-            <CellFC {...props} element={element}>
-                {children}
-            </CellFC>
-        </div>
+        <CellFC {...props} element={element}>
+            {children}
+        </CellFC>
     );
 };
-

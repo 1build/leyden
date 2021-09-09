@@ -1,19 +1,12 @@
 import 'datum';
-
-type MyCellData = {
-    CSI: {
-        div: number;
-    },
-    Quantity: {
-        quantity: number;
-    },
-    UnitOfMeasure: {
-        uom: number;
-    }
-};
+import { Text } from 'slate';
 
 declare module 'datum' {
     interface CustomTypes {
-        CellData: MyCellData;
+        Cells: {
+            CSI: [Text],
+            Quantity: [Text],
+            UnitOfMeasure: [Text],
+        };
     }
 }

@@ -28,10 +28,6 @@ const fonts = {
     arial: 'Arial, Helvetica Neue, Helvetica, sans-serif',
 };
 
-// RAW CLASS NAMES
-
-export const cellClass = 'datum-cell';
-
 // EXTENDABLE STYLES
 
 const baseCell: types.NestedCSSProperties = {
@@ -80,6 +76,7 @@ export const makeSheetGridTemplateClass = (
 export const makeNestedSelectedCellClass = (n: number): string => style({
     $nest: {
         [`div:nth-of-type(${n})`]: {
+            position: 'relative',
             $nest: {
                 ...afterPsuedoElement({
                     ...basePsuedoElement,

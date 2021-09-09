@@ -6,8 +6,8 @@ export const UnitOfMeasureCell: CellRenderer<'UnitOfMeasure'> = ({
     children,
 }) => {
     return (
-        <span {...attributes} style={{ backgroundColor: 'yellow' }}>
+        <div {...attributes} style={{ backgroundColor: 'yellow' }}>
             {children}
-        </span>
+        </div>
     );
 };

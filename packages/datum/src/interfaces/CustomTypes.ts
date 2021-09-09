@@ -6,7 +6,7 @@
  */
 
 type ExtendableTypes =
-    | 'CellData';
+    | 'Cells';
 
 export interface CustomTypes {
     [key: string]: unknown;

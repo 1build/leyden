@@ -6,8 +6,8 @@ export const CSICell: CellRenderer<'CSI'> = ({
     children,
 }) => {
     return (
-        <span {...attributes} style={{ backgroundColor: 'purple' }}>
+        <div {...attributes} style={{ backgroundColor: 'purple' }}>
             {children}
-        </span>
+        </div>
     );
 };

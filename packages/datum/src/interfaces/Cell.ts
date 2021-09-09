@@ -1,4 +1,4 @@
-import { Element } from 'slate';
+import { Descendant, Element, Text } from 'slate';
 
 import { ExtendedType } from './CustomTypes';
 import {
@@ -11,24 +11,23 @@ export interface DatumCell<T extends string> {
     cellType: T,
 }
 
-export type BaseCellData = {
-    default: null;
+export type BaseCells = {
+    default: [Text];
 }
 
-type AllCellData =
-    ExtendedType<'CellData', BaseCellData> extends infer U
-        ? U extends Record<string, unknown>
+export type Cells =
+    ExtendedType<'Cells', BaseCells> extends infer U
+        ? U extends Record<string, Descendant[]>
             ? U
-            : BaseCellData
-        : BaseCellData;
+            : BaseCells
+        : BaseCells;
 
-export type CellType = Distribute<keyof AllCellData>;
+export type CellType = Distribute<keyof Cells>;
 
-export type CellData<T extends CellType> = AllCellData[T];
+export type CellChildren<T extends CellType> = Cells[T];
 
-export interface Cell<T extends CellType> extends TypedElement<ElementType.Cell> {
+export interface Cell<T extends CellType> extends TypedElement<ElementType.Cell, CellChildren<T>> {
     cellType: T;
-    data: CellData<T>;
 }
 
 export const Cell = {

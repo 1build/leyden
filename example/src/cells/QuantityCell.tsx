@@ -6,8 +6,8 @@ export const QuantityCell: CellRenderer<'Quantity'> = ({
     children,
 }) => {
     return (
-        <span {...attributes} style={{ backgroundColor: 'red' }}>
+        <div {...attributes} style={{ backgroundColor: 'red' }}>
             {children}
-        </span>
+        </div>
     );
 };
