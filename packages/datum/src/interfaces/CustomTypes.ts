@@ -7,7 +7,11 @@
 
 import { Descendant } from 'slate';
 
-import { DatumElementType, TypedElement } from '../types';
+import {
+    DatumElementType,
+    TypedElement,
+    TypedText,
+} from '../types';
 
 
 type ExtendableElementTypes =
@@ -15,7 +19,7 @@ type ExtendableElementTypes =
     | 'Cells';
 
 type ExtendableTextTypes =
-    | 'Texts';
+    | 'Text';
 
 type ExtendableTypes = 
     | ExtendableElementTypes
@@ -63,3 +67,10 @@ export type ExtendedElementType<
 > = R[T] extends { data: unknown }
     ? { subType: T; data: R[T]['data'] } & TypedElement<E, R[T]['children']>
     : { subType: T } & TypedElement<E, R[T]['children']>;
+
+export type ExtendedTextType<
+    T extends string,
+    R extends Record<T, ExtendedTextTypeEntry>
+> = R[T] extends { data: unknown }
+    ? { type: T; data: R[T]['data'] } & TypedText<R[T]['text']>
+    : { type: T } & TypedText<R[T]['text']>;

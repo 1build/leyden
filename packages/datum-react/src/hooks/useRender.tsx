@@ -1,36 +1,46 @@
 import React, { useCallback } from 'react';
 
 import { Element } from '../components/Element';
-import { Leaf } from '../components/Leaf';
-import { CellRenderers, ElementRenderers } from '../utils/types';
+import { Text } from '../components/Text';
+import {
+    CellRenderers,
+    ElementRenderers,
+    TextRenderers,
+} from '../utils/types';
 
 type ElementNoRenderers = Omit<Element, 'cellRenderers'|'elementRenderers'>;
+type TextNoRenderers = Omit<Text, 'textRenderers'>;
 
-interface useRenderProps {
+interface UseRenderProps {
     cellRenderers: CellRenderers,
     elementRenderers: ElementRenderers,
+    textRenderers: TextRenderers,
 }
 
 interface UseRenderPayload {
     renderElement: (rep: ElementNoRenderers) => JSX.Element;
-    renderLeaf: (rep: Leaf) => JSX.Element;
+    renderLeaf: (rep: TextNoRenderers) => JSX.Element;
 }
 
 export const useRender = ({
     cellRenderers,
     elementRenderers,
-}: useRenderProps): UseRenderPayload => {
+    textRenderers,
+}: UseRenderProps): UseRenderPayload => {
     const renderElement = useCallback((rep: ElementNoRenderers) => (
         <Element
             {...rep}
             cellRenderers={cellRenderers}
             elementRenderers={elementRenderers}
         />
-    ), [cellRenderers]);
+    ), [cellRenderers, elementRenderers]);
     
-    const renderLeaf = useCallback((rlp: Leaf) => (
-        <Leaf {...rlp} />
-    ), []);
+    const renderLeaf = useCallback((rlp: TextNoRenderers) => (
+        <Text
+            {...rlp}
+            textRenderers={textRenderers}
+        />
+    ), [textRenderers]);
 
     return {
         renderElement,

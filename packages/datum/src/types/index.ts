@@ -15,6 +15,12 @@ export interface TypedElement<T extends DatumElementType, C extends Descendant[]
 
 export type DatumElement = TypedElement<DatumElementType, Descendant[]>;
 
+export interface TypedText<T extends string> {
+    text: T;
+}
+
+export type DatumText = TypedText<string>;
+
 export enum Direction2D {
     Up,
     Right,
