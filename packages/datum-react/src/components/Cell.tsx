@@ -23,7 +23,7 @@ export const Cell: FC<Cell> = ({
     element,
     ...props
 }) => {
-    const CellFC = cellRenderers[element.cellType];
+    const CellFC = cellRenderers[element.subType];
 
     return (
         <CellFC {...props} element={element}>

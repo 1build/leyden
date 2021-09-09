@@ -6,7 +6,7 @@ export const QuantityCell: CellRenderer<'Quantity'> = ({
     children,
 }) => {
     return (
-        <div {...attributes} style={{ backgroundColor: 'red' }}>
+        <div {...attributes}>
             {children}
         </div>
     );

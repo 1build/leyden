@@ -1,5 +1,5 @@
 import { DatumEditor } from '../interfaces/DatumEditor';
-import { DatumElement } from '../interfaces/DatumElement';
+import { DatumElement } from '../types';
 
 declare module 'slate' {
     interface CustomTypes {

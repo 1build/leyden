@@ -2,16 +2,18 @@ import { Descendant } from 'slate';
 
 export * from './math';
 
-export enum ElementType {
+export enum DatumElementType {
     Cell,
-    Selection,
+    Element,
     Sheet,
 }
 
-export interface TypedElement<T extends ElementType, C extends Descendant[]=Descendant[]> {
+export interface TypedElement<T extends DatumElementType, C extends Descendant[]=Descendant[]> {
     type: T;
     children: C;
 }
+
+export type DatumElement = TypedElement<DatumElementType, Descendant[]>;
 
 export enum Direction2D {
     Up,
@@ -22,10 +24,14 @@ export enum Direction2D {
 
 /**
  * Distribute a type over its union.
- *
- * Can transform `keyof X` to a string union of the keys
  */
 export type Distribute<T> =
     T extends T
         ? T
         : never;
+
+/**
+ * Produce a keys union of a record indexed by strings.
+ */
+export type Keys<T extends Record<string, unknown>> =
+    Distribute<keyof T>;

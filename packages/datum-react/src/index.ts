@@ -1,4 +1,5 @@
 export { CellRenderer, CellRenderers } from './components/Cell';
+export { CustomElementRenderer, CustomElementRenderers } from './components/CustomElement';
 export { Datum } from './components/Datum';
 export { Editable } from './components/Editable';
 export { ReactEditor } from './plugin/ReactEditor';

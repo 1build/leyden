@@ -3,7 +3,7 @@ import { Element, Path } from 'slate';
 import { Cell, CellType } from './Cell';
 import { Coordinates } from './Coordinates';
 import {
-    ElementType,
+    DatumElementType,
     Multiply,
     TupleOf,
     TypedElement,
@@ -12,7 +12,7 @@ import {
 export interface Sheet<
     Cols extends number,
     Rows extends number,
-> extends TypedElement<ElementType.Sheet, TupleOf<Cell<CellType>, Multiply<Cols, Rows>>> {
+> extends TypedElement<DatumElementType.Sheet, TupleOf<Cell<CellType>, Multiply<Cols, Rows>>> {
     cols: Cols;
     rows: Rows;
     genColHeader?: (pos: number) => string;
@@ -111,7 +111,7 @@ export const Sheet = {
      */
 
     isSheet: (el: Element): el is Sheet<number, number> => (
-        el.type === ElementType.Sheet
+        el.type === DatumElementType.Sheet
     ),
 
     /**
