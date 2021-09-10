@@ -20,22 +20,18 @@ export const withLeyden = <
     );
 
     e.apply = op => {
-        if ((op.type === 'insert_text' && op.text.length > 0)
-            || op.type === 'remove_text'
+        if ((op.type === 'insert_text' || op.type === 'remove_text')
+            && op.text.length > 0
         ) {
-            const { offset, path, text } = op;
-            const textNode = Node.leaf(editor, path);
-            if (Text.isText(textNode) && textNode.validator !== undefined) {
-                if (op.type === 'insert_text') {
-                    const insertionIsValid = Text.validateInsertion(
-                        textNode,
-                        offset,
-                        text,
-                        e.getValidationFunc(textNode.validator)
-                    );
-                    if (!insertionIsValid) {
-                        return;
-                    }
+            const text = Node.leaf(editor, op.path);
+            if (Text.isText(text) && text.validator !== undefined) {
+                const isValid = Text.validateTextOperation(
+                    text,
+                    e.getValidationFunc(text.validator),
+                    op,
+                );
+                if (!isValid) {
+                    return;
                 }
             }
         }

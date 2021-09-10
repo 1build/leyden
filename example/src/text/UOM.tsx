@@ -16,6 +16,7 @@ export const UOM: TextRenderer<'UOM'> = ({
                 opacity: 0.8,
                 fontWeight: 600,
                 lineHeight: '14px',
+                userSelect: 'none',
             }}
         >
             {UOMString[text.text]}

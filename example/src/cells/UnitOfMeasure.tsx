@@ -8,6 +8,7 @@ export const UnitOfMeasure: CellRenderer<'UnitOfMeasure'> = ({
     return (
         <div
             {...attributes}
+            contentEditable={false}
             style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -16,7 +17,6 @@ export const UnitOfMeasure: CellRenderer<'UnitOfMeasure'> = ({
                 height: '3rem',
                 padding: '0 2.75rem 0 0.75rem',
             }}
-            contentEditable={false}
         >
             {children}
         </div>

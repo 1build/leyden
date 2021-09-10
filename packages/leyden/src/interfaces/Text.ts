@@ -1,5 +1,6 @@
 import {
     InsertTextOperation,
+    RemoveTextOperation,
     Text as SlateText,
 } from 'slate';
 
@@ -21,21 +22,29 @@ export const Text = {
         Reflect.has(text, 'type')
     ),
 
-    /**
-     * Return true if an insertion operation will not invalidate the text.
-     */
-
-    validateInsertion: (
+    validateTextOperation: (
         text: Text<TextType>,
-        offset: InsertTextOperation['offset'],
-        insertionText: InsertTextOperation['text'],
-        validator: ValidationFunc
+        validator: ValidationFunc,
+        operation: InsertTextOperation|RemoveTextOperation
     ): boolean => {
-        if (insertionText.length === 0) {
+        const {
+            offset,
+            text: opText,
+            type,
+        } = operation;
+        if (opText.length === 0) {
             return true;
         }
-        const before = text.text.slice(0, offset);
-        const after = text.text.slice(offset);
-        return validator(before + insertionText + after);
+        if (type === 'insert_text') {
+            return validator(
+                text.text.slice(0, offset)
+                + opText
+                + text.text.slice(offset)
+            );
+        }
+        return validator(
+            text.text.slice(0, offset)
+            + text.text.slice(offset + opText.length)
+        );
     },
 };
