@@ -1,6 +1,6 @@
 {
   "name": "chalkboard-react",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Tools for building Chalkboard tables with React",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
