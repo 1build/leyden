@@ -1,7 +1,7 @@
 {
   "name": "chalkboard-react",
   "version": "0.0.1",
-  "description": "React-specific logic for Chalkboard",
+  "description": "Tools for building Chalkboard tables with React",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
@@ -11,14 +11,11 @@
   "files": [
     "dist/"
   ],
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "Michael Darr",
   "license": "MIT",
   "devDependencies": {
-    "csx": "^10.0.2",
-    "esrever": "^0.2.0",
+    "csx": ">=10.0.2",
+    "esrever": ">=0.2.0",
     "react": ">=17.0.2",
     "react-dom": ">=17.0.2",
     "slate": ">=0.65.3",
@@ -27,11 +24,15 @@
     "typestyle": "^2.1.0"
   },
   "peerDependencies": {
+    "chalkboard": ">=0.0.1",
     "react": ">=17.0.2",
-    "react-dom": ">=17.0.2"
+    "react-dom": ">=17.0.2",
+    "slate": ">=0.65.3",
+    "slate-react": ">=0.65.3"
   },
   "umdGlobals": {
     "react": "React",
-    "chalkboard": "Chalkboard"
+    "chalkboard": "Chalkboard",
+    "slate": "Slate"
   }
 }
