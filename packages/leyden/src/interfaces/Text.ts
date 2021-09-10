@@ -22,6 +22,10 @@ export const Text = {
         Reflect.has(text, 'type')
     ),
 
+    /**
+     * Return true if the result of applying the an operation to a text is valid.
+     */
+
     validateTextOperation: (
         text: Text<TextType>,
         validator: ValidationFunc,
