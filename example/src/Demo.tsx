@@ -15,7 +15,7 @@ export const Demo: FC = () => {
     const editor = useMemo(() => (
         withHistory(
             withReact(
-                createEditor<3, 6>(validators)
+                createEditor<4, 6>(validators)
             )
         )
     ), []);

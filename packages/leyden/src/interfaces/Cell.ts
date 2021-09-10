@@ -5,6 +5,7 @@ import { LeydenElementType, Keys } from '../types';
 
 export type Cells = ExtendedType<'Cells'>;
 export type CellType = Keys<Cells>;
+
 export type Cell<T extends CellType> = ExtendedElementType<LeydenElementType.Cell, T, Cells>;
 
 export const Cell = {

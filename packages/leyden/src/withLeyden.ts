@@ -1,16 +1,8 @@
-import {
-    Node,
-    Editor,
-    Text as SlateText,
-} from 'slate';
+import { Node, Editor } from 'slate';
 
 import { LeydenEditor } from '.';
 import { Text } from './interfaces/Text';
-import {
-    ValidationFuncs,
-    ValidationFunc,
-    Validator,
-} from './interfaces/Validator';
+import { ValidationFuncs, Validator } from './interfaces/Validator';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const withLeyden = <
@@ -23,24 +15,27 @@ export const withLeyden = <
     const e = editor as unknown as LeydenEditor<Cols, Rows>;
     const { apply } = e;
 
-    const getValidationFunc = (validator: Validator): ValidationFunc => {
-        if (validator === 'integer') {
-            return Validator.isInteger;
-        }
-        if (validator === 'numeric') {
-            return Validator.isNumeric;
-        }
-        return validators[validator];
-    };
+    e.getValidationFunc = validator => (
+        Validator.getValidationFunc(validators, validator)
+    );
 
     e.apply = op => {
-        if (op.type === 'insert_text' || op.type === 'remove_text') {
-            const node = Node.descendant(editor, op.path);
-            if (SlateText.isText(node) && Text.isText(node) && node.validator !== undefined) {
-                const calcedNewVal = 'helloWorld';
-                const validationSucceeded = getValidationFunc(node.validator)(calcedNewVal);
-                if (!validationSucceeded) {
-                    return;
+        if ((op.type === 'insert_text' && op.text.length > 0)
+            || op.type === 'remove_text'
+        ) {
+            const { offset, path, text } = op;
+            const textNode = Node.leaf(editor, path);
+            if (Text.isText(textNode) && textNode.validator !== undefined) {
+                if (op.type === 'insert_text') {
+                    const insertionIsValid = Text.validateInsertion(
+                        textNode,
+                        offset,
+                        text,
+                        e.getValidationFunc(textNode.validator)
+                    );
+                    if (!insertionIsValid) {
+                        return;
+                    }
                 }
             }
         }

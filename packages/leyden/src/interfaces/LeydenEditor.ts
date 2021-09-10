@@ -4,8 +4,9 @@ import {
     Transforms,
 } from 'slate';
 
-import { Sheet } from './Sheet';
 import { Coordinates } from './Coordinates';
+import { Sheet } from './Sheet';
+import { ValidationFunc, Validator } from './Validator';
 import { Direction2D } from '../types';
 
 export interface LeydenEditor<
@@ -13,7 +14,7 @@ export interface LeydenEditor<
     Rows extends number,
 > extends Omit<BaseEditor, 'children'> {
     children: [Sheet<Cols, Rows>];
-    getSheet: (editor: LeydenEditor<Cols, Rows>) => Sheet<Cols, Rows>;
+    getValidationFunc: (validator: Validator) => ValidationFunc;
 }
 
 export const LeydenEditor = {

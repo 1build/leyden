@@ -16,11 +16,29 @@ export type ValidationFuncs = {
 export type Validator = Distribute<ExtraValidators|StandardValidators>;
 
 export interface ValidatorInterface {
+    getValidationFunc: (
+        validators: ValidationFuncs,
+        validator: Validator,
+    ) => ValidationFunc;
     isInteger: ValidationFunc;
     isNumeric: ValidationFunc;
 }
 
 export const Validator: ValidatorInterface = {
+    /**
+     * Returns the appropriate validation function for `validator`, pulling from `validators` if not defined here 
+     */
+
+    getValidationFunc: (validators, validator) => {
+        if (validator === 'integer') {
+            return Validator.isInteger;
+        }
+        if (validator === 'numeric') {
+            return Validator.isNumeric;
+        }
+        return validators[validator];
+    },
+
     /**
      * Returns `true` if `val` is an integer string ('' counts as 0)
      */
@@ -31,5 +49,5 @@ export const Validator: ValidatorInterface = {
      * Returns `true` if `val` is a numeric string.
      */
 
-    isNumeric: val => !isNaN(Number(val)),
+    isNumeric: val => !isNaN(Number(val.replaceAll(',', ''))),
 };

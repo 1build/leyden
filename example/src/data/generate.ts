@@ -26,6 +26,12 @@ const newUOMText = (text: UOM): Text<'UOM'> => ({
     text,
 });
 
+const newWholeDollarsText = (value: number): Text<'WholeDollars'> => ({
+    type: 'WholeDollars',
+    validator: 'integer',
+    text: value.toString(),
+});
+
 const newColorCodedCSIElement = (value: CSI): Element<'ColorCodedCSI'> => ({
     type: LeydenElementType.Element,
     subType: 'ColorCodedCSI',
@@ -44,6 +50,12 @@ const newQuantityCell = (value: number): Cell<'Quantity'> => ({
     children: [newDecimalText(value)],
 });
 
+const newTotalCell = (value: number): Cell<'Total'> => ({
+    type: LeydenElementType.Cell,
+    subType: 'Total',
+    children: [newWholeDollarsText(value)],
+});
+
 const newUnitOfMeasureCell = (value: UOM): Cell<'UnitOfMeasure'> => ({
     type: LeydenElementType.Cell,
     subType: 'UnitOfMeasure',
@@ -58,22 +70,24 @@ const genColHeader = (col: number): string => {
             return 'UOM';
         case 2:
             return 'CSI';
+        case 3:
+            return 'Total';
         default:
             return Sheet.genAlphabeticHeader(col);
     }
 };
 
-export const newSheet = (): Sheet<3, 6> => ({
+export const newSheet = (): Sheet<4, 6> => ({
     type: LeydenElementType.Sheet,
-    cols: 3,
+    cols: 4,
     rows: 6,
     genColHeader: genColHeader,
     children: [
-        newQuantityCell(1805.56), newUnitOfMeasureCell(UOM.SF), newCSICell(CSI.Div09),
-        newQuantityCell(84), newUnitOfMeasureCell(UOM.ManHour), newCSICell(CSI.Div09),
-        newQuantityCell(8), newUnitOfMeasureCell(UOM.Gallons), newCSICell(CSI.Div09),
-        newQuantityCell(2404.8), newUnitOfMeasureCell(UOM.SF), newCSICell(CSI.WoodAndPlastics),
-        newQuantityCell(1805.56), newUnitOfMeasureCell(UOM.SF), newCSICell(CSI.ThermalAndMoisture),
-        newQuantityCell(12), newUnitOfMeasureCell(UOM.Each), newCSICell(CSI.DoorsAndWindows),
+        newQuantityCell(1805.56), newUnitOfMeasureCell(UOM.SF), newCSICell(CSI.Div09), newTotalCell(15730),
+        newQuantityCell(84), newUnitOfMeasureCell(UOM.ManHour), newCSICell(CSI.Div09), newTotalCell(15730),
+        newQuantityCell(8), newUnitOfMeasureCell(UOM.Gallons), newCSICell(CSI.Div09), newTotalCell(15730),
+        newQuantityCell(2404.8), newUnitOfMeasureCell(UOM.SF), newCSICell(CSI.WoodAndPlastics), newTotalCell(15730),
+        newQuantityCell(1805.56), newUnitOfMeasureCell(UOM.SF), newCSICell(CSI.ThermalAndMoisture), newTotalCell(15730),
+        newQuantityCell(12), newUnitOfMeasureCell(UOM.Each), newCSICell(CSI.DoorsAndWindows), newTotalCell(15730),
     ],
 });
