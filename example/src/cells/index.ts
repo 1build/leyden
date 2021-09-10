@@ -2,12 +2,14 @@ import { CellRenderers } from 'leyden-react';
 
 import { CSI } from './CSI';
 import { Quantity } from './Quantity';
-import { Total } from './Total';
+import { Text } from './Text';
 import { UnitOfMeasure } from './UnitOfMeasure';
+import { WholeDollars } from './WholeDollars';
 
 export const cellRenderers: CellRenderers = {
     CSI,
     Quantity,
-    Total,
+    Text,
     UnitOfMeasure,
+    WholeDollars,
 };

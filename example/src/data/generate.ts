@@ -20,16 +20,24 @@ const newDecimalText = (value: number): Text<'Decimal'> => ({
     text: value.toString(),
 });
 
+const newTextText = (text: string): Text<'Text'> => ({
+    type: 'Text',
+    text,
+});
+
 const newUOMText = (text: UOM): Text<'UOM'> => ({
     type: 'UOM',
     validator: 'uom',
     text,
 });
 
+const wholeDollarsFormatter = new Intl.NumberFormat('en-US', {
+    style: 'decimal',
+});
 const newWholeDollarsText = (value: number): Text<'WholeDollars'> => ({
     type: 'WholeDollars',
     validator: 'integer',
-    text: value.toString(),
+    text: wholeDollarsFormatter.format(value),
 });
 
 const newColorCodedCSIElement = (value: CSI): Element<'ColorCodedCSI'> => ({
@@ -50,9 +58,15 @@ const newQuantityCell = (value: number): Cell<'Quantity'> => ({
     children: [newDecimalText(value)],
 });
 
-const newTotalCell = (value: number): Cell<'Total'> => ({
+const newTextCell = (value: string): Cell<'Text'> => ({
     type: LeydenElementType.Cell,
-    subType: 'Total',
+    subType: 'Text',
+    children: [newTextText(value)],
+});
+
+const newWholeDollarsCell = (value: number): Cell<'WholeDollars'> => ({
+    type: LeydenElementType.Cell,
+    subType: 'WholeDollars',
     children: [newWholeDollarsText(value)],
 });
 
@@ -65,29 +79,32 @@ const newUnitOfMeasureCell = (value: UOM): Cell<'UnitOfMeasure'> => ({
 const genColHeader = (col: number): string => {
     switch(col) {
         case 0:
-            return 'Quantity';
+            return 'Name';
         case 1:
-            return 'UOM';
+            return 'Quantity';
         case 2:
-            return 'CSI';
+            return 'UOM';
         case 3:
+            return 'CSI';
+        case 4:
             return 'Total';
         default:
             return Sheet.genAlphabeticHeader(col);
     }
 };
 
-export const newSheet = (): Sheet<4, 6> => ({
+/* eslint-disable max-len */
+export const newSheet = (): Sheet<5, 6> => ({
     type: LeydenElementType.Sheet,
-    cols: 4,
+    cols: 5,
     rows: 6,
     genColHeader: genColHeader,
     children: [
-        newQuantityCell(1805.56), newUnitOfMeasureCell(UOM.SF), newCSICell(CSI.Div09), newTotalCell(15730),
-        newQuantityCell(84), newUnitOfMeasureCell(UOM.ManHour), newCSICell(CSI.Div09), newTotalCell(15730),
-        newQuantityCell(8), newUnitOfMeasureCell(UOM.Gallons), newCSICell(CSI.Div09), newTotalCell(15730),
-        newQuantityCell(2404.8), newUnitOfMeasureCell(UOM.SF), newCSICell(CSI.WoodAndPlastics), newTotalCell(15730),
-        newQuantityCell(1805.56), newUnitOfMeasureCell(UOM.SF), newCSICell(CSI.ThermalAndMoisture), newTotalCell(15730),
-        newQuantityCell(12), newUnitOfMeasureCell(UOM.Each), newCSICell(CSI.DoorsAndWindows), newTotalCell(15730),
+        newTextCell('Drywall 5 X 8 sheet'), newQuantityCell(1805.56), newUnitOfMeasureCell(UOM.SF), newCSICell(CSI.Div09), newWholeDollarsCell(15730),
+        newTextCell('Drywall installer'), newQuantityCell(84), newUnitOfMeasureCell(UOM.ManHour), newCSICell(CSI.Div09), newWholeDollarsCell(7832),
+        newTextCell('50 gallon Sherwin Williams paint'), newQuantityCell(8), newUnitOfMeasureCell(UOM.Gallons), newCSICell(CSI.Div09), newWholeDollarsCell(25),
+        newTextCell('Hardwood Flooring'), newQuantityCell(2404.8), newUnitOfMeasureCell(UOM.SF), newCSICell(CSI.WoodAndPlastics), newWholeDollarsCell(2321987),
+        newTextCell('R9 Sound insulation'), newQuantityCell(1805.56), newUnitOfMeasureCell(UOM.SF), newCSICell(CSI.ThermalAndMoisture), newWholeDollarsCell(651876),
+        newTextCell('Pella 39 X 59 in Casement window'), newQuantityCell(12), newUnitOfMeasureCell(UOM.Each), newCSICell(CSI.DoorsAndWindows), newWholeDollarsCell(530),
     ],
 });

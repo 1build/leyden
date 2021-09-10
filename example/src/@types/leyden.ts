@@ -11,11 +11,14 @@ declare module 'leyden' {
             Quantity: {
                 children: [Text<'Decimal'>];
             };
-            Total: {
-                children: [Text<'WholeDollars'>]
+            Text: {
+                children: [Text<'Text'>];
             };
             UnitOfMeasure: {
                 children: [Text<'UOM'>];
+            };
+            WholeDollars: {
+                children: [Text<'WholeDollars'>]
             };
         };
         Elements: {
@@ -31,6 +34,9 @@ declare module 'leyden' {
             Decimal: {
                 text: string;
                 validator: 'numeric';
+            },
+            Text: {
+                text: string;
             },
             UOM: {
                 text: UOM;

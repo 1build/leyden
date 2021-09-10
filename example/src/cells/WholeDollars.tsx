@@ -1,7 +1,7 @@
 import { CellRenderer } from 'leyden-react';
 import React from 'react';
 
-export const Total: CellRenderer<'Total'> = ({
+export const WholeDollars: CellRenderer<'WholeDollars'> = ({
     attributes,
     children,
 }) => {
