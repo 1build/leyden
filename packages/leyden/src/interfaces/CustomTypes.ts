@@ -9,22 +9,14 @@ import { Descendant } from 'slate';
 
 import { Validator } from './Validator';
 import {
-    LeydenElementType,
     TypedElement,
     TypedText,
 } from '../types';
 
-
-type ExtendableElementTypes =
-    | 'Elements'
-    | 'Cells';
-
-type ExtendableTextTypes =
-    | 'Text';
-
 type ExtendableComponentTypes =
-    | ExtendableElementTypes
-    | ExtendableTextTypes;
+    | 'Cells'
+    | 'Elements'
+    | 'Text';
 
 type ExtendableExtraTypes =
     | 'Validator';
@@ -37,16 +29,16 @@ export interface CustomTypes {
     [key: string]: unknown;
 }
 
-export interface ExtendedElementTypeEntry {
+interface ExtendedElementTypeEntry {
     children: Descendant[];
     data?: unknown;
 }
 
-type ExtendedTextTypeEntry = {
+interface ExtendedTextTypeEntry {
     text: string;
     validator?: Validator;
     data?: unknown;
-};
+}
 
 type BaseExtendedTextTypeEntry = {
     text: string;
@@ -54,19 +46,17 @@ type BaseExtendedTextTypeEntry = {
 };
 
 type ExtendedComponentTypeEntry<T extends ExtendableComponentTypes> =
-    T extends ExtendableElementTypes
-        ? ExtendedElementTypeEntry
-        : T extends ExtendableTextTypes
-            ? ExtendedTextTypeEntry
-            : never;
+    T extends 'Text'
+        ? ExtendedTextTypeEntry
+        : ExtendedElementTypeEntry;
 
 type ExtendedComponentTypeEntries<T extends ExtendableComponentTypes> =
     Record<string, ExtendedComponentTypeEntry<T>>;
 
 type BaseExtendedComponentTypeEntries<T extends ExtendableComponentTypes> = {
-    default: T extends ExtendableTextTypes
+    default: T extends 'Text'
         ? BaseExtendedTextTypeEntry
-        : ExtendedComponentTypeEntry<T>
+        : ExtendedElementTypeEntry;
 };
 
 export type ExtendedType<T extends ExtendableTypes> =
@@ -82,25 +72,27 @@ export type ExtendedType<T extends ExtendableTypes> =
                 : never
         : never;
 
-export type ExtendedElementType<
-    E extends LeydenElementType,
+type ExtractDataProp<T extends ExtendedElementTypeEntry|ExtendedTextTypeEntry> =
+    T extends { data: infer D }
+        ? D
+        : Record<string, unknown>;
+
+export type ExtendedCellType<
     T extends string,
     R extends Record<T, ExtendedElementTypeEntry>
-> = R[T] extends { data: unknown }
-    ? { subType: T; data: R[T]['data'] } & TypedElement<E, R[T]['children']>
-    : { subType: T } & TypedElement<E, R[T]['children']>;
+> = { type: 'cell'; cellType: T } & ExtractDataProp<R[T]> & TypedElement<R[T]['children']>;
+
+export type ExtendedElementsType<
+    T extends string,
+    R extends Record<T, ExtendedElementTypeEntry>
+> = { type: T } & ExtractDataProp<R[T]> & TypedElement<R[T]['children']>;
 
 export type ExtractTextValidator<T extends ExtendedTextTypeEntry> =
     T extends { validator: Validator }
         ? { validator: T['validator'] }
         : Record<string, unknown>;
 
-export type ExtractTextData<T extends ExtendedTextTypeEntry> =
-    T extends { data: infer D }
-        ? D
-        : Record<string, unknown>;
-
 export type ExtendedTextType<
     T extends string,
     R extends Record<T, ExtendedTextTypeEntry>
-> = { type: T } & ExtractTextData<R[T]> & ExtractTextValidator<R[T]> & TypedText<R[T]['text']>;
+> = { type: T } & ExtractDataProp<R[T]> & ExtractTextValidator<R[T]> & TypedText<R[T]['text']>;

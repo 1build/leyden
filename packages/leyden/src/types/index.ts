@@ -2,18 +2,11 @@ import { Descendant } from 'slate';
 
 export * from './math';
 
-export enum LeydenElementType {
-    Cell,
-    Element,
-    Sheet,
-}
-
-export interface TypedElement<T extends LeydenElementType, C extends Descendant[]=Descendant[]> {
-    type: T;
+export interface TypedElement<C extends Descendant[]=Descendant[]> {
     children: C;
 }
 
-export type LeydenElement = TypedElement<LeydenElementType, Descendant[]>;
+export type LeydenElement = TypedElement<Descendant[]>;
 
 export interface TypedText<T extends string> {
     text: T;

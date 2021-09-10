@@ -1,19 +1,20 @@
-import { Element as SlateElement } from 'slate';
+import { Cell, CellType } from './Cell';
+import { ExtendedElementsType, ExtendedType } from './CustomTypes';
+import { Distribute, Keys } from '../types';
 
-import { ExtendedElementType, ExtendedType } from './CustomTypes';
-import { LeydenElementType, Keys } from '../types';
+export type ExternalElements = ExtendedType<'Elements'>;
+export type ExternalElementType = Keys<ExternalElements>;
 
-export type Elements = ExtendedType<'Elements'>;
-export type ElementType = Keys<Elements>;
+type InternalElements = {
+    cell: Cell<CellType>;
+}
+type InternalElementType =
+    | 'cell';
 
-export type Element<T extends ElementType> = ExtendedElementType<LeydenElementType.Element, T, Elements>;
+export type Elements = ExternalElements&InternalElements;
+export type ElementType = Distribute<ExternalElementType|InternalElementType>
+
+export type Element<T extends ElementType> = ExtendedElementsType<T, Elements>;
 
 export const Element = {
-    /**
-     * Check if an element is an `Element`.
-     */
-
-    isElement: (el: SlateElement): el is Element<ElementType> => (
-        el.type === LeydenElementType.Element
-    ),
 };

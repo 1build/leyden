@@ -2,7 +2,6 @@ export * from './interfaces/Cell';
 export * from './interfaces/CustomTypes';
 export * from './interfaces/LeydenEditor';
 export * from './interfaces/Element';
-export * from './interfaces/Sheet';
 export * from './interfaces/Text';
 export * from './interfaces/Validator';
 export * from './createEditor';

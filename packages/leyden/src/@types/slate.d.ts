@@ -1,11 +1,12 @@
 import { LeydenEditor } from '../interfaces/LeydenEditor';
+import { Element, ElementType } from '../interfaces/Element';
 
-import { LeydenElement, LeydenText } from '../types';
+import { LeydenText } from '../types';
 
 declare module 'slate' {
     interface CustomTypes {
         Editor: LeydenEditor<number, number>;
-        Element: LeydenElement;
+        Element: Element<ElementType>;
         Text: LeydenText;
     }
 }
