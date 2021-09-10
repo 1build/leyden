@@ -1,4 +1,4 @@
-import { TextRenderer } from 'chalkboard-react';
+import { TextRenderer } from 'leyden-react';
 import React from 'react';
 
 import { CSIString } from '../types';

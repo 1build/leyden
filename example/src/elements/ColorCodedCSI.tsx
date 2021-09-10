@@ -1,4 +1,4 @@
-import { ElementRenderer } from 'chalkboard-react';
+import { ElementRenderer } from 'leyden-react';
 import React from 'react';
 
 import { CSIColor } from '../types';

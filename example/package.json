@@ -1,30 +1,30 @@
 {
-  "name": "chalkboard-example",
+  "name": "leyden-example",
   "version": "0.0.1",
-  "description": "An example of chalkboard's functionality",
+  "description": "An example of leyden's functionality",
   "main": "src/index.tsx",
   "scripts": {
     "lint": "./scripts/lint.sh",
     "start": "node ./scripts/build.js",
-    "refreshChalkboard": "yarn add ../packages/chalkboard ../packages/chalkboard-react"
+    "refreshLeyden": "yarn add ../packages/leyden ../packages/leyden-react"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/1build/chalkboard.git"
+    "url": "git+ssh://git@github.com/1build/leyden.git"
   },
   "author": "Michael Darr",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/1build/chalkboard/issues"
+    "url": "https://github.com/1build/leyden/issues"
   },
-  "homepage": "https://github.com/1build/chalkboard#readme",
+  "homepage": "https://github.com/1build/leyden#readme",
   "dependencies": {
     "@types/react": "^17.0.19",
     "@types/react-dom": "^17.0.9",
     "@typescript-eslint/eslint-plugin": "^4.29.3",
     "@typescript-eslint/parser": "^4.29.3",
-    "chalkboard": "../packages/chalkboard",
-    "chalkboard-react": "../packages/chalkboard-react",
+    "leyden": "../packages/leyden",
+    "leyden-react": "../packages/leyden-react",
     "esbuild": "^0.12.22",
     "eslint": "^7.32.0",
     "eslint-plugin-react": "^7.24.0",

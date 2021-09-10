@@ -1,4 +1,4 @@
-import { CellRenderer } from 'chalkboard-react';
+import { CellRenderer } from 'leyden-react';
 import React from 'react';
 
 export const CSI: CellRenderer<'CSI'> = ({

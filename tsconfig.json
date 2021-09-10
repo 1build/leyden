@@ -1,7 +1,7 @@
 {
     "files": [],
     "references": [
-        { "path": "./packages/chalkboard" },
-        { "path": "./packages/chalkboard-react" }
+        { "path": "./packages/leyden" },
+        { "path": "./packages/leyden-react" }
     ]
 }

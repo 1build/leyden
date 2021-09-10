@@ -1,4 +1,4 @@
-import { CellRenderers } from 'chalkboard-react';
+import { CellRenderers } from 'leyden-react';
 
 import { CSI } from './CSI';
 import { Quantity } from './Quantity';

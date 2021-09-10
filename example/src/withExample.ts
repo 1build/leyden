@@ -1,6 +1,6 @@
 import { Editor, Node, Text as SlateText } from 'slate';
 
-import { Text } from 'chalkboard';
+import { Text } from 'leyden';
 
 export const withExample = <T extends Editor>(editor: T): T => {
     const { apply } = editor;

@@ -1,5 +1,5 @@
-import { createEditor } from 'chalkboard';
-import { Chalkboard, Editable, withReact } from 'chalkboard-react';
+import { createEditor } from 'leyden';
+import { Leyden, Editable, withReact } from 'leyden-react';
 import React, { FC, useMemo, useState } from 'react';
 import { withHistory } from 'slate-history';
 
@@ -23,7 +23,7 @@ export const Demo: FC = () => {
     ), []);
 
     return (
-        <Chalkboard
+        <Leyden
             editor={editor}
             value={descendants}
             onChange={setDescendants}
@@ -33,6 +33,6 @@ export const Demo: FC = () => {
                 elementRenderers={elementRenderers}
                 textRenderers={textRenderers}
             />
-        </Chalkboard>
+        </Leyden>
     );
 };

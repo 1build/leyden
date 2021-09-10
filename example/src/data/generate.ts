@@ -1,10 +1,10 @@
 import {
     Cell,
     Element,
-    ChalkboardElementType,
+    LeydenElementType,
     Sheet,
     Text,
-} from 'chalkboard';
+} from 'leyden';
 
 import { CSI, UOM } from '../types';
 
@@ -27,25 +27,25 @@ const newUOMText = (text: UOM): Text<'UOM'> => ({
 });
 
 const newColorCodedCSIElement = (value: CSI): Element<'ColorCodedCSI'> => ({
-    type: ChalkboardElementType.Element,
+    type: LeydenElementType.Element,
     subType: 'ColorCodedCSI',
     children: [newCSIText(value)],
 });
 
 const newCSICell = (value: CSI): Cell<'CSI'> => ({
-    type: ChalkboardElementType.Cell,
+    type: LeydenElementType.Cell,
     subType: 'CSI',
     children: [newColorCodedCSIElement(value)],
 });
 
 const newQuantityCell = (value: number): Cell<'Quantity'> => ({
-    type: ChalkboardElementType.Cell,
+    type: LeydenElementType.Cell,
     subType: 'Quantity',
     children: [newDecimalText(value)],
 });
 
 const newUnitOfMeasureCell = (value: UOM): Cell<'UnitOfMeasure'> => ({
-    type: ChalkboardElementType.Cell,
+    type: LeydenElementType.Cell,
     subType: 'UnitOfMeasure',
     children: [newUOMText(value)],
 });
@@ -64,7 +64,7 @@ const genColHeader = (col: number): string => {
 };
 
 export const newSheet = (): Sheet<3, 6> => ({
-    type: ChalkboardElementType.Sheet,
+    type: LeydenElementType.Sheet,
     cols: 3,
     rows: 6,
     genColHeader: genColHeader,

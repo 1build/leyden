@@ -1,4 +1,4 @@
-import { ElementRenderers } from 'chalkboard-react';
+import { ElementRenderers } from 'leyden-react';
 
 import { ColorCodedCSI } from './ColorCodedCSI';
 

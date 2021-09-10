@@ -1,4 +1,4 @@
-import { TextRenderers } from 'chalkboard-react';
+import { TextRenderers } from 'leyden-react';
 
 import { CSI } from './CSI';
 import { Decimal } from './Decimal';

@@ -93,9 +93,9 @@ const writeIndex = () => new Promise((res, rej) => fs.writeFile(INDEX_PATH, `<!D
     <meta name="theme-color" content="#000000" />
     <meta
         name="description"
-        content="chalkboard"
+        content="leyden"
     />
-    <title>chalkboard</title>
+    <title>leyden</title>
     <link rel="icon" href="/${FAVICON_NAME}">
     <script>
         document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] +
