@@ -5,11 +5,13 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "npm run build:rollup",
+    "build": "yarn build:rollup",
     "build:rollup": "rollup --config ./config/rollup/rollup.config.js",
-    "lint": "npm run lint:eslint && npm run lint:typescript",
+    "lint": "yarn lint:eslint && yarn lint:typescript",
     "lint:eslint": "eslint \"./{packages,proto}/**/*.{js,jsx,ts,tsx}\"",
-    "lint:typescript": "tsc --build ./ --force"
+    "lint:typescript": "tsc --build ./ --force",
+    "prerelease": "NODE_ENV=production yarn build:rollup && yarn lint",
+    "release:next": "yarn prerelease && lerna publish --dist-tag next --force-publish"
   },
   "author": "Michael Darr",
   "license": "MIT",
@@ -38,6 +40,7 @@
     "chalkboard-react": "workspace:*",
     "eslint": "^7.32.0",
     "eslint-plugin-react": "^7.25.1",
+    "lerna": "^4.0.0",
     "lodash": "^4.17.21",
     "react": "^17.0.2",
     "rollup": "^2.56.3",
@@ -54,5 +57,6 @@
     "slate-react": "^0.65.3",
     "source-map-loader": "^3.0.0",
     "typescript": "^4.4.2"
-  }
+  },
+  "packageManager": "yarn@3.0.1"
 }
