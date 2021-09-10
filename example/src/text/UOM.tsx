@@ -1,4 +1,4 @@
-import { TextRenderer } from 'datum-react';
+import { TextRenderer } from 'chalkboard-react';
 import React from 'react';
 
 import { UOMString } from '../types';

@@ -1,4 +1,4 @@
-import { ElementRenderers } from 'datum-react';
+import { ElementRenderers } from 'chalkboard-react';
 
 import { ColorCodedCSI } from './ColorCodedCSI';
 

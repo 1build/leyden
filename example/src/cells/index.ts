@@ -1,4 +1,4 @@
-import { CellRenderers } from 'datum-react';
+import { CellRenderers } from 'chalkboard-react';
 
 import { CSI } from './CSI';
 import { Quantity } from './Quantity';

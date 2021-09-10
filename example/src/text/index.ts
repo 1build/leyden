@@ -1,4 +1,4 @@
-import { TextRenderers } from 'datum-react';
+import { TextRenderers } from 'chalkboard-react';
 
 import { CSI } from './CSI';
 import { Decimal } from './Decimal';

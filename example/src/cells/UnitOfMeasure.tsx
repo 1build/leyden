@@ -1,4 +1,4 @@
-import { CellRenderer } from 'datum-react';
+import { CellRenderer } from 'chalkboard-react';
 import React from 'react';
 
 export const UnitOfMeasure: CellRenderer<'UnitOfMeasure'> = ({

@@ -1,0 +1,26 @@
+{
+  "name": "chalkboard",
+  "version": "0.0.1",
+  "description": "Editable data tables powered by Slate",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
+  "umd": "dist/chalkboard-react.js",
+  "umdMin": "dist/chalkboard-react.min.js",
+  "sideEffects": false,
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1build/chalkboard.git"
+  },
+  "author": "Michael Darr",
+  "license": "MIT",
+  "dependencies": {
+    "slate": "^0.65.3"
+  }
+}

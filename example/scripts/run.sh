@@ -10,7 +10,7 @@ script_dir="$(dirname "$(realpath "$0")")"
 cd $script_dir/..
 
 # Build docker image
-docker build -t datum/proto:1.0 .
+docker build -t chalkboard/proto:1.0 .
 
 # Run a dockerized command
-docker run -v `pwd`:/mnt -p 8081:8081 -p 35729:35729 --network host -i datum/proto:1.0 $@
+docker run -v `pwd`:/mnt -p 8081:8081 -p 35729:35729 --network host -i chalkboard/proto:1.0 $@

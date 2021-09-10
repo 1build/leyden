@@ -1,8 +1,8 @@
-# Datum
+# Chalkboard
 
 Editable data tables powered by Slate
 
-![](https://github.com/1build/datum/workflows/Lint/badge.svg)
+![](https://github.com/1build/chalkboard/workflows/Lint/badge.svg)
 
 ## Build
 

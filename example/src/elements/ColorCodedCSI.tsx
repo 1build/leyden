@@ -1,4 +1,4 @@
-import { ElementRenderer } from 'datum-react';
+import { ElementRenderer } from 'chalkboard-react';
 import React from 'react';
 
 import { CSIColor } from '../types';

@@ -411,10 +411,10 @@ csstype@^3.0.2:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.0.8.tgz#d2266a792729fb227cd216fb572f43728e1ad340"
   integrity sha512-jXKhWqXPmlUeoQnF/EhTtTl4C9SnrxSH/jZUih3jmO6lBKr99rP3/+FmrMj4EFpOXzMtXHAZkd3x0E6h6Fgflw==
 
-datum-react@../packages/datum-react:
+chalkboard-react@../packages/chalkboard-react:
   version "0.0.1"
 
-datum@../packages/datum:
+chalkboard@../packages/chalkboard:
   version "0.0.1"
   dependencies:
     slate "^0.65.3"

@@ -1,30 +1,30 @@
 {
-  "name": "datum-example",
+  "name": "chalkboard-example",
   "version": "0.0.1",
-  "description": "An example of datum's functionality",
+  "description": "An example of chalkboard's functionality",
   "main": "src/index.tsx",
   "scripts": {
     "lint": "./scripts/lint.sh",
     "start": "node ./scripts/build.js",
-    "refreshDatum": "yarn add ../packages/datum ../packages/datum-react"
+    "refreshChalkboard": "yarn add ../packages/chalkboard ../packages/chalkboard-react"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/1build/datum.git"
+    "url": "git+ssh://git@github.com/1build/chalkboard.git"
   },
   "author": "Michael Darr",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/1build/datum/issues"
+    "url": "https://github.com/1build/chalkboard/issues"
   },
-  "homepage": "https://github.com/1build/datum#readme",
+  "homepage": "https://github.com/1build/chalkboard#readme",
   "dependencies": {
     "@types/react": "^17.0.19",
     "@types/react-dom": "^17.0.9",
     "@typescript-eslint/eslint-plugin": "^4.29.3",
     "@typescript-eslint/parser": "^4.29.3",
-    "datum": "../packages/datum",
-    "datum-react": "../packages/datum-react",
+    "chalkboard": "../packages/chalkboard",
+    "chalkboard-react": "../packages/chalkboard-react",
     "esbuild": "^0.12.22",
     "eslint": "^7.32.0",
     "eslint-plugin-react": "^7.24.0",

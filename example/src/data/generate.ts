@@ -1,10 +1,10 @@
 import {
     Cell,
     Element,
-    DatumElementType,
+    ChalkboardElementType,
     Sheet,
     Text,
-} from 'datum';
+} from 'chalkboard';
 
 import { CSI, UOM } from '../types';
 
@@ -27,25 +27,25 @@ const newUOMText = (text: UOM): Text<'UOM'> => ({
 });
 
 const newColorCodedCSIElement = (value: CSI): Element<'ColorCodedCSI'> => ({
-    type: DatumElementType.Element,
+    type: ChalkboardElementType.Element,
     subType: 'ColorCodedCSI',
     children: [newCSIText(value)],
 });
 
 const newCSICell = (value: CSI): Cell<'CSI'> => ({
-    type: DatumElementType.Cell,
+    type: ChalkboardElementType.Cell,
     subType: 'CSI',
     children: [newColorCodedCSIElement(value)],
 });
 
 const newQuantityCell = (value: number): Cell<'Quantity'> => ({
-    type: DatumElementType.Cell,
+    type: ChalkboardElementType.Cell,
     subType: 'Quantity',
     children: [newDecimalText(value)],
 });
 
 const newUnitOfMeasureCell = (value: UOM): Cell<'UnitOfMeasure'> => ({
-    type: DatumElementType.Cell,
+    type: ChalkboardElementType.Cell,
     subType: 'UnitOfMeasure',
     children: [newUOMText(value)],
 });
@@ -64,7 +64,7 @@ const genColHeader = (col: number): string => {
 };
 
 export const newSheet = (): Sheet<3, 6> => ({
-    type: DatumElementType.Sheet,
+    type: ChalkboardElementType.Sheet,
     cols: 3,
     rows: 6,
     genColHeader: genColHeader,

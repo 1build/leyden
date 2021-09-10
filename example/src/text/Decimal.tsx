@@ -1,4 +1,4 @@
-import { TextRenderer } from 'datum-react';
+import { TextRenderer } from 'chalkboard-react';
 import React from 'react';
 
 export const Decimal: TextRenderer<'Decimal'> = ({

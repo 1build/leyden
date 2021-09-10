@@ -13,8 +13,8 @@ import typescript from 'rollup-plugin-typescript2';
 import { terser } from 'rollup-plugin-terser';
 import { startCase } from 'lodash';
 
-import Core from '../../packages/datum/package.json';
-import React from '../../packages/datum-react/package.json';
+import Core from '../../packages/chalkboard/package.json';
+import React from '../../packages/chalkboard-react/package.json';
 
 /**
  * Return a Rollup configuration for a `pkg` with `env` and `target`.
