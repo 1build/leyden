@@ -7,17 +7,15 @@ import { cellRenderers } from './cells';
 import { newSheet } from './data/generate';
 import { elementRenderers } from './elements';
 import { textRenderers } from './text';
-import { withExample } from './withExample';
+import { validators } from './data/validators';
 
 export const Demo: FC = () => {
     const [descendants, setDescendants] = useState(newSheet());
 
     const editor = useMemo(() => (
-        withExample(
-            withHistory(
-                withReact(
-                    createEditor<3, 6>()
-                )
+        withHistory(
+            withReact(
+                createEditor<3, 6>(validators)
             )
         )
     ), []);

@@ -48,6 +48,11 @@ type ExtendedTextTypeEntry = {
     data?: unknown;
 };
 
+type BaseExtendedTextTypeEntry = {
+    text: string;
+    validator: 'numeric';
+};
+
 type ExtendedComponentTypeEntry<T extends ExtendableComponentTypes> =
     T extends ExtendableElementTypes
         ? ExtendedElementTypeEntry
@@ -59,7 +64,9 @@ type ExtendedComponentTypeEntries<T extends ExtendableComponentTypes> =
     Record<string, ExtendedComponentTypeEntry<T>>;
 
 type BaseExtendedComponentTypeEntries<T extends ExtendableComponentTypes> = {
-    default: ExtendedComponentTypeEntry<T>
+    default: T extends ExtendableTextTypes
+        ? BaseExtendedTextTypeEntry
+        : ExtendedComponentTypeEntry<T>
 };
 
 export type ExtendedType<T extends ExtendableTypes> =
@@ -71,8 +78,8 @@ export type ExtendedType<T extends ExtendableTypes> =
             : T extends 'Validator'
                 ? K extends string
                     ? K
-                    : 1
-                : 2
+                    : never
+                : never
         : never;
 
 export type ExtendedElementType<
