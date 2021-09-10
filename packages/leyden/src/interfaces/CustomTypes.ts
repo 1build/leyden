@@ -4,8 +4,7 @@
  * Adapted from Slate's custom types:
  * https://github.com/ianstormtaylor/slate/blob/f5c0cbd7ecc016c970d4448f29111340fc235e7b/packages/slate/src/interfaces/custom-types.ts
  */
-
-import { Descendant } from 'slate';
+import { Descendant, Text } from 'slate';
 
 import { Validator } from './Validator';
 import {
@@ -29,14 +28,26 @@ export interface CustomTypes {
     [key: string]: unknown;
 }
 
+export type DescendantWithoutCells =
+    Descendant extends infer U
+        ? U extends { type: 'cell' }
+            ? never
+            : U
+        : never;
+
 interface ExtendedElementTypeEntry {
-    children: Descendant[];
+    children: DescendantWithoutCells[];
     data?: unknown;
 }
 
 interface ExtendedTextTypeEntry {
     text: string;
     validator?: Validator;
+    data?: unknown;
+}
+
+interface BaseExtendedElementTypeEntry {
+    children: Text[];
     data?: unknown;
 }
 
@@ -56,7 +67,7 @@ type ExtendedComponentTypeEntries<T extends ExtendableComponentTypes> =
 type BaseExtendedComponentTypeEntries<T extends ExtendableComponentTypes> = {
     default: T extends 'Text'
         ? BaseExtendedTextTypeEntry
-        : ExtendedElementTypeEntry;
+        : BaseExtendedElementTypeEntry;
 };
 
 export type ExtendedType<T extends ExtendableTypes> =
