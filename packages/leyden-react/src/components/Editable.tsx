@@ -31,6 +31,7 @@ export const Editable: FC<Editable> = ({
     ...props
 }) => {
     const editor = useSlateStatic();
+
     const render = useRender({
         cellRenderers,
         elementRenderers,
@@ -50,6 +51,7 @@ export const Editable: FC<Editable> = ({
             return;
         }
     }, [onKeyDown]);
+
 
     return (
         <SlateReactEditable

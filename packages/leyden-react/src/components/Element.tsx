@@ -1,19 +1,15 @@
-import {
-    Cell,
-    LeydenElement,
-    Element as LeydenCustomElement,
-    Sheet as LeydenSheet,
-} from 'leyden';
+import { Cell, Table as LeydenTable } from 'leyden';
 import React, { FC } from 'react';
+import { Element as SlateElement } from 'slate';
 import { RenderElementProps } from 'slate-react';
 
-import { Sheet } from './Sheet';
+import { Table } from './Table';
 import { CellRenderers, ElementRenderers } from '../utils/types';
 
 export interface Element extends Omit<RenderElementProps, 'element'> {
     cellRenderers: CellRenderers;
     elementRenderers: ElementRenderers;
-    element: LeydenElement;
+    element: SlateElement;
 }
 
 export const Element: FC<Element> = ({
@@ -24,7 +20,7 @@ export const Element: FC<Element> = ({
     element,
 }) => {
     if (Cell.isCell(element)) {
-        const CellFC = cellRenderers[element.subType];
+        const CellFC = cellRenderers[element.cellType];
         return (
             <CellFC
                 attributes={attributes}
@@ -34,33 +30,25 @@ export const Element: FC<Element> = ({
             </CellFC>
         );
     }
-
-    if (LeydenCustomElement.isElement(element)) {
-        const ElementFC = elementRenderers[element.subType];
+    
+    if (LeydenTable.isTable(element)) {
         return (
-            <ElementFC
+            <Table
                 attributes={attributes}
                 element={element}
             >
                 {children}
-            </ElementFC>
+            </Table>
         );
     }
 
-    if (LeydenSheet.isSheet(element)) {
-        return (
-            <Sheet
-                attributes={attributes}
-                element={element}
-            >
-                {children}
-            </Sheet>
-        );
-    }
-
+    const ElementFC = elementRenderers[element.type];
     return (
-        <div {...attributes}>
+        <ElementFC
+            attributes={attributes}
+            element={element}
+        >
             {children}
-        </div>
+        </ElementFC>
     );
 };

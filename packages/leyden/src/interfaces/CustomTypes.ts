@@ -7,10 +7,6 @@
 import { Descendant, Text } from 'slate';
 
 import { Validator } from './Validator';
-import {
-    TypedElement,
-    TypedText,
-} from '../types';
 
 type ExtendableComponentTypes =
     | 'Cells'
@@ -28,15 +24,8 @@ export interface CustomTypes {
     [key: string]: unknown;
 }
 
-export type DescendantWithoutCells =
-    Descendant extends infer U
-        ? U extends { type: 'cell' }
-            ? never
-            : U
-        : never;
-
 interface ExtendedElementTypeEntry {
-    children: DescendantWithoutCells[];
+    children: Descendant[];
     data?: unknown;
 }
 
@@ -91,12 +80,12 @@ type ExtractDataProp<T extends ExtendedElementTypeEntry|ExtendedTextTypeEntry> =
 export type ExtendedCellType<
     T extends string,
     R extends Record<T, ExtendedElementTypeEntry>
-> = { type: 'cell'; cellType: T } & ExtractDataProp<R[T]> & TypedElement<R[T]['children']>;
+> = { type: 'cell'; cellType: T } & ExtractDataProp<R[T]> & { children: R[T]['children'] };
 
 export type ExtendedElementsType<
     T extends string,
     R extends Record<T, ExtendedElementTypeEntry>
-> = { type: T } & ExtractDataProp<R[T]> & TypedElement<R[T]['children']>;
+> = { type: T } & ExtractDataProp<R[T]> & { children: R[T]['children'] };
 
 export type ExtractTextValidator<T extends ExtendedTextTypeEntry> =
     T extends { validator: Validator }
@@ -106,4 +95,4 @@ export type ExtractTextValidator<T extends ExtendedTextTypeEntry> =
 export type ExtendedTextType<
     T extends string,
     R extends Record<T, ExtendedTextTypeEntry>
-> = { type: T } & ExtractDataProp<R[T]> & ExtractTextValidator<R[T]> & TypedText<R[T]['text']>;
+> = { type: T } & ExtractDataProp<R[T]> & ExtractTextValidator<R[T]> & { text: R[T]['text'] };

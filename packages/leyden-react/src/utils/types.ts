@@ -2,7 +2,7 @@ import {
     Cell,
     CellType,
     Element,
-    ElementType,
+    ExternalElementType,
     Text,
     TextType,
 } from 'leyden';
@@ -12,14 +12,14 @@ import {
     RenderLeafProps,
 } from 'slate-react';
 
-export interface RenderElementProps<T extends ElementType> extends Omit<RenderSlateElementProps, 'element'> {
+export interface RenderElementProps<T extends ExternalElementType> extends Omit<RenderSlateElementProps, 'element'> {
     element: Element<T>;
 }
 
-export type ElementRenderer<T extends ElementType> = FC<RenderElementProps<T>>;
+export type ElementRenderer<T extends ExternalElementType> = FC<RenderElementProps<T>>;
 
 export type ElementRenderers = {
-    [T in ElementType]: ElementRenderer<T>;
+    [T in ExternalElementType]: ElementRenderer<T>;
 };
 
 export interface RenderCellProps<T extends CellType> extends Omit<RenderSlateElementProps, 'element'> {

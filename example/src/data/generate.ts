@@ -1,10 +1,4 @@
-import {
-    Cell,
-    Element,
-    LeydenElementType,
-    Sheet,
-    Text,
-} from 'leyden';
+import { Cell, Element, Table, Text } from 'leyden';
 
 import { CSI, UOM } from '../types';
 
@@ -41,42 +35,41 @@ const newWholeDollarsText = (value: number): Text<'WholeDollars'> => ({
 });
 
 const newColorCodedCSIElement = (value: CSI): Element<'ColorCodedCSI'> => ({
-    type: LeydenElementType.Element,
-    subType: 'ColorCodedCSI',
+    type: 'ColorCodedCSI',
     children: [newCSIText(value)],
 });
 
 const newCSICell = (value: CSI): Cell<'CSI'> => ({
-    type: LeydenElementType.Cell,
-    subType: 'CSI',
+    type: 'cell',
+    cellType: 'CSI',
     children: [newColorCodedCSIElement(value)],
 });
 
 const newQuantityCell = (value: number): Cell<'Quantity'> => ({
-    type: LeydenElementType.Cell,
-    subType: 'Quantity',
+    type: 'cell',
+    cellType: 'Quantity',
     children: [newDecimalText(value)],
 });
 
 const newTextCell = (value: string): Cell<'Text'> => ({
-    type: LeydenElementType.Cell,
-    subType: 'Text',
+    type: 'cell',
+    cellType: 'Text',
     children: [newTextText(value)],
 });
 
 const newWholeDollarsCell = (value: number): Cell<'WholeDollars'> => ({
-    type: LeydenElementType.Cell,
-    subType: 'WholeDollars',
+    type: 'cell',
+    cellType: 'WholeDollars',
     children: [newWholeDollarsText(value)],
 });
 
 const newUnitOfMeasureCell = (value: UOM): Cell<'UnitOfMeasure'> => ({
-    type: LeydenElementType.Cell,
-    subType: 'UnitOfMeasure',
+    type: 'cell',
+    cellType: 'UnitOfMeasure',
     children: [newUOMText(value)],
 });
 
-const genColHeader = (col: number): string => {
+export const genColHeader = (col: number): string => {
     switch(col) {
         case 0:
             return 'Name';
@@ -89,16 +82,16 @@ const genColHeader = (col: number): string => {
         case 4:
             return 'Total';
         default:
-            return Sheet.genAlphabeticHeader(col);
+            return Table.genAlphabeticHeader(col);
     }
 };
 
 /* eslint-disable max-len */
-export const newSheet = (): Sheet<5, 6> => ({
-    type: LeydenElementType.Sheet,
+export const newTable = (): Table => ({
+    type: 'table',
     cols: 5,
     rows: 6,
-    genColHeader: genColHeader,
+    genColHeader,
     children: [
         newTextCell('Drywall 5 X 8 sheet'), newQuantityCell(1805.56), newUnitOfMeasureCell(UOM.SF), newCSICell(CSI.Div09), newWholeDollarsCell(15730),
         newTextCell('Drywall installer'), newQuantityCell(84), newUnitOfMeasureCell(UOM.ManHour), newCSICell(CSI.Div09), newWholeDollarsCell(7832),
@@ -108,3 +101,4 @@ export const newSheet = (): Sheet<5, 6> => ({
         newTextCell('Pella 39 X 59 in Casement window'), newQuantityCell(12), newUnitOfMeasureCell(UOM.Each), newCSICell(CSI.DoorsAndWindows), newWholeDollarsCell(530),
     ],
 });
+/* eslint-enable max-len */

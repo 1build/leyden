@@ -1,21 +1,23 @@
-import { createEditor } from 'leyden';
+import { createEditor, Table } from 'leyden';
 import { Leyden, Editable, withReact } from 'leyden-react';
 import React, { FC, useMemo, useState } from 'react';
 import { withHistory } from 'slate-history';
 
 import { cellRenderers } from './cells';
-import { newSheet } from './data/generate';
+import { newTable } from './data/generate';
 import { elementRenderers } from './elements';
 import { textRenderers } from './text';
 import { validators } from './data/validators';
 
 export const Demo: FC = () => {
-    const [descendants, setDescendants] = useState(newSheet());
+    const [descendants, setDescendants] = useState<[Table]>([newTable()]);
 
     const editor = useMemo(() => (
         withHistory(
             withReact(
-                createEditor<5, 6>(validators)
+                createEditor({
+                    validators,
+                })
             )
         )
     ), []);

@@ -1,7 +1,4 @@
-import {
-    LeydenEditor,
-    Sheet as LeydenSheet,
-} from 'leyden';
+import { LeydenEditor, Table as LeydenTable } from 'leyden';
 import React, { FC, useMemo } from 'react';
 import { RenderElementProps, useSlateStatic } from 'slate-react';
 
@@ -11,32 +8,31 @@ import {
     makeGridPositionClass,
     makeNestedSelectedCellClass,
     makeSheetGridTemplateClass,
-} from '../style';
-import { notUndefined } from '../../utils/typeGuards';
+} from './style';
+import { notUndefined } from '../utils/typeGuards';
 
-export interface Sheet<
-    Cols extends number,
-    Rows extends number
-> extends Omit<RenderElementProps, 'element'> {
-    element: LeydenSheet<Cols, Rows>;
+export interface Table extends Omit<RenderElementProps, 'element'> {
+    element: LeydenTable;
 }
 
-export const Sheet = <Cols extends number, Rows extends number>({
+export const Table: FC<Table> = ({
     attributes,
     children,
     element,
-}: Sheet<Cols, Rows>): ReturnType<FC<Sheet<Cols, Rows>>> => {
+}) => {
     const editor = useSlateStatic();
 
+    const { cols, rows, genColHeader, genRowHeader } = element;
+
     const sheetGridTemplateClass = useMemo(() => {
-        const cols = element.genRowHeader ? element.cols+1 : element.cols;
-        const rows = element.genColHeader ? element.rows+1 : element.rows;
-        return makeSheetGridTemplateClass(cols, rows);
-    }, [element.cols, element.rows, element.genColHeader, element.genRowHeader]);
+        const totalCols = genRowHeader ? cols+1 : cols;
+        const totalRows = genColHeader ? rows+1 : rows;
+        return makeSheetGridTemplateClass(totalCols, totalRows);
+    }, [cols, rows, genColHeader, genRowHeader]);
 
     const hasOrigin = useMemo(() => (
-        element.genColHeader && element.genRowHeader
-    ), [element.genColHeader, element.genRowHeader]);
+        genColHeader && genRowHeader
+    ), [genColHeader, genRowHeader]);
 
     const genHeaderClasses = useMemo(() => {
         const offset = hasOrigin ? 2 : 1;
@@ -57,9 +53,9 @@ export const Sheet = <Cols extends number, Rows extends number>({
         if (selectedCoords === null) {
             return null;
         }
-        const nthEl = (selectedCoords.y*element.cols)+selectedCoords.x+1;
+        const nthEl = (selectedCoords.y*cols)+selectedCoords.x+1;
         return makeNestedSelectedCellClass(nthEl);
-    }, [editor.selection, element.cols]);
+    }, [editor.selection, cols]);
 
     const className = useMemo(() => [
         css.sheet,
@@ -73,18 +69,18 @@ export const Sheet = <Cols extends number, Rows extends number>({
 
     return (
         <div
-            className={className}
             {...attributes}
+            className={className}
         >
             {hasOrigin && <button className={css.originCell} />}
-            {element.genColHeader && <Headers
-                quantity={element.cols}
-                genValue={element.genColHeader}
+            {genColHeader && <Headers
+                quantity={cols}
+                genValue={genColHeader}
                 genClasses={genHeaderClasses.col}
             />}
-            {element.genRowHeader && <Headers
-                quantity={element.rows}
-                genValue={element.genRowHeader}
+            {genRowHeader && <Headers
+                quantity={rows}
+                genValue={genRowHeader}
                 genClasses={genHeaderClasses.row}
             />}
             {children}

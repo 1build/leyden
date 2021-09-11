@@ -1,19 +1,3 @@
-import { Descendant } from 'slate';
-
-export * from './math';
-
-export interface TypedElement<C extends Descendant[]=Descendant[]> {
-    children: C;
-}
-
-export type LeydenElement = TypedElement<Descendant[]>;
-
-export interface TypedText<T extends string> {
-    text: T;
-}
-
-export type LeydenText = TypedText<string>;
-
 export enum Direction2D {
     Up,
     Right,

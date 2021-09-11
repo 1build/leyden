@@ -1,22 +1,19 @@
 import { Node, Editor } from 'slate';
 
-import { LeydenEditor } from '.';
+import { CreateEditorOptions } from './createEditor';
 import { Text } from './interfaces/Text';
-import { ValidationFuncs, Validator } from './interfaces/Validator';
+import { Validator } from './interfaces/Validator';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const withLeyden = <
-    Cols extends number,
-    Rows extends number,
->(
+export const withLeyden = (
     editor: Editor,
-    validators: ValidationFuncs,
+    options: CreateEditorOptions,
 ) => {
-    const e = editor as unknown as LeydenEditor<Cols, Rows>;
+    const e = editor;
     const { apply } = e;
 
     e.getValidationFunc = validator => (
-        Validator.getValidationFunc(validators, validator)
+        Validator.getValidationFunc(options.validators, validator)
     );
 
     e.apply = op => {

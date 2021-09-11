@@ -1,10 +1,11 @@
-import { LeydenElement } from 'leyden';
+import { LaydenElement, LaydenText } from 'leyden';
 
 import { ReactEditor } from '../plugin/ReactEditor';
 
 declare module 'slate' {
     interface CustomTypes {
-        Editor: ReactEditor<number, number>;
-        Element: LeydenElement;
+        Editor: ReactEditor;
+        Element: LaydenElement;
+        Text: LaydenText;
     }
 }

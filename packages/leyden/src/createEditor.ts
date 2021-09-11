@@ -1,15 +1,16 @@
 import { createEditor as createSlateEditor } from 'slate';
 
 import { withLeyden } from './withLeyden';
-import { LeydenEditor } from './interfaces/LeydenEditor';
 import { ValidationFuncs } from './interfaces/Validator';
 
-export const createEditor = <
-    Cols extends number,
-    Rows extends number,
->(validators: ValidationFuncs): LeydenEditor<Cols, Rows> => (
-    withLeyden<Cols, Rows>(
+export interface CreateEditorOptions {
+    validators: ValidationFuncs;
+}
+
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const createEditor = (opts: CreateEditorOptions) => (
+    withLeyden(
         createSlateEditor(),
-        validators
+        opts
     )
 );

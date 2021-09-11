@@ -1,34 +1,33 @@
-import { Sheet } from 'leyden';
+import { Table } from 'leyden';
 import React, { FC, ReactNode, useCallback } from 'react';
 import { Descendant, Element } from 'slate';
 import { Slate } from 'slate-react';
 
 import { ReactEditor } from '../plugin/ReactEditor';
 
-export interface Leyden<Cols extends number, Rows extends number> {
+export interface Leyden {
     children: ReactNode;
-    editor: ReactEditor<Cols, Rows>;
-    value: Sheet<Cols, Rows>;
-    onChange: (value: Sheet<Cols, Rows>) => void;
+    editor: ReactEditor;
+    value: [Table];
+    onChange: (value: [Table]) => void;
 }
 
-export const Leyden = <Cols extends number, Rows extends number>({
+export const Leyden: FC<Leyden> = ({
     children,
     editor,
     value,
     onChange,
-}: Leyden<Cols, Rows>): ReturnType<FC<Leyden<Cols, Rows>>> => {
+}) => {
     const handleChange = useCallback((newValue: Descendant[]) => {
-        const newSheet = newValue[0];
-        if (Element.isElement(newSheet) && Sheet.isDimensionalSheet<Cols, Rows>(newSheet)) {
-            onChange(newSheet);
+        if (Element.isElement(newValue[0]) && Table.isTable(newValue[0])) {
+            onChange([newValue[0]]);
         }
     }, [onChange]);
 
     return (
         <Slate
             editor={editor}
-            value={[value]}
+            value={value}
             onChange={handleChange}
         >
             {children}
