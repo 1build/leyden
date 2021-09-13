@@ -5,6 +5,7 @@ import { Text } from '../components/Text';
 import {
     CellRenderers,
     ElementRenderers,
+    HeaderRenderers,
     TextRenderers,
 } from '../utils/types';
 
@@ -14,6 +15,7 @@ type TextNoRenderers = Omit<Text, 'textRenderers'>;
 interface UseRenderProps {
     cellRenderers: CellRenderers,
     elementRenderers: ElementRenderers,
+    headerRenderers?: HeaderRenderers;
     textRenderers: TextRenderers,
 }
 
@@ -25,6 +27,7 @@ interface UseRenderPayload {
 export const useRender = ({
     cellRenderers,
     elementRenderers,
+    headerRenderers,
     textRenderers,
 }: UseRenderProps): UseRenderPayload => {
     const renderElement = useCallback((rep: ElementNoRenderers) => (
@@ -32,9 +35,10 @@ export const useRender = ({
             {...rep}
             cellRenderers={cellRenderers}
             elementRenderers={elementRenderers}
+            headerRenderers={headerRenderers}
         />
     ), [cellRenderers, elementRenderers]);
-    
+
     const renderLeaf = useCallback((rlp: TextNoRenderers) => (
         <Text
             {...rlp}

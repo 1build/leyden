@@ -6,6 +6,7 @@ import { withHistory } from 'slate-history';
 import { cellRenderers } from './cells';
 import { newTable } from './data/generate';
 import { elementRenderers } from './elements';
+import { headerRenderers } from './headers';
 import { textRenderers } from './text';
 import { validators } from './data/validators';
 
@@ -31,6 +32,7 @@ export const Demo: FC = () => {
             <Editable
                 cellRenderers={cellRenderers}
                 elementRenderers={elementRenderers}
+                headerRenderers={headerRenderers}
                 textRenderers={textRenderers}
             />
         </Leyden>

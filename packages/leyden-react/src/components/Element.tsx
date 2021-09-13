@@ -8,20 +8,26 @@ import { Element as SlateElement } from 'slate';
 import { RenderElementProps } from 'slate-react';
 
 import { Table } from './Table';
-import { CellRenderers, ElementRenderers } from '../utils/types';
+import {
+    CellRenderers,
+    ElementRenderers,
+    HeaderRenderers,
+} from '../utils/types';
 
 export interface Element extends Omit<RenderElementProps, 'element'> {
     cellRenderers: CellRenderers;
     elementRenderers: ElementRenderers;
     element: SlateElement;
+    headerRenderers?: HeaderRenderers;
 }
 
 export const Element: FC<Element> = ({
     attributes: slateAttributes,
     cellRenderers,
-    elementRenderers,
     children,
     element,
+    elementRenderers,
+    headerRenderers,
 }) => {
     const attributes = LeydenElement.isVoid(element)
         ? { ...slateAttributes, contentEditable: false }
@@ -44,6 +50,7 @@ export const Element: FC<Element> = ({
             <Table
                 attributes={attributes}
                 element={element}
+                headerRenderers={headerRenderers}
             >
                 {children}
             </Table>

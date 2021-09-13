@@ -3,6 +3,8 @@ export {
     CellRenderers,
     ElementRenderer,
     ElementRenderers,
+    HeaderRenderer,
+    HeaderRenderers,
     TextRenderer,
     TextRenderers,
 } from './utils/types';

@@ -62,29 +62,11 @@ const newUnitOfMeasureCell = (uom: UOM): Cell<'UnitOfMeasure'> => ({
     uom,
 });
 
-export const genColHeader = (col: number): string => {
-    switch(col) {
-        case 0:
-            return 'Name';
-        case 1:
-            return 'Quantity';
-        case 2:
-            return 'UOM';
-        case 3:
-            return 'CSI';
-        case 4:
-            return 'Total';
-        default:
-            return Table.genAlphabeticHeader(col);
-    }
-};
-
 /* eslint-disable max-len */
 export const newTable = (): Table => ({
     type: 'table',
     cols: 5,
     rows: 6,
-    genColHeader,
     children: [
         newTextCell('Drywall 5 X 8 sheet'), newQuantityCell(1805.56), newUnitOfMeasureCell(UOM.SF), newCSICell(CSI.Div09), newWholeDollarsCell(15730),
         newTextCell('Drywall installer'), newQuantityCell(84), newUnitOfMeasureCell(UOM.ManHour), newCSICell(CSI.Div09), newWholeDollarsCell(7832),

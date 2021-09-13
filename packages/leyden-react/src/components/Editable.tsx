@@ -14,18 +14,21 @@ import { cellNavigationKeys } from '../utils/keys';
 import {
     CellRenderers,
     ElementRenderers,
+    HeaderRenderers,
     TextRenderers,
 } from '../utils/types';
 
 export interface Editable extends Omit<Parameters<typeof SlateReactEditable>[0], 'renderElement'|'renderLeaf'> {
     cellRenderers: CellRenderers;
     elementRenderers: ElementRenderers;
+    headerRenderers?: HeaderRenderers;
     textRenderers: TextRenderers;
 }
 
 export const Editable: FC<Editable> = ({
     cellRenderers,
     elementRenderers,
+    headerRenderers,
     onKeyDown,
     textRenderers,
     ...props
@@ -35,6 +38,7 @@ export const Editable: FC<Editable> = ({
     const render = useRender({
         cellRenderers,
         elementRenderers,
+        headerRenderers,
         textRenderers,
     });
 
@@ -51,7 +55,6 @@ export const Editable: FC<Editable> = ({
             return;
         }
     }, [onKeyDown]);
-
 
     return (
         <SlateReactEditable

@@ -1,25 +1,27 @@
 import React, { FC } from 'react';
 
+import { HeaderRendererProps } from '../utils/types';
+
 export interface Headers {
+    genClass: (pos: number) => string,
     quantity: number,
-    genValue: (pos: number) => string,
-    genClasses: (pos: number) => string[],
+    Component: FC<HeaderRendererProps>,
 }
 
 export const Headers: FC<Headers> = ({
+    genClass,
     quantity,
-    genValue,
-    genClasses,
+    Component,
 }) => (
     <>
         {...Array.from({ length: quantity }, (_, i) => (
-            <button
+            <div
                 key={i}
-                className={genClasses(i).join(' ')}
+                className={genClass(i)}
                 contentEditable={false}
             >
-                {genValue(i)}
-            </button>
+                <Component position={i} />
+            </div>
         ))}
     </>
 );

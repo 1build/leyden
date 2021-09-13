@@ -49,3 +49,15 @@ export type TextRenderer<T extends TextType> = FC<RenderTextProps<T>>;
 export type TextRenderers = {
     [T in TextType]: TextRenderer<T>;
 };
+
+export interface HeaderRendererProps {
+    position: number;
+}
+
+export type HeaderRenderer = FC<HeaderRendererProps>;
+
+export interface HeaderRenderers {
+    column?: FC<HeaderRendererProps>;
+    origin?: FC;
+    row?: FC<HeaderRendererProps>;
+}
