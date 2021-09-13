@@ -1,7 +1,7 @@
 import { ElementRenderers } from 'leyden-react';
 
-import { ColorCodedCSI } from './ColorCodedCSI';
+import { Default } from './Default';
 
 export const elementRenderers: ElementRenderers = {
-    ColorCodedCSI,
+    default: Default,
 };

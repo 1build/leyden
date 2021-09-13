@@ -4,6 +4,7 @@ import { Distribute } from '../types';
 export type ExtraValidators = ExtendedType<'Validator'>;
 
 export type StandardValidators =
+    | 'empty'
     | 'numeric'
     | 'integer';
 
@@ -20,6 +21,7 @@ export interface ValidatorInterface {
         validators: ValidationFuncs,
         validator: Validator,
     ) => ValidationFunc;
+    isEmpty: ValidationFunc;
     isInteger: ValidationFunc;
     isNumeric: ValidationFunc;
 }
@@ -30,17 +32,23 @@ export const Validator: ValidatorInterface = {
      */
 
     getValidationFunc: (validators, validator) => {
-        if (validator === 'integer') {
-            return Validator.isInteger;
-        }
-        if (validator === 'numeric') {
-            return Validator.isNumeric;
-        }
-        return validators[validator];
+        const allValidators = {
+            'empty': Validator.isEmpty,
+            'integer': Validator.isInteger,
+            'numeric': Validator.isNumeric,
+            ...validators,
+        };
+        return allValidators[validator];
     },
 
     /**
-     * Returns `true` if `val` is an integer string ('' counts as 0)
+     * Returns `true` if `val` is an empty string.
+     */
+
+    isEmpty: val => val === '',
+
+    /**
+     * Returns `true` if `val` is an integer string ('' counts as 0).
      */
 
     isInteger: val => /^[,\d]*$/.test(val) && Validator.isNumeric(val),

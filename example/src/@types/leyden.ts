@@ -1,4 +1,4 @@
-import { Element, Text } from 'leyden';
+import { Text } from 'leyden';
 
 import { CSI, UOM } from '../types';
 
@@ -6,7 +6,7 @@ declare module 'leyden' {
     interface CustomTypes {
         Cells: {
             CSI: {
-                children: [Element<'ColorCodedCSI'>];
+                children: [Text<'CSI'>];
             };
             Quantity: {
                 children: [Text<'Decimal'>];
@@ -21,15 +21,13 @@ declare module 'leyden' {
                 children: [Text<'WholeDollars'>]
             };
         };
-        Elements: {
-            ColorCodedCSI: {
-                children: [Text<'CSI'>];
-            };
-        },
         Text: {
             CSI: {
-                text: CSI;
-                validator: 'csi';
+                text: '';
+                validator: 'empty';
+                data: {
+                    csi: CSI;
+                }
             };
             Decimal: {
                 text: string;
@@ -39,14 +37,16 @@ declare module 'leyden' {
                 text: string;
             },
             UOM: {
-                text: UOM;
-                validator: 'uom';
+                text: '';
+                validator: 'empty';
+                data: {
+                    uom: UOM;
+                }
             };
             WholeDollars: {
                 text: string;
                 validator: 'integer';
             };
         };
-        Validator: 'csi'|'uom';
     }
 }

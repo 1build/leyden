@@ -19,7 +19,7 @@ export const UOM: TextRenderer<'UOM'> = ({
                 userSelect: 'none',
             }}
         >
-            {UOMString[text.text]}
+            {UOMString[text.uom]}
         </span>
     );
 };

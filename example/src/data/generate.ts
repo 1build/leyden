@@ -1,11 +1,12 @@
-import { Cell, Element, Table, Text } from 'leyden';
+import { Cell, Table, Text } from 'leyden';
 
 import { CSI, UOM } from '../types';
 
-const newCSIText = (text: CSI): Text<'CSI'> => ({
+const newCSIText = (csi: CSI): Text<'CSI'> => ({
     type: 'CSI',
-    validator: 'csi',
-    text,
+    validator: 'empty',
+    text: '',
+    csi,
 });
 
 const newDecimalText = (value: number): Text<'Decimal'> => ({
@@ -19,10 +20,11 @@ const newTextText = (text: string): Text<'Text'> => ({
     text,
 });
 
-const newUOMText = (text: UOM): Text<'UOM'> => ({
+const newUOMText = (uom: UOM): Text<'UOM'> => ({
     type: 'UOM',
-    validator: 'uom',
-    text,
+    validator: 'empty',
+    text: '',
+    uom,
 });
 
 const wholeDollarsFormatter = new Intl.NumberFormat('en-US', {
@@ -34,15 +36,10 @@ const newWholeDollarsText = (value: number): Text<'WholeDollars'> => ({
     text: wholeDollarsFormatter.format(value),
 });
 
-const newColorCodedCSIElement = (value: CSI): Element<'ColorCodedCSI'> => ({
-    type: 'ColorCodedCSI',
-    children: [newCSIText(value)],
-});
-
-const newCSICell = (value: CSI): Cell<'CSI'> => ({
+const newCSICell = (csi: CSI): Cell<'CSI'> => ({
     type: 'cell',
     cellType: 'CSI',
-    children: [newColorCodedCSIElement(value)],
+    children: [newCSIText(csi)],
 });
 
 const newQuantityCell = (value: number): Cell<'Quantity'> => ({
@@ -63,10 +60,10 @@ const newWholeDollarsCell = (value: number): Cell<'WholeDollars'> => ({
     children: [newWholeDollarsText(value)],
 });
 
-const newUnitOfMeasureCell = (value: UOM): Cell<'UnitOfMeasure'> => ({
+const newUnitOfMeasureCell = (uom: UOM): Cell<'UnitOfMeasure'> => ({
     type: 'cell',
     cellType: 'UnitOfMeasure',
-    children: [newUOMText(value)],
+    children: [newUOMText(uom)],
 });
 
 export const genColHeader = (col: number): string => {
