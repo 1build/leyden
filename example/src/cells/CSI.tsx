@@ -20,28 +20,24 @@ export const CSI: CellRenderer<'CSI'> = ({
                 padding: '0 2.75rem 0 0.75rem',
             }}
         >
-            <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: '1.5rem',
-                padding: '0 0.75rem',
-                backgroundColor: CSIColor[csi],
-                borderRadius: 3,
-            }}>
-                <span
-                    style={{
-                        color: 'white',
-                        fontSize: 11,
-                        fontWeight: 600,
-                        letterSpacing: '0.08em',
-                        lineHeight: 11,
-                        userSelect: 'none',
-                    }}
-                >
-                    {CSIString[csi]}
-                </span>
-            </div>
+            <span
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    height: '1.5rem',
+                    padding: '0 0.75rem',
+                    backgroundColor: CSIColor[csi],
+                    borderRadius: 3,
+                    color: 'white',
+                    fontSize: 11,
+                    fontWeight: 600,
+                    letterSpacing: '0.08em',
+                    lineHeight: '11px',
+                    userSelect: 'none',
+                }}
+            >
+                {CSIString[csi]}
+            </span>
             {children}
         </div>
     );
