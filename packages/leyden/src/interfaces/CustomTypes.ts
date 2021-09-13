@@ -20,32 +20,26 @@ type ExtendableTypes =
     | ExtendableComponentTypes
     | ExtendableExtraTypes;
 
-export interface CustomTypes {
-    [key: string]: unknown;
-}
+interface WithCellType<T extends string> { cellType: T }
+interface WithChildren<T extends Descendant[]> { children: T }
+interface WithData<T> { data: T }
+interface WithDataOptional<T> { data?: T }
+interface WithIsEditable<T extends boolean> { isEditable: T }
+interface WithIsEditableOptional<T extends boolean> { isEditable?: T }
+interface WithText<T extends string> { text: T }
+interface WithType<T extends string> { type: T }
+interface WithValidator<T extends Validator> { validator: T }
+interface WithValidatorOptional<T extends Validator> { validator?: T }
 
-interface ExtendedElementTypeEntry {
-    children: Descendant[];
-    data?: unknown;
-    isEditable?: boolean;
-}
+interface ExtendedElementTypeEntry extends
+    WithChildren<Descendant[]>,
+    WithDataOptional<unknown>,
+    WithIsEditableOptional<boolean> {}
 
-interface ExtendedTextTypeEntry {
-    text: string;
-    validator?: Validator;
-    data?: unknown;
-}
-
-interface BaseExtendedElementTypeEntry {
-    children: Text[];
-    data?: unknown;
-    isEditable: false;
-}
-
-type BaseExtendedTextTypeEntry = {
-    text: string;
-    validator: 'numeric';
-};
+interface ExtendedTextTypeEntry extends
+    WithDataOptional<unknown>,
+    WithText<string>,
+    WithValidatorOptional<Validator> {}
 
 type ExtendedComponentTypeEntry<T extends ExtendableComponentTypes> =
     T extends 'Text'
@@ -55,18 +49,42 @@ type ExtendedComponentTypeEntry<T extends ExtendableComponentTypes> =
 type ExtendedComponentTypeEntries<T extends ExtendableComponentTypes> =
     Record<string, ExtendedComponentTypeEntry<T>>;
 
-type BaseExtendedComponentTypeEntries<T extends ExtendableComponentTypes> = {
+type DefaultExtendedComponentTypeEntries<T extends ExtendableComponentTypes> = {
     default: T extends 'Text'
-        ? BaseExtendedTextTypeEntry
-        : BaseExtendedElementTypeEntry;
+        ? WithText<string> & WithValidator<'numeric'>
+        : WithChildren<Text[]> & WithDataOptional<unknown> & WithIsEditable<false>;
 };
+
+type EmptyProp = Record<string, unknown>;
+
+type ExtractDataProp<T extends ExtendedElementTypeEntry|ExtendedTextTypeEntry> =
+    T extends WithData<infer U>
+        ? U
+        : EmptyProp;
+
+type WithIsEditableProp<T extends ExtendedElementTypeEntry> =
+    T extends WithIsEditable<infer U>
+        ? U extends false
+            ? WithIsEditable<U>
+            : EmptyProp
+        : EmptyProp;
+
+type WithValidatorProp<T extends ExtendedTextTypeEntry> =
+    T extends WithValidator<infer U>
+        ? WithValidator<U>
+        : EmptyProp;
+
+
+export interface CustomTypes {
+    [key: string]: unknown;
+}
 
 export type ExtendedType<T extends ExtendableTypes> =
     CustomTypes[T] extends infer K
         ? T extends ExtendableComponentTypes
             ? K extends ExtendedComponentTypeEntries<T> 
                 ? K
-                : BaseExtendedComponentTypeEntries<T>
+                : DefaultExtendedComponentTypeEntries<T>
             : T extends 'Validator'
                 ? K extends string
                     ? K
@@ -74,44 +92,21 @@ export type ExtendedType<T extends ExtendableTypes> =
                 : never
         : never;
 
-type ExtractDataProp<T extends ExtendedElementTypeEntry|ExtendedTextTypeEntry> =
-    T extends { data: infer D }
-        ? D
-        : Record<string, unknown>;
+export type ExtendedElementsType<T extends string, R extends Record<T, ExtendedElementTypeEntry>> =
+    & ExtractDataProp<R[T]>
+    & WithChildren<R[T]['children']>
+    & WithIsEditableProp<R[T]>
+    & WithType<T>;
 
-type ExtractIsEditableProp<T extends ExtendedElementTypeEntry> =
-    T extends { isEditable: infer D }
-        ? D extends false
-            ? { isEditable: false }
-            : Record<string, unknown>
-        : Record<string, unknown>;
+export type ExtendedCellType<T extends string, R extends Record<T, ExtendedElementTypeEntry>> =
+    & ExtractDataProp<R[T]>
+    & WithCellType<T>
+    & WithChildren<R[T]['children']>
+    & WithIsEditableProp<R[T]>
+    & WithType<'cell'>;
 
-export type ExtendedCellType<
-    T extends string,
-    R extends Record<T, ExtendedElementTypeEntry>
-> = ExtractDataProp<R[T]> & ExtractIsEditableProp<R[T]> & {
-    type: 'cell';
-    children: R[T]['children'];
-    cellType: T;
-};
-
-export type ExtendedElementsType<
-    T extends string,
-    R extends Record<T, ExtendedElementTypeEntry>
-> = ExtractDataProp<R[T]> & ExtractIsEditableProp<R[T]> & {
-    type: T;
-    children: R[T]['children'];
-};
-
-export type ExtractTextValidator<T extends ExtendedTextTypeEntry> =
-    T extends { validator: Validator }
-        ? { validator: T['validator'] }
-        : Record<string, unknown>;
-
-export type ExtendedTextType<
-    T extends string,
-    R extends Record<T, ExtendedTextTypeEntry>
-> = ExtractDataProp<R[T]> & ExtractTextValidator<R[T]> & {
-    type: T;
-    text: R[T]['text'];
-};
+export type ExtendedTextType<T extends string, R extends Record<T, ExtendedTextTypeEntry>> =
+    & ExtractDataProp<R[T]>
+    & WithText<R[T]['text']>
+    & WithType<T>
+    & WithValidatorProp<R[T]>;
