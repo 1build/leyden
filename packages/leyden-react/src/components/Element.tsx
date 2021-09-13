@@ -1,4 +1,8 @@
-import { Cell, Table as LeydenTable } from 'leyden';
+import {
+    Cell,
+    Table as LeydenTable,
+    Element as LeydenElement,
+} from 'leyden';
 import React, { FC } from 'react';
 import { Element as SlateElement } from 'slate';
 import { RenderElementProps } from 'slate-react';
@@ -13,12 +17,16 @@ export interface Element extends Omit<RenderElementProps, 'element'> {
 }
 
 export const Element: FC<Element> = ({
-    attributes,
+    attributes: slateAttributes,
     cellRenderers,
     elementRenderers,
     children,
     element,
 }) => {
+    const attributes = LeydenElement.isVoid(element)
+        ? { ...slateAttributes, contentEditable: false }
+        : slateAttributes;
+
     if (Cell.isCell(element)) {
         const CellFC = cellRenderers[element.cellType];
         return (

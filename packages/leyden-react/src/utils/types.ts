@@ -12,7 +12,14 @@ import {
     RenderLeafProps,
 } from 'slate-react';
 
-export interface RenderElementProps<T extends ExternalElementType> extends Omit<RenderSlateElementProps, 'element'> {
+export type RenderElementAttributes = RenderSlateElementProps['attributes'] & {
+    contentEditable?: boolean;
+}
+
+type KeptRenderElementProps = Omit<RenderSlateElementProps, 'attributes'|'element'>;
+
+export interface RenderElementProps<T extends ExternalElementType> extends KeptRenderElementProps {
+    attributes: RenderElementAttributes;
     element: Element<T>;
 }
 
