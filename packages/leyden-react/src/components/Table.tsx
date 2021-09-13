@@ -29,7 +29,7 @@ export const Table: FC<Table> = ({
         return makeSheetGridTemplateClass(
             totalCols,
             totalRows,
-            'rgb(215,225,229)',
+            '#D7E1E5',
             1,
         );
     }, [cols, rows, headerRenderers]);

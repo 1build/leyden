@@ -15,7 +15,7 @@ declare module 'leyden' {
             Quantity: {
                 children: [Text<'Decimal'>];
             };
-            Text: {
+            Name: {
                 children: [Text<'Text'>];
             };
             UnitOfMeasure: {

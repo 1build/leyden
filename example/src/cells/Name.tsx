@@ -1,7 +1,7 @@
 import { CellRenderer } from 'leyden-react';
 import React from 'react';
 
-export const Text: CellRenderer<'Text'> = ({
+export const Name: CellRenderer<'Name'> = ({
     attributes,
     children,
 }) => {
@@ -14,7 +14,7 @@ export const Text: CellRenderer<'Text'> = ({
                 justifyContent: 'flex-start',
                 backgroundColor: '#f6f8f8',
                 height: '3rem',
-                padding: '0 2.75rem 0 0.75rem',
+                padding: '0 2.75rem 0 2.375rem',
                 whiteSpace: 'nowrap',
             }}
         >
