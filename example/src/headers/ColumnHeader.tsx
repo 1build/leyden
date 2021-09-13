@@ -1,7 +1,14 @@
-import { HeaderRenderer } from 'leyden-react';
-import React, { CSSProperties } from 'react';
+import { LeydenEditor } from 'leyden';
+import { HeaderRenderer, useLeyden } from 'leyden-react';
+import React, { CSSProperties, useMemo } from 'react';
 
 export const ColumnHeader: HeaderRenderer = ({ position }) => {
+    const editor = useLeyden();
+
+    const colFocused = useMemo(() => (
+        LeydenEditor.selectedColumn(editor) === position
+    ), [editor.selection]);
+
     const headerText = () => {
         switch(position) {
             case 0:
@@ -26,7 +33,7 @@ export const ColumnHeader: HeaderRenderer = ({ position }) => {
         alignItems: 'center',
         height: '4.625rem',
         padding: `0 0.75rem 0 ${position === 0 ? '2.375rem' : '0.75rem'}`,
-        backgroundColor: '#161E3A',
+        backgroundColor: colFocused ? '#314071' : '#161E3A',
     });
 
     const borderHelperStyle = (): CSSProperties => ({
@@ -37,6 +44,7 @@ export const ColumnHeader: HeaderRenderer = ({ position }) => {
         left: -1,
         boxSizing: 'border-box',
         border: '1px solid #2c344e',
+        borderTop: colFocused ? '1px solid #5065a1' : '1px solid #2c344e',
         userSelect: 'none',
     });
 

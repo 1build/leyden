@@ -35,7 +35,7 @@ export const LeydenEditor = {
     ): Coordinates|null => {
         return Table.getNthCellCoords(
             LeydenEditor.getTable(editor),
-            path[0]
+            path[1]
         );
     },
 
@@ -46,20 +46,6 @@ export const LeydenEditor = {
     getTable: (editor: LeydenEditor): Table => (
         editor.children[0]
     ),
-
-    /**
-     * Get the coordinates of the currently selected cell.
-     */
-
-    getSelectedCellCoords: (
-        editor: LeydenEditor
-    ): Coordinates|null => {
-        const { selection } = editor;
-        if (!selection) {
-            return null;
-        }
-        return LeydenEditor.getCellCoordsAtPath(editor, selection.focus.path);
-    },
 
     /**
      * Move the current cell selection in the provided direction.
@@ -73,7 +59,7 @@ export const LeydenEditor = {
         if (!selection) {
             return;
         }
-        const curCoords = LeydenEditor.getSelectedCellCoords(editor);
+        const curCoords = LeydenEditor.selectedCoords(editor);
         if (curCoords === null) {
             return;
         }
@@ -96,4 +82,32 @@ export const LeydenEditor = {
         const newPath = LeydenEditor.coordPath(editor, coords);
         Transforms.select(editor, newPath);
     },
+
+    /**
+     * Get the index of the currently selected column.
+     */
+
+    selectedColumn: (editor: LeydenEditor): number|null => (
+        LeydenEditor.selectedCoords(editor)?.x??null
+    ),
+
+    /**
+     * Get the coordinates of the currently selected cell.
+     */
+
+    selectedCoords: (editor: LeydenEditor): Coordinates|null => {
+        const { selection } = editor;
+        if (!selection) {
+            return null;
+        }
+        return LeydenEditor.getCellCoordsAtPath(editor, selection.focus.path);
+    },
+
+    /**
+     * Get the index of the currently selected row.
+     */
+
+    selectedRow: (editor: LeydenEditor): number|null => (
+        LeydenEditor.selectedCoords(editor)?.y??null
+    ),
 };

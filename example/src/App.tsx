@@ -7,6 +7,7 @@ export const App: FC = () => {
         <div style={{
             height: '100vh',
             width: '100vw',
+            paddingTop: '1px',
             fontFamily: 'Arial, Helvetica Neue, Helvetica, sans-serif',
         }}>
             <Demo />
