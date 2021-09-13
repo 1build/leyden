@@ -5,6 +5,7 @@ import { Coordinates } from './Coordinates';
 
 export interface Table {
     type: 'table';
+    isEditable?: true;
     cols: number;
     rows: number;
     genColHeader?: (pos: number) => string;

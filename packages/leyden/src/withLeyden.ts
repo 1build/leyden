@@ -1,6 +1,7 @@
 import { Node, Editor } from 'slate';
 
 import { CreateEditorOptions } from './createEditor';
+import { Element } from './interfaces/Element';
 import { Text } from './interfaces/Text';
 import { Validator } from './interfaces/Validator';
 
@@ -10,11 +11,7 @@ export const withLeyden = (
     options: CreateEditorOptions,
 ) => {
     const e = editor;
-    const { apply } = e;
-
-    e.getValidationFunc = validator => (
-        Validator.getValidationFunc(options.validators, validator)
-    );
+    const { apply, isVoid } = e;
 
     e.apply = op => {
         if ((op.type === 'insert_text' || op.type === 'remove_text')
@@ -33,6 +30,17 @@ export const withLeyden = (
             }
         }
         apply(op);
+    };
+
+    e.getValidationFunc = validator => (
+        Validator.getValidationFunc(options.validators, validator)
+    );
+
+    e.isVoid = element => {
+        if (Element.isVoid(element)) {
+            return true;
+        }
+        return isVoid(element);
     };
 
     return e;

@@ -2,11 +2,10 @@ import { Cell, Table, Text } from 'leyden';
 
 import { CSI, UOM } from '../types';
 
-const newCSIText = (csi: CSI): Text<'CSI'> => ({
-    type: 'CSI',
+const newEmptyText = (): Text<'Empty'> => ({
     validator: 'empty',
+    type: 'Empty',
     text: '',
-    csi,
 });
 
 const newDecimalText = (value: number): Text<'Decimal'> => ({
@@ -18,13 +17,6 @@ const newDecimalText = (value: number): Text<'Decimal'> => ({
 const newTextText = (text: string): Text<'Text'> => ({
     type: 'Text',
     text,
-});
-
-const newUOMText = (uom: UOM): Text<'UOM'> => ({
-    type: 'UOM',
-    validator: 'empty',
-    text: '',
-    uom,
 });
 
 const wholeDollarsFormatter = new Intl.NumberFormat('en-US', {
@@ -39,7 +31,9 @@ const newWholeDollarsText = (value: number): Text<'WholeDollars'> => ({
 const newCSICell = (csi: CSI): Cell<'CSI'> => ({
     type: 'cell',
     cellType: 'CSI',
-    children: [newCSIText(csi)],
+    children: [newEmptyText()],
+    isEditable: false,
+    csi,
 });
 
 const newQuantityCell = (value: number): Cell<'Quantity'> => ({
@@ -63,7 +57,9 @@ const newWholeDollarsCell = (value: number): Cell<'WholeDollars'> => ({
 const newUnitOfMeasureCell = (uom: UOM): Cell<'UnitOfMeasure'> => ({
     type: 'cell',
     cellType: 'UnitOfMeasure',
-    children: [newUOMText(uom)],
+    children: [newEmptyText()],
+    isEditable: false,
+    uom,
 });
 
 export const genColHeader = (col: number): string => {

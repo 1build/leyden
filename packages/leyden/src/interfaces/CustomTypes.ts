@@ -27,6 +27,7 @@ export interface CustomTypes {
 interface ExtendedElementTypeEntry {
     children: Descendant[];
     data?: unknown;
+    isEditable?: boolean;
 }
 
 interface ExtendedTextTypeEntry {
@@ -38,6 +39,7 @@ interface ExtendedTextTypeEntry {
 interface BaseExtendedElementTypeEntry {
     children: Text[];
     data?: unknown;
+    isEditable: false;
 }
 
 type BaseExtendedTextTypeEntry = {
@@ -77,15 +79,29 @@ type ExtractDataProp<T extends ExtendedElementTypeEntry|ExtendedTextTypeEntry> =
         ? D
         : Record<string, unknown>;
 
+type ExtractIsEditableProp<T extends ExtendedElementTypeEntry> =
+    T extends { isEditable: infer D }
+        ? D extends false
+            ? { isEditable: false }
+            : Record<string, unknown>
+        : Record<string, unknown>;
+
 export type ExtendedCellType<
     T extends string,
     R extends Record<T, ExtendedElementTypeEntry>
-> = { type: 'cell'; cellType: T } & ExtractDataProp<R[T]> & { children: R[T]['children'] };
+> = ExtractDataProp<R[T]> & ExtractIsEditableProp<R[T]> & {
+    type: 'cell';
+    children: R[T]['children'];
+    cellType: T;
+};
 
 export type ExtendedElementsType<
     T extends string,
     R extends Record<T, ExtendedElementTypeEntry>
-> = { type: T } & ExtractDataProp<R[T]> & { children: R[T]['children'] };
+> = ExtractDataProp<R[T]> & ExtractIsEditableProp<R[T]> & {
+    type: T;
+    children: R[T]['children'];
+};
 
 export type ExtractTextValidator<T extends ExtendedTextTypeEntry> =
     T extends { validator: Validator }
@@ -95,4 +111,7 @@ export type ExtractTextValidator<T extends ExtendedTextTypeEntry> =
 export type ExtendedTextType<
     T extends string,
     R extends Record<T, ExtendedTextTypeEntry>
-> = { type: T } & ExtractDataProp<R[T]> & ExtractTextValidator<R[T]> & { text: R[T]['text'] };
+> = ExtractDataProp<R[T]> & ExtractTextValidator<R[T]> & {
+    type: T;
+    text: R[T]['text'];
+};

@@ -21,5 +21,17 @@ export type ElementType = Distribute<ExternalElementType|InternalElementType>
 
 export type Element<T extends ElementType> = ExtendedElementsType<T, Elements>;
 
+export type LaydenElement =
+    | Cell<CellType>
+    | ExternalElement<ExternalElementType>
+    | Table;
+
 export const Element = {
+    /**
+     * Return `true` if an element is void (not editable).
+     */
+
+    isVoid: (el: LaydenElement): boolean => (
+        el.isEditable === false
+    ),
 };

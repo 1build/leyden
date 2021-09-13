@@ -6,7 +6,11 @@ declare module 'leyden' {
     interface CustomTypes {
         Cells: {
             CSI: {
-                children: [Text<'CSI'>];
+                children: [Text<'Empty'>];
+                isEditable: false;
+                data: {
+                    csi: CSI;
+                }
             };
             Quantity: {
                 children: [Text<'Decimal'>];
@@ -15,20 +19,21 @@ declare module 'leyden' {
                 children: [Text<'Text'>];
             };
             UnitOfMeasure: {
-                children: [Text<'UOM'>];
+                children: [Text<'Empty'>];
+                isEditable: false;
+                data: {
+                    uom: UOM;
+                }
             };
             WholeDollars: {
                 children: [Text<'WholeDollars'>]
             };
         };
         Text: {
-            CSI: {
+            Empty: {
                 text: '';
                 validator: 'empty';
-                data: {
-                    csi: CSI;
-                }
-            };
+            }
             Decimal: {
                 text: string;
                 validator: 'numeric';
@@ -36,13 +41,6 @@ declare module 'leyden' {
             Text: {
                 text: string;
             },
-            UOM: {
-                text: '';
-                validator: 'empty';
-                data: {
-                    uom: UOM;
-                }
-            };
             WholeDollars: {
                 text: string;
                 validator: 'integer';

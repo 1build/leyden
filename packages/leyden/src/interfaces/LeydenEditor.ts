@@ -4,11 +4,8 @@ import {
     Transforms,
 } from 'slate';
 
-import { Cell, CellType } from './Cell';
 import { Coordinates } from './Coordinates';
-import { ExternalElement, ExternalElementType } from './Element';
 import { Table } from './Table';
-import { Text, TextType } from './Text';
 import { ValidationFunc, Validator } from './Validator';
 import { Direction2D } from '../types';
 
@@ -17,13 +14,6 @@ export interface LeydenEditor extends Omit<BaseEditor, 'children'> {
 
     getValidationFunc: (validator: Validator) => ValidationFunc;
 }
-
-export type LaydenElement =
-    | Cell<CellType>
-    | ExternalElement<ExternalElementType>
-    | Table;
-
-export type LaydenText = Text<TextType>;
 
 export const LeydenEditor = {
     /**
