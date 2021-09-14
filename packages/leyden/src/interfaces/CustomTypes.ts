@@ -4,7 +4,7 @@
  * Adapted from Slate's custom types:
  * https://github.com/ianstormtaylor/slate/blob/f5c0cbd7ecc016c970d4448f29111340fc235e7b/packages/slate/src/interfaces/custom-types.ts
  */
-import { Descendant, Text } from 'slate';
+import { Text } from 'slate';
 
 import { Validator } from './Validator';
 
@@ -21,7 +21,7 @@ type ExtendableTypes =
     | ExtendableExtraTypes;
 
 interface WithCellType<T extends string> { cellType: T }
-interface WithChildren<T extends Descendant[]> { children: T }
+interface WithChildren<T extends Array<unknown>> { children: T }
 interface WithData<T> { data: T }
 interface WithDataOptional<T> { data?: T }
 interface WithIsEditable<T extends boolean> { isEditable: T }
@@ -32,7 +32,7 @@ interface WithValidator<T extends Validator> { validator: T }
 interface WithValidatorOptional<T extends Validator> { validator?: T }
 
 interface ExtendedElementTypeEntry extends
-    WithChildren<Descendant[]>,
+    WithChildren<Array<unknown>>,
     WithDataOptional<unknown>,
     WithIsEditableOptional<boolean> {}
 
