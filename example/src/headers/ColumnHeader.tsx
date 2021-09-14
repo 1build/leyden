@@ -53,7 +53,7 @@ export const ColumnHeader: HeaderRenderer = ({ position }) => {
         fontWeight: 700,
         lineHeight: '14px',
         color: '#FFFFFF',
-        opacity: 0.8,
+        opacity: colFocused ? 1 : 0.8,
     });
 
     return (
