@@ -16,7 +16,6 @@ export const makeSheetGridTemplateClass = (
     display: 'grid',
     gridTemplateColumns: `repeat(${cols}, auto)`,
     gridTemplateRows: `repeat(${rows}, auto)`,
-    padding: `${cellGap}px`,
     position: 'relative',
     gap: `${cellGap}px`,
     alignItems: 'stretch',
