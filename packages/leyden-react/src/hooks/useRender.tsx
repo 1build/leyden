@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 
 import { Element } from '../components/Element';
+import { TableOptions } from '../components/Table';
 import { Text } from '../components/Text';
 import {
     CellRenderers,
@@ -16,6 +17,7 @@ interface UseRenderProps {
     cellRenderers: CellRenderers,
     elementRenderers: ElementRenderers,
     headerRenderers?: HeaderRenderers;
+    tableOptions?: TableOptions;
     textRenderers: TextRenderers,
 }
 
@@ -28,6 +30,7 @@ export const useRender = ({
     cellRenderers,
     elementRenderers,
     headerRenderers,
+    tableOptions,
     textRenderers,
 }: UseRenderProps): UseRenderPayload => {
     const renderElement = useCallback((rep: ElementNoRenderers) => (
@@ -36,6 +39,7 @@ export const useRender = ({
             cellRenderers={cellRenderers}
             elementRenderers={elementRenderers}
             headerRenderers={headerRenderers}
+            tableOptions={tableOptions}
         />
     ), [cellRenderers, elementRenderers]);
 

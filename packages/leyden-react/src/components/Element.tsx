@@ -7,7 +7,7 @@ import React, { FC } from 'react';
 import { Element as SlateElement } from 'slate';
 import { RenderElementProps } from 'slate-react';
 
-import { Table } from './Table';
+import { Table, TableOptions } from './Table';
 import {
     CellRenderers,
     ElementRenderers,
@@ -19,6 +19,7 @@ export interface Element extends Omit<RenderElementProps, 'element'> {
     elementRenderers: ElementRenderers;
     element: SlateElement;
     headerRenderers?: HeaderRenderers;
+    tableOptions?: TableOptions;
 }
 
 export const Element: FC<Element> = ({
@@ -28,6 +29,7 @@ export const Element: FC<Element> = ({
     element,
     elementRenderers,
     headerRenderers,
+    tableOptions,
 }) => {
     const attributes = LeydenElement.isVoid(element)
         ? { ...slateAttributes, contentEditable: false }
@@ -51,6 +53,7 @@ export const Element: FC<Element> = ({
                 attributes={attributes}
                 element={element}
                 headerRenderers={headerRenderers}
+                options={tableOptions}
             >
                 {children}
             </Table>

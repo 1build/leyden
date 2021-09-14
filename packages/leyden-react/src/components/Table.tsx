@@ -10,9 +10,14 @@ import {
 } from './style';
 import { HeaderRenderers } from '../utils/types';
 
+export interface TableOptions {
+    cellGap: number;
+}
+
 export interface Table extends Omit<RenderElementProps, 'element'> {
     element: LeydenTable;
     headerRenderers?: HeaderRenderers;
+    options?: TableOptions;
 }
 
 export const Table: FC<Table> = ({
@@ -20,6 +25,7 @@ export const Table: FC<Table> = ({
     children,
     element,
     headerRenderers,
+    options,
 }) => {
     const { cols, rows } = element;
 
@@ -29,8 +35,7 @@ export const Table: FC<Table> = ({
         return makeSheetGridTemplateClass(
             totalCols,
             totalRows,
-            '#D7E1E5',
-            1,
+            options?.cellGap??0,
         );
     }, [cols, rows, headerRenderers]);
 

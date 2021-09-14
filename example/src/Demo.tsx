@@ -24,17 +24,22 @@ export const Demo: FC = () => {
     ), []);
 
     return (
-        <Leyden
-            editor={editor}
-            value={descendants}
-            onChange={setDescendants}
-        >
-            <Editable
-                cellRenderers={cellRenderers}
-                elementRenderers={elementRenderers}
-                headerRenderers={headerRenderers}
-                textRenderers={textRenderers}
-            />
-        </Leyden>
+        <div style={{ backgroundColor: '#D7E1E5' }}>
+            <Leyden
+                editor={editor}
+                value={descendants}
+                onChange={setDescendants}
+            >
+                <Editable
+                    cellRenderers={cellRenderers}
+                    elementRenderers={elementRenderers}
+                    headerRenderers={headerRenderers}
+                    textRenderers={textRenderers}
+                    tableOptions={{
+                        cellGap: 1,
+                    }}
+                />
+            </Leyden>
+        </div>
     );
 };

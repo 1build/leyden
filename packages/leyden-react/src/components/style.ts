@@ -11,17 +11,14 @@ export const makeGridPositionClass = (
 export const makeSheetGridTemplateClass = (
     cols: number,
     rows: number,
-    borderColor: string,
-    borderThickness: number,
+    cellGap: number,
 ): string => style({
     display: 'grid',
     gridTemplateColumns: `repeat(${cols}, auto)`,
     gridTemplateRows: `repeat(${rows}, auto)`,
-    padding: `${borderThickness}px`,
+    padding: `${cellGap}px`,
     position: 'relative',
-    gap: `${borderThickness}px`,
-    backgroundColor: borderColor,
+    gap: `${cellGap}px`,
     alignItems: 'stretch',
     justifyItems: 'stretch',
-    width: 'fit-content',
 });

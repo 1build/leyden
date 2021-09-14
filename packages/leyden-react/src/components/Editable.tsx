@@ -9,6 +9,7 @@ import {
     useSlateStatic,
 } from 'slate-react';
 
+import { TableOptions } from './Table';
 import { useRender } from '../hooks/useRender';
 import { cellNavigationKeys } from '../utils/keys';
 import {
@@ -22,6 +23,7 @@ export interface Editable extends Omit<Parameters<typeof SlateReactEditable>[0],
     cellRenderers: CellRenderers;
     elementRenderers: ElementRenderers;
     headerRenderers?: HeaderRenderers;
+    tableOptions?: TableOptions;
     textRenderers: TextRenderers;
 }
 
@@ -30,6 +32,7 @@ export const Editable: FC<Editable> = ({
     elementRenderers,
     headerRenderers,
     onKeyDown,
+    tableOptions,
     textRenderers,
     ...props
 }) => {
@@ -40,6 +43,7 @@ export const Editable: FC<Editable> = ({
         elementRenderers,
         headerRenderers,
         textRenderers,
+        tableOptions,
     });
 
     const handleKeyDown = useCallback<KeyboardEventHandler<HTMLDivElement>>(e => {
