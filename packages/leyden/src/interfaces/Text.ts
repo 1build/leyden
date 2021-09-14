@@ -13,7 +13,7 @@ export type TextType = Keys<Texts>;
 
 export type Text<T extends TextType> = ExtendedTextType<T, Texts>;
 
-export type LaydenText = Text<TextType>;
+export type LeydenText = Text<TextType>;
 
 export const Text = {
     /**
