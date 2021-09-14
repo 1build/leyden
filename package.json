@@ -11,6 +11,7 @@
     "lint:eslint": "eslint \"./{packages,proto}/**/*.{js,jsx,ts,tsx}\"",
     "lint:typescript": "tsc --build ./ --force",
     "prerelease": "NODE_ENV=production yarn build:rollup && yarn lint",
+    "release:latest": "yarn prerelease && lerna publish --force-publish",
     "release:next": "yarn prerelease && lerna publish --dist-tag next --force-publish"
   },
   "author": "Michael Darr",
