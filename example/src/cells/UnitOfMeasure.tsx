@@ -6,7 +6,7 @@ import { UOMString } from '../types';
 export const UnitOfMeasure: CellRenderer<'UnitOfMeasure'> = ({
     attributes,
     children,
-    element: { uom },
+    element,
 }) => {
     return (
         <div
@@ -27,7 +27,7 @@ export const UnitOfMeasure: CellRenderer<'UnitOfMeasure'> = ({
                 fontWeight: 600,
                 lineHeight: '14px',
             }}>
-                {UOMString[uom]}
+                {UOMString[element.uom]}
             </span>
             {children}
         </div>

@@ -4,6 +4,7 @@ import {
     Transforms,
 } from 'slate';
 
+import { Cell, CellType } from './Cell';
 import { Coordinates } from './Coordinates';
 import { Table } from './Table';
 import { ValidationFunc, Validator } from './Validator';
@@ -38,6 +39,20 @@ export const LeydenEditor = {
             path[1]
         );
     },
+
+    /**
+     * Get the cell at `coords` in an editor.
+     */
+
+    getCellAtCoords: (
+        editor: LeydenEditor,
+        coords: Coordinates,
+    ): Cell<CellType>|null => (
+        Table.getCellAtCoords(
+            LeydenEditor.getTable(editor),
+            coords
+        )
+    ),
 
     /**
      * Get an editor's root table.

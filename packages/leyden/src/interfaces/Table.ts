@@ -13,6 +13,43 @@ export interface Table {
 
 export const Table = {
     /**
+     * Get a table's `n`th cell.
+     */
+
+    getNthCell: (
+        table: Table,
+        n: number
+    ): Cell<CellType>|null => {
+        if (table.children.length <= n) {
+            return null;
+        }
+        return table.children[n];
+    },
+
+    /**
+     * Get the cell at `coords` in a table.
+     */
+
+    getCellAtCoords: (
+        table: Table,
+        coords: Coordinates,
+    ): Cell<CellType>|null => {
+        const cellIdx = Table.getCellIdx(table, coords);
+        return Table.getNthCell(table, cellIdx);
+    },
+
+    /**
+     * Get the index within a table's `children` specified by `coords`.
+     */
+
+    getCellIdx: (
+        table: Table,
+        coords: Coordinates,
+    ): number => (
+        (coords.y*table.cols)+coords.x
+    ),
+
+    /**
      * Get the coordinates of the cell at the nth position of the flat cell list.
      */
 

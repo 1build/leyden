@@ -1,4 +1,5 @@
 export * from './interfaces/Cell';
+export * from './interfaces/Coordinates';
 export * from './interfaces/CustomTypes';
 export * from './interfaces/LeydenEditor';
 export * from './interfaces/Element';
