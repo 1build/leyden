@@ -1,6 +1,7 @@
-import { Node, Editor } from 'slate';
+import { Node, Editor, Element as SlateElement } from 'slate';
 
 import { CreateEditorOptions } from './createEditor';
+import { Cell } from './interfaces/Cell';
 import { Element } from './interfaces/Element';
 import { Text } from './interfaces/Text';
 import { Validator } from './interfaces/Validator';
@@ -14,6 +15,20 @@ export const withLeyden = (
     const { apply, isVoid } = e;
 
     e.apply = op => {
+        // Disallow cell merging (maintain layout)
+        if (op.type === 'merge_node'
+            && Reflect.get(op.properties, 'type') === 'cell'
+        ) {
+            return;
+        }
+        // Disallow cell deletion (maintain layout)
+        if (op.type === 'remove_node'
+            && SlateElement.isElement(op.node)
+            && Cell.isCell(op.node)
+        ) {
+            return;
+        }
+        // Ensure text insertion and removal abides by validations funcs
         if ((op.type === 'insert_text' || op.type === 'remove_text')
             && op.text.length > 0
         ) {
