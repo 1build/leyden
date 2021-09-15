@@ -8,7 +8,13 @@ export type CellType = Keys<Cells>;
 
 export type Cell<T extends CellType> = ExtendedCellType<T, Cells>;
 
-export const Cell = {
+export interface CellInterface {
+    isCell: (el: Element) => el is Cell<CellType>;
+    isCellList: (els: Element[]) => els is Cell<CellType>[];
+    isCellType: <T extends CellType>(cell: Cell<CellType>, type: T) => cell is Cell<T>;
+}
+
+export const Cell: CellInterface = {
     /**
      * Check if an element is a `Cell`.
      */
@@ -23,5 +29,16 @@ export const Cell = {
 
     isCellList: (value: Element[]): value is Cell<CellType>[] => (
         Array.isArray(value) && value.every(val => Cell.isCell(val))
+    ),
+
+    /**
+     * Check if a cell is a specific cell type.
+     */
+
+    isCellType: <T extends CellType>(
+        cell: Cell<CellType>,
+        type: T
+    ): cell is Cell<T> => (
+        cell.cellType === type
     ),
 };

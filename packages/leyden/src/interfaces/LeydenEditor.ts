@@ -16,7 +16,20 @@ export interface LeydenEditor extends Omit<BaseEditor, 'children'> {
     getValidationFunc: (validator: Validator) => ValidationFunc;
 }
 
-export const LeydenEditor = {
+export interface LeydenEditorInterface {
+    coordPath: (editor: LeydenEditor, coords: Coordinates) => Path;
+    getCellCoordsAtPath: (editor: LeydenEditor, path: Path) => Coordinates|null;
+    getCellAtCoords: (editor: LeydenEditor, coords: Coordinates) => Cell<CellType>|null;
+    getCellTypeAtCoords: <T extends CellType>(editor: LeydenEditor, coords: Coordinates, type: T) => Cell<T>|null;
+    getTable: (editor: LeydenEditor) => Table;
+    moveCellSelection: (editor: LeydenEditor, direction: Direction2D) => void;
+    selectCell: (editor: LeydenEditor, coords: Coordinates) => void;
+    selectedColumn: (editor: LeydenEditor) => number|null;
+    selectedCoords: (editor: LeydenEditor) => Coordinates|null;
+    selectedRow: (editor: LeydenEditor) => number|null;
+}
+
+export const LeydenEditor: LeydenEditorInterface = {
     /**
      * coordPath returns a path to a cell located at the provided coordinates.
      */
@@ -53,6 +66,25 @@ export const LeydenEditor = {
             coords
         )
     ),
+
+    /**
+     * Get the cell at `coords` in an editor.
+     */
+
+    getCellTypeAtCoords: <T extends CellType>(
+        editor: LeydenEditor,
+        coords: Coordinates,
+        type: T
+    ): Cell<T>|null => {
+        const cell = Table.getCellAtCoords(
+            LeydenEditor.getTable(editor),
+            coords
+        );
+        if (cell !== null && Cell.isCellType(cell, type)) {
+            return cell;
+        }
+        return null;
+    },
 
     /**
      * Get an editor's root table.
