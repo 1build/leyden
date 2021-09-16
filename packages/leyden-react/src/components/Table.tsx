@@ -33,13 +33,11 @@ export const Table: FC<Table> = ({
 
     const className = useMemo<string>(() => {
         const totalCols = headerRenderers?.row ? cols+1 : cols;
-        const totalRows = headerRenderers?.column ? rows+1 : rows;
         return makeSheetGridTemplateClass(
             totalCols,
-            totalRows,
             options?.cellGap??0,
         );
-    }, [cols, rows, headerRenderers]);
+    }, [cols, headerRenderers]);
 
     const hasOrigin = useMemo(() => (
         headerRenderers?.column && headerRenderers?.row
