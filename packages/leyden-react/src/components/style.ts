@@ -25,4 +25,5 @@ export const makeSheetGridTemplateClass = (
 export const stickyHeaderClass = style({
     position: 'sticky',
     top: 0,
+    zIndex: 10,
 });
