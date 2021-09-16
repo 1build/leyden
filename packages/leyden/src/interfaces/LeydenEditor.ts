@@ -1,5 +1,6 @@
 import {
     BaseEditor,
+    Editor,
     Path,
     Transforms,
 } from 'slate';
@@ -18,22 +19,22 @@ export interface LeydenEditor extends Omit<BaseEditor, 'children'> {
 
 export interface LeydenEditorInterface {
     cells: (
-        editor: LeydenEditor,
+        editor: Editor,
         options?: {
             reverse?: boolean
         }
     ) => Generator<LeydenEditorCell, void, undefined>;
-    coordPath: (editor: LeydenEditor, coords: Coordinates) => Path;
-    getCellCoordsAtPath: (editor: LeydenEditor, path: Path) => Coordinates|null;
-    getCellAtCoords: (editor: LeydenEditor, coords: Coordinates) => Cell<CellType>|null;
-    getCellTypeAtCoords: <T extends CellType>(editor: LeydenEditor, coords: Coordinates, type: T) => Cell<T>|null;
-    getTable: (editor: LeydenEditor) => Table;
-    moveCellSelection: (editor: LeydenEditor, direction: Direction2D) => void;
+    coordPath: (editor: Editor, coords: Coordinates) => Path;
+    getCellCoordsAtPath: (editor: Editor, path: Path) => Coordinates|null;
+    getCellAtCoords: (editor: Editor, coords: Coordinates) => Cell<CellType>|null;
+    getCellTypeAtCoords: <T extends CellType>(editor: Editor, coords: Coordinates, type: T) => Cell<T>|null;
+    getTable: (editor: Editor) => Table;
+    moveCellSelection: (editor: Editor, direction: Direction2D) => void;
     nthCellPath: (n: number) => Path;
-    selectCell: (editor: LeydenEditor, coords: Coordinates) => void;
-    selectedColumn: (editor: LeydenEditor) => number|null;
-    selectedCoords: (editor: LeydenEditor) => Coordinates|null;
-    selectedRow: (editor: LeydenEditor) => number|null;
+    selectCell: (editor: Editor, coords: Coordinates) => void;
+    selectedColumn: (editor: Editor) => number|null;
+    selectedCoords: (editor: Editor) => Coordinates|null;
+    selectedRow: (editor: Editor) => number|null;
 }
 
 export const LeydenEditor: LeydenEditorInterface = {
@@ -42,7 +43,7 @@ export const LeydenEditor: LeydenEditorInterface = {
      */
 
     *cells(
-        editor: LeydenEditor,
+        editor: Editor,
         options: {
             reverse?: boolean
         } = {}
@@ -65,7 +66,7 @@ export const LeydenEditor: LeydenEditorInterface = {
      * coordPath returns a path to a cell located at the provided coordinates.
      */
 
-    coordPath(editor: LeydenEditor, coords: Coordinates): Path {
+    coordPath(editor: Editor, coords: Coordinates): Path {
         const table = LeydenEditor.getTable(editor);
         return LeydenEditor.nthCellPath((coords.y*table.cols)+coords.x);
     },
@@ -75,7 +76,7 @@ export const LeydenEditor: LeydenEditorInterface = {
      */
 
     getCellCoordsAtPath(
-        editor: LeydenEditor,
+        editor: Editor,
         path: Path,
     ): Coordinates|null {
         return Table.getNthCellCoords(
@@ -89,7 +90,7 @@ export const LeydenEditor: LeydenEditorInterface = {
      */
 
     getCellAtCoords(
-        editor: LeydenEditor,
+        editor: Editor,
         coords: Coordinates,
     ): Cell<CellType>|null {
         return Table.getCellAtCoords(
@@ -103,7 +104,7 @@ export const LeydenEditor: LeydenEditorInterface = {
      */
 
     getCellTypeAtCoords<T extends CellType>(
-        editor: LeydenEditor,
+        editor: Editor,
         coords: Coordinates,
         type: T
     ): Cell<T>|null {
@@ -121,7 +122,7 @@ export const LeydenEditor: LeydenEditorInterface = {
      * Get an editor's root table.
      */
 
-    getTable(editor: LeydenEditor): Table {
+    getTable(editor: Editor): Table {
         return editor.children[0];
     },
 
@@ -130,7 +131,7 @@ export const LeydenEditor: LeydenEditorInterface = {
      */
 
     moveCellSelection(
-        editor: LeydenEditor,
+        editor: Editor,
         direction: Direction2D
     ): void {
         const { selection } = editor;
@@ -158,7 +159,7 @@ export const LeydenEditor: LeydenEditorInterface = {
      */
 
     selectCell(
-        editor: LeydenEditor,
+        editor: Editor,
         coords: Coordinates
     ): void {
         const table = LeydenEditor.getTable(editor);
@@ -173,7 +174,7 @@ export const LeydenEditor: LeydenEditorInterface = {
      * Get the index of the currently selected column.
      */
 
-    selectedColumn(editor: LeydenEditor): number|null {
+    selectedColumn(editor: Editor): number|null {
         return LeydenEditor.selectedCoords(editor)?.x??null;
     },
 
@@ -181,7 +182,7 @@ export const LeydenEditor: LeydenEditorInterface = {
      * Get the coordinates of the currently selected cell.
      */
 
-    selectedCoords(editor: LeydenEditor): Coordinates|null {
+    selectedCoords(editor: Editor): Coordinates|null {
         const { selection } = editor;
         if (!selection) {
             return null;
@@ -193,7 +194,7 @@ export const LeydenEditor: LeydenEditorInterface = {
      * Get the index of the currently selected row.
      */
 
-    selectedRow(editor: LeydenEditor): number|null {
+    selectedRow(editor: Editor): number|null {
         return LeydenEditor.selectedCoords(editor)?.y??null;
     },
 };
