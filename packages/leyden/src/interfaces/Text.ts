@@ -20,19 +20,19 @@ export const Text = {
      * Check if a text is a `Text`.
      */
 
-    isText: (text: SlateText): text is Text<TextType> => (
-        Reflect.has(text, 'type')
-    ),
+    isText(text: SlateText): text is Text<TextType> {
+        return Reflect.has(text, 'type');
+    },
 
     /**
      * Return true if the result of applying the an operation to a text is valid.
      */
 
-    validateTextOperation: (
+    validateTextOperation(
         text: Text<TextType>,
         validator: ValidationFunc,
         operation: InsertTextOperation|RemoveTextOperation
-    ): boolean => {
+    ): boolean {
         const {
             offset,
             text: opText,

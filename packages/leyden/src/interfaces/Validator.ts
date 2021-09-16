@@ -31,7 +31,7 @@ export const Validator: ValidatorInterface = {
      * Returns the appropriate validation function for `validator`, pulling from `validators` if not defined here 
      */
 
-    getValidationFunc: (validators, validator) => {
+    getValidationFunc(validators, validator) {
         const allValidators = {
             'empty': Validator.isEmpty,
             'integer': Validator.isInteger,
@@ -45,17 +45,23 @@ export const Validator: ValidatorInterface = {
      * Returns `true` if `val` is an empty string.
      */
 
-    isEmpty: val => val === '',
+    isEmpty(val: string): boolean {
+        return val === '';
+    },
 
     /**
      * Returns `true` if `val` is an integer string ('' counts as 0).
      */
 
-    isInteger: val => /^[,\d]*$/.test(val) && Validator.isNumeric(val),
+    isInteger(val: string): boolean {
+        return /^[,\d]*$/.test(val) && Validator.isNumeric(val);
+    },
 
     /**
      * Returns `true` if `val` is a numeric string.
      */
 
-    isNumeric: val => !isNaN(Number(val.replaceAll(',', ''))),
+    isNumeric(val: string): boolean {
+        return !isNaN(Number(val.replaceAll(',', '')));
+    },
 };

@@ -31,7 +31,7 @@ export const Element = {
      * Return `true` if an element is void (not editable).
      */
 
-    isVoid: (el: LeydenElement): boolean => (
-        el.isEditable === false
-    ),
+    isVoid(el: LeydenElement): boolean {
+        return el.isEditable === false;
+    },
 };

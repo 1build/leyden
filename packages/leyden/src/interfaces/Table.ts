@@ -12,12 +12,6 @@ export interface Table {
 }
 
 export interface TableInterface {
-    cells: (
-        table: Table,
-        options?: {
-            reverse?: boolean
-        }
-    ) => Generator<TableCell, void, undefined>;
     getNthCell: (table: Table, n: number) => Cell<CellType>|null;
     getCellAtCoords: (table: Table, coords: Coordinates) => Cell<CellType>|null;
     getCellIdx: (table: Table, coords: Coordinates) => number;
@@ -27,28 +21,6 @@ export interface TableInterface {
 }
 
 export const Table: TableInterface = {
-    /**
-     * Iterate over all cells in a table.
-     */
-
-    *cells(
-        table: Table,
-        options: {
-            reverse?: boolean
-        } = {}
-    ): Generator<TableCell, void, undefined> {
-        const { reverse = false } = options;
-        const { children: cells } = table;
-        let index = reverse ? cells.length-1 : 0;
-
-        while (reverse ? index >= 0 : index < cells.length) {
-            const cell = cells[index];
-            const cellCoords = Table.getNthCellCoords(table, index);
-            yield [cell, cellCoords];
-            index = reverse ? index-1 : index+1;
-        }
-    },
-
     /**
      * Get a table's `n`th cell.
      */
