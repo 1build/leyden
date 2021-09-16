@@ -1,3 +1,4 @@
+import { Editor } from 'slate';
 import {
     Cell,
     CellType,
@@ -15,7 +16,7 @@ export const ReactEditor = {
      */
 
     cellCoords: (
-        editor: ReactEditor,
+        editor: Editor,
         cell: Cell<CellType>,
     ): Coordinates|null => {
         const cellPath = SlateReactEditor.findPath(editor, cell);
