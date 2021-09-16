@@ -7,17 +7,19 @@ import { Origin } from './Origin';
 import {
     makeGridPositionClass,
     makeSheetGridTemplateClass,
+    stickyHeaderClass,
 } from './style';
 import { HeaderRenderers } from '../utils/types';
 
 export interface TableOptions {
     cellGap: number;
+    stickyColumnHeaders: boolean;
 }
 
 export interface Table extends Omit<RenderElementProps, 'element'> {
     element: LeydenTable;
     headerRenderers?: HeaderRenderers;
-    options?: TableOptions;
+    options?: Partial<TableOptions>;
 }
 
 export const Table: FC<Table> = ({
@@ -46,10 +48,16 @@ export const Table: FC<Table> = ({
     const genHeaderClass = useMemo(() => {
         const offset = hasOrigin ? 2 : 1;
         return {
-            column: (pos: number) => (makeGridPositionClass(pos+offset, 1)),
-            row: (pos: number) => (makeGridPositionClass(1, pos+offset)),
+            column: (pos: number) => {
+                const classes = [makeGridPositionClass(pos+offset, 1)];
+                if (options?.stickyColumnHeaders) {
+                    classes.push(stickyHeaderClass);
+                }
+                return classes;
+            },
+            row: (pos: number) => ([makeGridPositionClass(1, pos+offset)]),
         };
-    }, [hasOrigin]);
+    }, [hasOrigin, options?.stickyColumnHeaders]);
 
     return (
         <div
@@ -59,12 +67,12 @@ export const Table: FC<Table> = ({
             {hasOrigin && <Origin Component={headerRenderers?.origin} />}
             {headerRenderers?.column && <Headers
                 quantity={cols}
-                genClass={genHeaderClass.column}
+                genClasses={genHeaderClass.column}
                 Component={headerRenderers.column}
             />}
             {headerRenderers?.row && <Headers
                 quantity={rows}
-                genClass={genHeaderClass.row}
+                genClasses={genHeaderClass.row}
                 Component={headerRenderers.row}
             />}
             {children}

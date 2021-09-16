@@ -19,7 +19,7 @@ export interface Element extends Omit<RenderElementProps, 'element'> {
     elementRenderers: ElementRenderers;
     element: SlateElement;
     headerRenderers?: HeaderRenderers;
-    tableOptions?: TableOptions;
+    tableOptions?: Partial<TableOptions>;
 }
 
 export const Element: FC<Element> = ({

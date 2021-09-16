@@ -17,7 +17,7 @@ interface UseRenderProps {
     cellRenderers: CellRenderers,
     elementRenderers: ElementRenderers,
     headerRenderers?: HeaderRenderers;
-    tableOptions?: TableOptions;
+    tableOptions?: Partial<TableOptions>;
     textRenderers: TextRenderers,
 }
 

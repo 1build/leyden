@@ -21,3 +21,8 @@ export const makeSheetGridTemplateClass = (
     alignItems: 'stretch',
     justifyItems: 'stretch',
 });
+
+export const stickyHeaderClass = style({
+    position: 'sticky',
+    top: 0,
+});

@@ -23,7 +23,7 @@ export interface Editable extends Omit<Parameters<typeof SlateReactEditable>[0],
     cellRenderers: CellRenderers;
     elementRenderers: ElementRenderers;
     headerRenderers?: HeaderRenderers;
-    tableOptions?: TableOptions;
+    tableOptions?: Partial<TableOptions>;
     textRenderers: TextRenderers;
 }
 

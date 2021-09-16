@@ -36,7 +36,7 @@ export const Demo: FC = () => {
                     headerRenderers={headerRenderers}
                     textRenderers={textRenderers}
                     tableOptions={{
-                        cellGap: 1,
+                        stickyColumnHeaders: true,
                     }}
                 />
             </Leyden>
