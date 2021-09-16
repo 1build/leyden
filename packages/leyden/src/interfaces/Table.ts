@@ -11,15 +11,52 @@ export interface Table {
     children: Cell<CellType>[];
 }
 
-export const Table = {
+export interface TableInterface {
+    cells: (
+        table: Table,
+        options?: {
+            reverse?: boolean
+        }
+    ) => Generator<TableCell, void, undefined>;
+    getNthCell: (table: Table, n: number) => Cell<CellType>|null;
+    getCellAtCoords: (table: Table, coords: Coordinates) => Cell<CellType>|null;
+    getCellIdx: (table: Table, coords: Coordinates) => number;
+    getNthCellCoords: (table: Table, n: number) => Coordinates;
+    hasCoords: (table: Table, coords: Coordinates) => boolean;
+    isTable: (el: Element) => el is Table;
+}
+
+export const Table: TableInterface = {
+    /**
+     * Iterate over all cells in a table.
+     */
+
+    *cells(
+        table: Table,
+        options: {
+            reverse?: boolean
+        } = {}
+    ): Generator<TableCell, void, undefined> {
+        const { reverse = false } = options;
+        const { children: cells } = table;
+        let index = reverse ? cells.length-1 : 0;
+
+        while (reverse ? index >= 0 : index < cells.length) {
+            const cell = cells[index];
+            const cellCoords = Table.getNthCellCoords(table, index);
+            yield [cell, cellCoords];
+            index = reverse ? index-1 : index+1;
+        }
+    },
+
     /**
      * Get a table's `n`th cell.
      */
 
-    getNthCell: (
+    getNthCell(
         table: Table,
         n: number
-    ): Cell<CellType>|null => {
+    ): Cell<CellType>|null {
         if (table.children.length <= n) {
             return null;
         }
@@ -30,10 +67,10 @@ export const Table = {
      * Get the cell at `coords` in a table.
      */
 
-    getCellAtCoords: (
+    getCellAtCoords (
         table: Table,
         coords: Coordinates,
-    ): Cell<CellType>|null => {
+    ): Cell<CellType>|null {
         const cellIdx = Table.getCellIdx(table, coords);
         return Table.getNthCell(table, cellIdx);
     },
@@ -42,41 +79,50 @@ export const Table = {
      * Get the index within a table's `children` specified by `coords`.
      */
 
-    getCellIdx: (
+    getCellIdx (
         table: Table,
         coords: Coordinates,
-    ): number => (
-        (coords.y*table.cols)+coords.x
-    ),
+    ): number {
+        return (coords.y*table.cols)+coords.x;
+    },
 
     /**
      * Get the coordinates of the cell at the nth position of the flat cell list.
      */
 
-    getNthCellCoords: (
+    getNthCellCoords (
         table: Table,
         n: number
-    ): Coordinates => ({
-        x: n % table.cols,
-        y: Math.floor(n/table.cols),
-    }),
+    ): Coordinates {
+        return {
+            x: n % table.cols,
+            y: Math.floor(n/table.cols),
+        };
+    },
 
     /**
      * Return true if a coordinate pair lies within the editor.
      */
 
-    hasCoords: (
+    hasCoords (
         table: Table,
         coords: Coordinates
-    ): boolean => (
-        coords.x<table.cols && coords.y<table.rows
-    ),
+    ): boolean {
+        return coords.x<table.cols && coords.y<table.rows;
+    },
 
     /**
      * Check if an element is a `Table`.
      */
 
-    isTable: (el: Element): el is Table => (
-        el.type === 'table'
-    ),
+    isTable (el: Element): el is Table {
+        return el.type === 'table';
+    },
 };
+
+/**
+ * `TableCell` objects are returned when iterating over the cells of a table.
+ * They consist of the cell and its `Coordinates` relative to the table.
+ */
+
+export type TableCell = [Cell<CellType>, Coordinates];
