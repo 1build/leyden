@@ -25,7 +25,6 @@ export const SelectionTransforms: SelectionTransforms = {
         }
         const curCoords = LeydenEditor.selectedCoords(editor);
         if (curCoords === null) {
-            Transforms.deselect(editor);
             return;
         }
         const newCoords = Coordinates.move(curCoords, direction);
@@ -42,6 +41,9 @@ export const SelectionTransforms: SelectionTransforms = {
     ): void {
         const table = LeydenEditor.getTable(editor);
         if (!Table.hasCoords(table, coords)) {
+            if (editor.selection) {
+                Transforms.deselect(editor);
+            }
             return;
         }
         const newPath = LeydenEditor.coordPath(editor, coords);
