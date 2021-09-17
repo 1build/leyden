@@ -1,9 +1,4 @@
-import {
-    BaseEditor,
-    Editor,
-    Path,
-    Transforms,
-} from 'slate';
+import { BaseEditor, Editor, Path } from 'slate';
 
 import { Cell, CellType } from './Cell';
 import { Coordinates } from './Coordinates';
@@ -36,7 +31,6 @@ export interface LeydenEditorInterface {
     getCellAtCoords: (editor: Editor, coords: Coordinates) => Cell<CellType>|null;
     getCellTypeAtCoords: <T extends CellType>(editor: Editor, coords: Coordinates, type: T) => Cell<T>|null;
     getTable: (editor: Editor) => Table;
-    moveCellSelection: (editor: Editor, direction: Direction2D) => void;
     nthCellPath: (n: number) => Path;
     row: (
         editor: Editor,
@@ -45,7 +39,6 @@ export interface LeydenEditorInterface {
             reverse?: boolean
         }
     ) => Generator<LeydenEditorCell, void, undefined>;
-    selectCell: (editor: Editor, coords: Coordinates) => void;
     selectedColumn: (editor: Editor) => number|null;
     selectedCoords: (editor: Editor) => Coordinates|null;
     selectedRow: (editor: Editor) => number|null;
@@ -173,26 +166,6 @@ export const LeydenEditor: LeydenEditorInterface = {
     },
 
     /**
-     * Move the current cell selection in the provided direction.
-     */
-
-    moveCellSelection(
-        editor: Editor,
-        direction: Direction2D
-    ): void {
-        const { selection } = editor;
-        if (!selection) {
-            return;
-        }
-        const curCoords = LeydenEditor.selectedCoords(editor);
-        if (curCoords === null) {
-            return;
-        }
-        const newCoords = Coordinates.move(curCoords, direction);
-        LeydenEditor.selectCell(editor, newCoords);
-    },
-
-    /**
      * Get the path to the nth cell in an editor. 
      */
 
@@ -230,22 +203,6 @@ export const LeydenEditor: LeydenEditorInterface = {
                 reverse ? Direction2D.Left : Direction2D.Right
             );
         }
-    },
-
-    /**
-     * Select a cell at the provided coordinates.
-     */
-
-    selectCell(
-        editor: Editor,
-        coords: Coordinates
-    ): void {
-        const table = LeydenEditor.getTable(editor);
-        if (!Table.hasCoords(table, coords)) {
-            return;
-        }
-        const newPath = LeydenEditor.coordPath(editor, coords);
-        Transforms.select(editor, newPath);
     },
 
     /**

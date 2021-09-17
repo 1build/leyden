@@ -1,5 +1,11 @@
 import { CellTransforms } from './Cell';
+import { SelectionTransforms } from './Selection';
 
-export const Transforms: CellTransforms = {
+export type Transforms =
+    & CellTransforms
+    & SelectionTransforms;
+
+export const Transforms: Transforms = {
     ...CellTransforms,
+    ...SelectionTransforms
 };

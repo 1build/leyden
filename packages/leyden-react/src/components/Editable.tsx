@@ -1,4 +1,4 @@
-import { LeydenEditor } from 'leyden';
+import { Transforms } from 'leyden';
 import React, {
     FC,
     KeyboardEventHandler,
@@ -55,7 +55,7 @@ export const Editable: FC<Editable> = ({
         }
         if (e.key in cellNavigationKeys) {
             e.preventDefault();
-            LeydenEditor.moveCellSelection(editor, cellNavigationKeys[e.key]);
+            Transforms.moveCellSelection(editor, cellNavigationKeys[e.key]);
             return;
         }
     }, [onKeyDown]);
