@@ -7,5 +7,6 @@ export * from './interfaces/Table';
 export * from './interfaces/Text';
 export * from './interfaces/Validator';
 export * from './createEditor';
+export * from './transforms';
 export * from './types';
 export * from './withLeyden';
