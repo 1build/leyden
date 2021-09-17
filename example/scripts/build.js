@@ -5,7 +5,7 @@ const livereload = require('livereload');
 const path = require('path');
 
 const HOTRELOAD_PORT = 35729;
-const SERVER_PORT = 8081;
+const SERVER_PORT = 8092;
 
 const BUNDLE_NAME = 'bundle.js';
 const ENTRYPOINT_NAME = 'index.tsx';

@@ -8,7 +8,7 @@
 1. Build Leyden packages (see instructions in [root README][root-readme]).
 2. `yarn install` (**from example folder**)
 3. `yarn start` (**from example folder**)
-4. Navigate to [localhost:8081](http://localhost:8081/)
+4. Navigate to [localhost:8092](http://localhost:8092/)
 
 ## Updating Leyden
 

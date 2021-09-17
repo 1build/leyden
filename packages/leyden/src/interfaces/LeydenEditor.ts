@@ -24,6 +24,13 @@ export interface LeydenEditorInterface {
             reverse?: boolean
         }
     ) => Generator<LeydenEditorCell, void, undefined>;
+    column: (
+        editor: Editor,
+        column: number,
+        options?: {
+            reverse?: boolean
+        }
+    ) => Generator<LeydenEditorCell, void, undefined>;
     coordPath: (editor: Editor, coords: Coordinates) => Path;
     getCellCoordsAtPath: (editor: Editor, path: Path) => Coordinates|null;
     getCellAtCoords: (editor: Editor, coords: Coordinates) => Cell<CellType>|null;
@@ -31,6 +38,13 @@ export interface LeydenEditorInterface {
     getTable: (editor: Editor) => Table;
     moveCellSelection: (editor: Editor, direction: Direction2D) => void;
     nthCellPath: (n: number) => Path;
+    row: (
+        editor: Editor,
+        row: number,
+        options?: {
+            reverse?: boolean
+        }
+    ) => Generator<LeydenEditorCell, void, undefined>;
     selectCell: (editor: Editor, coords: Coordinates) => void;
     selectedColumn: (editor: Editor) => number|null;
     selectedCoords: (editor: Editor) => Coordinates|null;
@@ -55,10 +69,42 @@ export const LeydenEditor: LeydenEditorInterface = {
 
         while (reverse ? index >= 0 : index < cells.length) {
             const cell = cells[index];
-            const cellPath = LeydenEditor.nthCellPath(index);
             const cellCoords = Table.getNthCellCoords(table, index);
-            yield [cell, cellPath, cellCoords];
+            const cellPath = LeydenEditor.nthCellPath(index);
+            yield [cell, cellCoords, cellPath];
             index = reverse ? index-1 : index+1;
+        }
+    },
+
+    /**
+     * Iterate over all cells in a column.
+     */
+
+    *column(
+        editor: Editor,
+        column: number,
+        options: {
+            reverse?: boolean
+        } = {}
+    ): Generator<LeydenEditorCell, void, undefined> {
+        const { reverse = false } = options;
+        const table = LeydenEditor.getTable(editor);
+        let coordinates = {
+            x: column,
+            y: reverse ? table.rows-1 : 0,
+        };
+
+        while (reverse ? coordinates.y >= 0 : coordinates.y < table.rows) {
+            const cell = Table.getCellAtCoords(table, coordinates);
+            if (cell === null) {
+                throw new Error(`failed to get cell at coordinates (${coordinates.x}, ${coordinates.y})`);
+            }
+            const cellPath = LeydenEditor.coordPath(editor, coordinates);
+            yield [cell, coordinates, cellPath];
+            coordinates = Coordinates.move(
+                coordinates,
+                reverse ? Direction2D.Up : Direction2D.Down
+            );
         }
     },
 
@@ -155,6 +201,38 @@ export const LeydenEditor: LeydenEditorInterface = {
     },
 
     /**
+     * Iterate over all cells in a row.
+     */
+
+    *row(
+        editor: Editor,
+        row: number,
+        options: {
+            reverse?: boolean
+        } = {}
+    ): Generator<LeydenEditorCell, void, undefined> {
+        const { reverse = false } = options;
+        const table = LeydenEditor.getTable(editor);
+        let coordinates = {
+            x: reverse ? table.cols-1 : 0,
+            y: row
+        };
+
+        while (reverse ? coordinates.x >= 0 : coordinates.x < table.cols) {
+            const cell = Table.getCellAtCoords(table, coordinates);
+            if (cell === null) {
+                throw new Error(`failed to get cell at coordinates (${coordinates.x}, ${coordinates.y})`);
+            }
+            const cellPath = LeydenEditor.coordPath(editor, coordinates);
+            yield [cell, coordinates, cellPath];
+            coordinates = Coordinates.move(
+                coordinates,
+                reverse ? Direction2D.Left : Direction2D.Right
+            );
+        }
+    },
+
+    /**
      * Select a cell at the provided coordinates.
      */
 
@@ -201,8 +279,7 @@ export const LeydenEditor: LeydenEditorInterface = {
 
 /**
  * `LeydenEditorCell` objects are returned when iterating over the cells of an editor.
- * They consist of the cell, its `Path` relative to the editor, and its `Coordinates`
- * relative to the table.
+ * They consist of the cell, its `Coordinates`, and its Slate `Path` relative to the editor.
  */
 
-export type LeydenEditorCell = [Cell<CellType>, Path, Coordinates];
+export type LeydenEditorCell = [Cell<CellType>, Coordinates, Path];
