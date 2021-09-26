@@ -1,10 +1,32 @@
-import { CellRenderer } from 'leyden-react';
-import React from 'react';
+import { LeydenEditor } from 'leyden';
+import { CellRenderer, ReactEditor, useLeydenStatic } from 'leyden-react';
+import React, { useEffect } from 'react';
 
 export const Name: CellRenderer<'Name'> = ({
     attributes,
     children,
+    element,
 }) => {
+    const editor = useLeydenStatic();
+
+    useEffect(() => {
+        const ownCoords = ReactEditor.cellCoords(editor, element);
+        if (!ownCoords) {
+            return;
+        }
+        const unsubscribe = LeydenEditor.subscribeToCell(
+            editor,
+            { y: ownCoords.y, x: ownCoords.x+2 },
+            'UnitOfMeasure',
+            cell => {
+                console.log({ ownCoords, cell });
+            }
+        );
+        return () => {
+            unsubscribe();
+        }
+    }, []);
+
     return (
         <div
             {...attributes}

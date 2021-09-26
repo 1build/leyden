@@ -4,7 +4,13 @@ import { Cell, CellType } from './Cell';
 import { Coordinates } from './Coordinates';
 import { Table } from './Table';
 import { ValidationFunc, Validator } from './Validator';
-import { Direction2D } from '../types';
+import {
+    CellSubscriber,
+    Direction2D,
+    OperationSubscriber,
+    Unsubscriber,
+} from '../types';
+import { OPERATION_SUBSCRIBERS } from '../utils/weakMaps';
 
 export interface LeydenEditor extends Omit<BaseEditor, 'children'> {
     children: [Table];
@@ -42,6 +48,16 @@ export interface LeydenEditorInterface {
     selectedColumn: (editor: Editor) => number|null;
     selectedCoords: (editor: Editor) => Coordinates|null;
     selectedRow: (editor: Editor) => number|null;
+    subscribeToCell: <T extends CellType>(
+        editor: Editor,
+        coords: Coordinates,
+        type: T,
+        subscriber: CellSubscriber,
+    ) => Unsubscriber;
+    subscribeToOperations: (
+        editor: Editor,
+        subscriber: OperationSubscriber
+    ) => Unsubscriber;
 }
 
 export const LeydenEditor: LeydenEditorInterface = {
@@ -231,6 +247,57 @@ export const LeydenEditor: LeydenEditorInterface = {
 
     selectedRow(editor: Editor): number|null {
         return LeydenEditor.selectedCoords(editor)?.y??null;
+    },
+
+    /**
+     * Subscribe to the value a cell of a specific type at the specified coordinates.
+     * If there is already a cell at the specified coordinates when the subscription is
+     * initialized, the subscriber is called once immediately.
+     * Does not fire when children are changed.
+     */
+
+    subscribeToCell<T extends CellType>(
+        editor: Editor,
+        coords: Coordinates,
+        type: T,
+        subscriber: CellSubscriber,
+    ): Unsubscriber {
+        const pushCellValue = () => {
+            const val = LeydenEditor.getCellTypeAtCoords(editor, coords, type);
+            if (val !== null) {
+                subscriber(val);
+            }   
+        }
+        pushCellValue();
+        const cellPath = LeydenEditor.coordPath(editor, coords);
+        return LeydenEditor.subscribeToOperations(editor, op => {
+            if (op.type === 'set_node' && Path.equals(op.path, cellPath)) {
+                pushCellValue();
+            }
+        })
+    },
+
+    /**
+     * Fire the passed function every time an operation is applied.
+     * Returns a function which will end the subscription.
+     */
+
+    subscribeToOperations(
+        editor: Editor,
+        subscriber: OperationSubscriber
+    ): Unsubscriber {
+        const previousSubscribers = OPERATION_SUBSCRIBERS.get(editor);
+        if (previousSubscribers) {
+            previousSubscribers.add(subscriber);
+        } else {
+            OPERATION_SUBSCRIBERS.set(editor, new Set([subscriber]));
+        }
+        return () => {
+            const previousSubscribers = OPERATION_SUBSCRIBERS.get(editor);
+            if (previousSubscribers) {
+                previousSubscribers.delete(subscriber);
+            }
+        }
     },
 };
 

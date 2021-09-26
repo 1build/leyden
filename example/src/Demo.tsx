@@ -27,7 +27,7 @@ export const Demo: FC = () => {
     useEffect(() => {
         setTimeout(() => {
             Transforms.setCell<'UnitOfMeasure'>(editor, { uom: UOM.Each }, { x: 2, y: 3 });
-        }, 1000);
+        }, 2000);
     }, []);
 
     return (
