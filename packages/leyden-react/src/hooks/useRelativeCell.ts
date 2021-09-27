@@ -7,7 +7,6 @@ import {
 } from 'leyden';
 import { useEffect, useMemo, useState } from 'react';
 
-import { useCell } from './useCell';
 import { useLeydenStatic } from './useLeydenStatic';
 import { ReactEditor } from '../plugin/ReactEditor';
 
@@ -28,7 +27,7 @@ export const useRelativeCell: UseRelativeCell = <T extends CellType>(
 
     const baseCoords = useMemo(() => (
         ReactEditor.cellCoords(editor, base)
-    ), [])
+    ), []);
 
     const relativeCoords = useMemo(() => {
         if (baseCoords === null) {
@@ -40,6 +39,7 @@ export const useRelativeCell: UseRelativeCell = <T extends CellType>(
     useEffect(() => {
         if (relativeCoords === null) {
             setCell(null);
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
             return () => {};
         }
         const unsubscribe = LeydenEditor.subscribeToCell<T>(
@@ -50,7 +50,7 @@ export const useRelativeCell: UseRelativeCell = <T extends CellType>(
         );
         return () => {
             unsubscribe();
-        }
+        };
     }, [relativeCoords, type]);
 
     return cell;

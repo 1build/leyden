@@ -267,14 +267,14 @@ export const LeydenEditor: LeydenEditorInterface = {
             if (val !== null) {
                 subscriber(val);
             }
-        }
+        };
         pushCellValue();
         const cellPath = LeydenEditor.coordPath(editor, coords);
         return LeydenEditor.subscribeToOperations(editor, op => {
             if (op.type === 'set_node' && Path.equals(op.path, cellPath)) {
                 pushCellValue();
             }
-        })
+        });
     },
 
     /**
@@ -297,7 +297,7 @@ export const LeydenEditor: LeydenEditorInterface = {
             if (previousSubscribers) {
                 previousSubscribers.delete(subscriber);
             }
-        }
+        };
     },
 };
 

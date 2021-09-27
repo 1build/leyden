@@ -5,7 +5,7 @@ import { Cell } from './interfaces/Cell';
 import { Element } from './interfaces/Element';
 import { Text } from './interfaces/Text';
 import { Validator } from './interfaces/Validator';
-import { OPERATION_SUBSCRIBERS } from './utils/weakMaps'
+import { OPERATION_SUBSCRIBERS } from './utils/weakMaps';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const withLeyden = (
@@ -47,7 +47,7 @@ export const withLeyden = (
         }
         apply(op);
         // Notify subscribers of operations after application
-        let opSubscribers = OPERATION_SUBSCRIBERS.get(e);
+        const opSubscribers = OPERATION_SUBSCRIBERS.get(e);
         if (opSubscribers !== undefined) {
             for (const opSubscriber of opSubscribers) {
                 opSubscriber(op);

@@ -1,5 +1,3 @@
-import { Operation } from 'slate';
-
 import { LeydenEditor } from '../interfaces/LeydenEditor';
 import { OperationSubscriber } from '../types';
 

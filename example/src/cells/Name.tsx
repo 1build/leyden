@@ -1,9 +1,5 @@
 import { LeydenEditor } from 'leyden';
-import {
-    CellRenderer,
-    ReactEditor,
-    useRelativeCell,
-} from 'leyden-react';
+import { CellRenderer, useRelativeCell } from 'leyden-react';
 import React, { useEffect } from 'react';
 
 export const Name: CellRenderer<'Name'> = ({
@@ -11,7 +7,7 @@ export const Name: CellRenderer<'Name'> = ({
     children,
     element: cell,
 }) => {
-    const rowUomCell = useRelativeCell('UnitOfMeasure', cell, { x: 3 });
+    const rowUomCell = useRelativeCell('UnitOfMeasure', cell, { x: 2 });
 
     return (
         <div

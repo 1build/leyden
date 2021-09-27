@@ -41,6 +41,6 @@ export const Coordinates: CoordinatesInterface = {
         return {
             x: coords.x+(translation.x??0),
             y: coords.y+(translation.y??0),
-        }
+        };
     }
 };

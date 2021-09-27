@@ -30,7 +30,7 @@ export const useCell: UseCell = <T extends CellType>(
         );
         return () => {
             unsubscribe();
-        }
+        };
     }, [coords, type]);
 
     return cell;
