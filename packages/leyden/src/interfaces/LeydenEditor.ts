@@ -1,4 +1,4 @@
-import { BaseEditor, Editor, Path } from 'slate';
+import { BaseEditor, Editor, Operation, Path } from 'slate';
 
 import { Cell, CellType } from './Cell';
 import { Coordinates } from './Coordinates';
@@ -8,6 +8,7 @@ import {
     CellSubscriber,
     Direction2D,
     OperationSubscriber,
+    SelectionSubscriber,
     Unsubscriber,
 } from '../types';
 import { OPERATION_SUBSCRIBERS } from '../utils/weakMaps';
@@ -57,6 +58,10 @@ export interface LeydenEditorInterface {
     subscribeToOperations: (
         editor: Editor,
         subscriber: OperationSubscriber
+    ) => Unsubscriber;
+    subscribeToSelection: (
+        editor: Editor,
+        subscriber: SelectionSubscriber
     ) => Unsubscriber;
 }
 
@@ -251,8 +256,6 @@ export const LeydenEditor: LeydenEditorInterface = {
 
     /**
      * Subscribe to the value a cell of a specific type at the specified coordinates.
-     * If there is already a cell at the specified coordinates when the subscription is
-     * initialized, the subscriber is called once immediately.
      * Does not fire when children are changed.
      */
 
@@ -262,17 +265,13 @@ export const LeydenEditor: LeydenEditorInterface = {
         type: T,
         subscriber: CellSubscriber<T>,
     ): Unsubscriber {
-        const pushCellValue = () => {
-            const val = LeydenEditor.getCellTypeAtCoords(editor, coords, type);
-            if (val !== null) {
-                subscriber(val);
-            }
-        };
-        pushCellValue();
         const cellPath = LeydenEditor.coordPath(editor, coords);
         return LeydenEditor.subscribeToOperations(editor, op => {
             if (op.type === 'set_node' && Path.equals(op.path, cellPath)) {
-                pushCellValue();
+                const val = LeydenEditor.getCellTypeAtCoords(editor, coords, type);
+                if (val !== null) {
+                    subscriber(val);
+                }
             }
         });
     },
@@ -298,6 +297,22 @@ export const LeydenEditor: LeydenEditorInterface = {
                 previousSubscribers.delete(subscriber);
             }
         };
+    },
+
+    /**
+     * Subscribe to the table's currently selected coordinates, or null if
+     * there is no active selection.
+     */
+
+    subscribeToSelection(
+        editor: Editor,
+        subscriber: SelectionSubscriber
+    ): Unsubscriber {
+        return LeydenEditor.subscribeToOperations(editor, op => {
+            if (Operation.isSelectionOperation(op)) {
+                subscriber(LeydenEditor.selectedCoords(editor));
+            }
+        });
     },
 };
 

@@ -7,8 +7,8 @@ import {
 } from 'leyden';
 import { useEffect, useMemo, useState } from 'react';
 
+import { useCellCoordinates } from './useCellCoordinates';
 import { useLeydenStatic } from './useLeydenStatic';
-import { ReactEditor } from '../plugin/ReactEditor';
 
 export type UseRelativeCell = <T extends CellType>(
     type: T,
@@ -21,13 +21,8 @@ export const useRelativeCell: UseRelativeCell = <T extends CellType>(
     base: Cell<CellType>,
     translation: CoordinateTranslation,
 ) => {
-    const [cell, setCell] = useState<Cell<T>|null>(null);
-
+    const baseCoords = useCellCoordinates(base);
     const editor = useLeydenStatic();
-
-    const baseCoords = useMemo(() => (
-        ReactEditor.cellCoords(editor, base)
-    ), []);
 
     const relativeCoords = useMemo(() => {
         if (baseCoords === null) {
@@ -35,6 +30,13 @@ export const useRelativeCell: UseRelativeCell = <T extends CellType>(
         }
         return Coordinates.translate(baseCoords, translation);
     }, [baseCoords, translation]);
+
+    const [cell, setCell] = useState(() => {
+        if (relativeCoords === null) {
+            return null;
+        }
+        return LeydenEditor.getCellTypeAtCoords<T>(editor, relativeCoords, type);
+    });
 
     useEffect(() => {
         if (relativeCoords === null) {

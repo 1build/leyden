@@ -19,7 +19,9 @@ export const useCell: UseCell = <T extends CellType>(
 ) => {
     const editor = useLeydenStatic();
 
-    const [cell, setCell] = useState<Cell<T>|null>(null);
+    const [cell, setCell] = useState(
+        LeydenEditor.getCellTypeAtCoords<T>(editor, coords, type)
+    );
 
     useEffect(() => {
         const unsubscribe = LeydenEditor.subscribeToCell<T>(
