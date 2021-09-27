@@ -52,7 +52,7 @@ export interface LeydenEditorInterface {
         editor: Editor,
         coords: Coordinates,
         type: T,
-        subscriber: CellSubscriber,
+        subscriber: CellSubscriber<T>,
     ) => Unsubscriber;
     subscribeToOperations: (
         editor: Editor,
@@ -260,13 +260,13 @@ export const LeydenEditor: LeydenEditorInterface = {
         editor: Editor,
         coords: Coordinates,
         type: T,
-        subscriber: CellSubscriber,
+        subscriber: CellSubscriber<T>,
     ): Unsubscriber {
         const pushCellValue = () => {
             const val = LeydenEditor.getCellTypeAtCoords(editor, coords, type);
             if (val !== null) {
                 subscriber(val);
-            }   
+            }
         }
         pushCellValue();
         const cellPath = LeydenEditor.coordPath(editor, coords);

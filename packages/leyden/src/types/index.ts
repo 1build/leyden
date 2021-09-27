@@ -26,7 +26,7 @@ export type Keys<T extends Record<string, unknown>> =
 /**
  * A function fired when a cell's value changes.
  */
-export type CellSubscriber = <T extends CellType>(cell: Cell<T>) => void;
+export type CellSubscriber<T extends CellType> = (cell: Cell<T>) => void;
 
 /**
  * A function fired when a Slate operation is applied

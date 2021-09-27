@@ -5,7 +5,17 @@ export interface Coordinates {
     y: number;
 }
 
-export const Coordinates = {
+export type CoordinateTranslation = Partial<Coordinates>;
+
+export interface CoordinatesInterface {
+    move: (coords: Coordinates, direction: Direction2D) => Coordinates;
+    translate: (
+        coords: Coordinates,
+        translation: CoordinateTranslation,
+    ) => Coordinates;
+}
+
+export const Coordinates: CoordinatesInterface = {
     /**
      * Get the coordinates reached by applying a direction to the provided coordinates.
      */
@@ -18,5 +28,19 @@ export const Coordinates = {
             [Direction2D.Left]: c => ({ ...c, x: c.x-1 }),
         };
         return dirMap[direction](coords);
+    },
+
+    /**
+     * Get the coordinates reached by applying a transformation to the provided coordinates.
+     */
+
+    translate(
+        coords: Coordinates,
+        translation: CoordinateTranslation,
+    ): Coordinates {
+        return {
+            x: coords.x+(translation.x??0),
+            y: coords.y+(translation.y??0),
+        }
     }
 };
