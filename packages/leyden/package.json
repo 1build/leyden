@@ -1,6 +1,6 @@
 {
   "name": "leyden",
-  "version": "0.9.3",
+  "version": "0.10.0",
   "description": "React data tables powered by Slate",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
