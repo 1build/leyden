@@ -31,9 +31,9 @@
     "livereload": "^0.9.3",
     "react": ">=17.0.2",
     "react-dom": ">=17.0.2",
-    "slate": "^0.66.0",
+    "slate": "^0.66.2",
     "slate-history": "^0.66.0",
-    "slate-react": "^0.66.0",
+    "slate-react": "^0.66.4",
     "typescript": "^4.3.5",
     "typestyle": "^2.1.0"
   }

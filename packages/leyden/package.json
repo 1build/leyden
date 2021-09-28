@@ -18,10 +18,10 @@
   "author": "Michael Darr",
   "license": "MIT",
   "dependencies": {
-    "slate": "^0.66.0"
+    "slate": "^0.66.2"
   },
   "peerDependencies": {
-    "slate": "^0.66.0"
+    "slate": "^0.66.2"
   },
   "packageManager": "yarn@3.0.1"
 }

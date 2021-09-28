@@ -1023,12 +1023,12 @@ levn@^0.4.1:
     type-check "~0.4.0"
 
 leyden-react@../packages/leyden-react:
-  version "0.1.0"
+  version "0.12.0"
 
 leyden@../packages/leyden:
-  version "0.1.0"
+  version "0.12.0"
   dependencies:
-    slate "^0.66.0"
+    slate "^0.66.2"
 
 livereload-js@^3.3.1:
   version "3.3.2"
@@ -1386,10 +1386,10 @@ slate-history@^0.66.0:
   dependencies:
     is-plain-object "^5.0.0"
 
-slate-react@^0.66.0:
-  version "0.66.1"
-  resolved "https://registry.yarnpkg.com/slate-react/-/slate-react-0.66.1.tgz#159fed517aedecd9b18aa3a9b75d88d912c21cb0"
-  integrity sha512-coIW1gyP3bpw+ORyEDhXYYkKXcb09KIe2FtjiAzoK9HrIjseXZmjxtfwJpeV9xAZgNxvJqyw72NQZqGlhY7LzA==
+slate-react@^0.66.4:
+  version "0.66.4"
+  resolved "https://registry.yarnpkg.com/slate-react/-/slate-react-0.66.4.tgz#cc412c7f256bae1f9edff85a7a25aa4f490c8de5"
+  integrity sha512-MXXX5zoZu/Jb049yeYwkTUs6Pd/Fxq7Hu86Jb8BGvHJoBcUhh9dasNutVNu5Znoc2Fh7ajYcyeJOJPFbiKPo6Q==
   dependencies:
     "@types/is-hotkey" "^0.1.1"
     "@types/lodash" "^4.14.149"
@@ -1400,10 +1400,10 @@ slate-react@^0.66.0:
     scroll-into-view-if-needed "^2.2.20"
     tiny-invariant "1.0.6"
 
-slate@^0.66.0:
-  version "0.66.1"
-  resolved "https://registry.yarnpkg.com/slate/-/slate-0.66.1.tgz#4f1f74643cc9c202fc9959ed3d394b19e23d9d3a"
-  integrity sha512-9myS4PrGBbz1Wokyrvr9i1/+bJMqJTZ9h2LMNGUPZ0IsmDwzSbJ9blNx1JwM8YzBYLuWMaAyZIglTd7nexDVIQ==
+slate@^0.66.2:
+  version "0.66.2"
+  resolved "https://registry.yarnpkg.com/slate/-/slate-0.66.2.tgz#e2a66f295db3c5a8daa02685b31e924fe8874b65"
+  integrity sha512-3SFvuF68k8dVZounmKH7dULSlWFc2WsIdvOs4xfTqdPnh6KAcbHHg+XtV6lOEz9YCf/KqDdRrKlSUDCbsZ8nAw==
   dependencies:
     immer "^9.0.6"
     is-plain-object "^5.0.0"
