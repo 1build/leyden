@@ -3,10 +3,10 @@
  * https://github.com/ianstormtaylor/slate/blob/8eb1abac87809e650507248806e9ee7585cf334f/package.json 
  */
 import babel from 'rollup-plugin-babel';
-import builtins from 'rollup-plugin-node-builtins';
 import commonjs from 'rollup-plugin-commonjs';
 import globals from 'rollup-plugin-node-globals';
 import json from 'rollup-plugin-json';
+import nodePolyfills from 'rollup-plugin-node-polyfills';
 import replace from 'rollup-plugin-replace';
 import resolve from 'rollup-plugin-node-resolve';
 import typescript from 'rollup-plugin-typescript2';
@@ -76,8 +76,8 @@ function configure(pkg, env, target) {
             'process.env.NODE_ENV': JSON.stringify(env),
         }),
 
-        // Register Node.js builtins for browserify compatibility.
-        builtins(),
+        // Register Node.js builtins for browserify compatibility (previously rollup-plugin-node-builtins).
+        nodePolyfills(),
 
         // Use Babel to transpile the result, limiting it to the source code.
         babel({
