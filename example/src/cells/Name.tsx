@@ -16,6 +16,7 @@ export const Name: CellRenderer<'Name'> = ({
     const isInSelectedColumn = useCellIsInSelectedColumn(cell);
     const isInSelectedRow = useCellIsInSelectedRow(cell);
 
+    /* eslint-disable no-console */
     useEffect(() => {
         if (isInSelectedRow) {
             console.log(`[R] SELECTED: ${cell.children[0].text}`);
@@ -31,6 +32,7 @@ export const Name: CellRenderer<'Name'> = ({
             console.log(`[C] DESELECTED: ${cell.children[0].text}`);
         }
     }, [isInSelectedColumn]);
+    /* eslint-enable no-console */
 
     return (
         <div

@@ -8,7 +8,7 @@
     "build": "yarn build:rollup",
     "build:rollup": "rollup --config ./config/rollup/rollup.config.js",
     "lint": "yarn lint:eslint && yarn lint:typescript",
-    "lint:eslint": "eslint \"./{packages,proto}/**/*.{js,jsx,ts,tsx}\"",
+    "lint:eslint": "eslint \"./{packages,example}/**/*.{js,jsx,ts,tsx}\"",
     "lint:typescript": "tsc --build ./ --force",
     "prerelease": "NODE_ENV=production yarn build:rollup && yarn lint",
     "release:latest": "yarn prerelease && lerna publish --force-publish",

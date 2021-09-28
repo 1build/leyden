@@ -1,8 +1,12 @@
-const esbuild = require('esbuild');
-const fs = require('fs');
-const http = require('http');
-const livereload = require('livereload');
-const path = require('path');
+import { build } from 'esbuild';
+import { cp, mkdir, readFile, writeFile } from 'fs';
+import { createServer as createHttpServer } from 'http';
+import { createServer as createLivereloadServer } from 'livereload';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const HOTRELOAD_PORT = 35729;
 const SERVER_PORT = 8092;
@@ -11,70 +15,78 @@ const BUNDLE_NAME = 'bundle.js';
 const ENTRYPOINT_NAME = 'index.tsx';
 const FAVICON_NAME = 'favicon.jpg';
 
-const ROOT_DIR = path.join(__dirname, '../');
+const ROOT_DIR = join(__dirname, '../');
 
-const ASSET_DIR = path.join(ROOT_DIR, 'assets');
-const DIST_DIR = path.join(ROOT_DIR, 'dist');
-const SRC_DIR = path.join(ROOT_DIR, 'src');
+const ASSET_DIR = join(ROOT_DIR, 'assets');
+const DIST_DIR = join(ROOT_DIR, 'dist');
+const SRC_DIR = join(ROOT_DIR, 'src');
 
-const ENTRYPOINT_PATH = path.join(SRC_DIR, ENTRYPOINT_NAME);
-const FAVICON_DIST_PATH = path.join(DIST_DIR, FAVICON_NAME);
-const FAVICON_SRC_PATH = path.join(ASSET_DIR, FAVICON_NAME);
-const INDEX_PATH = path.join(DIST_DIR, 'index.html');
+const ENTRYPOINT_PATH = join(SRC_DIR, ENTRYPOINT_NAME);
+const FAVICON_DIST_PATH = join(DIST_DIR, FAVICON_NAME);
+const FAVICON_SRC_PATH = join(ASSET_DIR, FAVICON_NAME);
+const INDEX_PATH = join(DIST_DIR, 'index.html');
 
-const bundle = () => esbuild.build({
+/* eslint-disable no-console */
+const Console = {
+    error: console.error,
+    log: console.log,
+    warn: console.warn,
+};
+/* eslint-enable no-console */
+
+const bundle = () => build({
     bundle: true,
     entryPoints: [
         ENTRYPOINT_PATH
     ],
-    outfile: path.join(DIST_DIR, BUNDLE_NAME),
+    outfile: join(DIST_DIR, BUNDLE_NAME),
     sourcemap: 'inline',
     watch: {
         onRebuild: err => {
             if (err) {
-                console.error('WATCH REBUILD FAILED: ', err);
+                Console.error('WATCH REBUILD FAILED: ', err);
             } else {
-                console.log('WATCH REBUILD SUCCEEDED');
+                Console.log('WATCH REBUILD SUCCEEDED');
             }
         },
     },
 });
 
 const copyAssets = () => new Promise((res, rej) => {
-    fs.cp(FAVICON_SRC_PATH, FAVICON_DIST_PATH, err => {
+    cp(FAVICON_SRC_PATH, FAVICON_DIST_PATH, err => {
         if (err) {
-            console.error(err);
+            Console.error(err);
             rej(err);
             return;
         }
         res();
-    })
+    });
 });
 
 const createDistDir = () => new Promise((res, rej) => {
-    fs.mkdir(DIST_DIR, { recursive: true }, err => {
+    mkdir(DIST_DIR, { recursive: true }, err => {
         if (err) {
-            console.error(err);
+            Console.error(err);
             rej(err);
             return;
         }
         res();
-    })
+    });
 });
 
 const hotReload = () => {
-    const server = livereload.createServer({
+    const server = createLivereloadServer({
         port: HOTRELOAD_PORT,
     });
     server.watch(DIST_DIR);
 };
 
-const serve = () => http.createServer((req, res) => {
-    let reqPath = path.join(DIST_DIR, req.url);
+const serve = () => createHttpServer((req, res) => {
+    let reqPath = join(DIST_DIR, req.url);
     if (req.url === '/') {
         reqPath = INDEX_PATH;
     }
-    fs.readFile(reqPath, (err,data) => {
+    readFile(reqPath, (err,data) => {
         if (err) {
             res.writeHead(404);
             res.end(JSON.stringify(err));
@@ -85,7 +97,7 @@ const serve = () => http.createServer((req, res) => {
     });
 }).listen(SERVER_PORT);
 
-const writeIndex = () => new Promise((res, rej) => fs.writeFile(INDEX_PATH, `<!DOCTYPE html>
+const writeIndex = () => new Promise((res, rej) => writeFile(INDEX_PATH, `<!DOCTYPE html>
 <html lang="en">
     <head>
     <meta charset="utf-8" />
@@ -110,7 +122,7 @@ const writeIndex = () => new Promise((res, rej) => fs.writeFile(INDEX_PATH, `<!D
 </html>
 `, err => {
     if (err) {
-        console.error(err);
+        Console.error(err);
         rej(err);
         return;
     }
