@@ -1,6 +1,6 @@
 # Introduction
 
-[Leyden][leyden-repo] is a data table framework powered by Slate[slate].
+[Leyden][leyden-repo] is a data table framework powered by [Slate][slate].
 
 ## Principles
 
