@@ -1,8 +1,13 @@
 import { Cell, CellType } from './Cell';
-import { ExtendedElementsType, ExtendedType } from './CustomTypes';
+import {
+    ExtendableComponentTypeIsExtended,
+    ExtendedElementsType,
+    ExtendedType,
+} from './CustomTypes';
 import { Table } from './Table';
 import { Distribute, Keys } from '../utils/types';
 
+export type ElementsIsExtended = ExtendableComponentTypeIsExtended<'Elements'>;
 export type ExternalElements = ExtendedType<'Elements'>;
 export type ExternalElementType = Keys<ExternalElements>;
 
@@ -17,7 +22,7 @@ export type InternalElementType =
     | 'table';
 
 export type Elements = ExternalElements&InternalElement;
-export type ElementType = Distribute<ExternalElementType|InternalElementType>
+export type ElementType = Distribute<ExternalElementType|InternalElementType>;
 
 export type Element<T extends ElementType> = ExtendedElementsType<T, Elements>;
 

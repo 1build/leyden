@@ -4,10 +4,15 @@ import {
     Text as SlateText,
 } from 'slate';
 
-import { ExtendedTextType, ExtendedType } from './CustomTypes';
+import {
+    ExtendableComponentTypeIsExtended,
+    ExtendedTextType,
+    ExtendedType,
+} from './CustomTypes';
 import { Keys } from '../utils/types';
 import { ValidationFunc } from '..';
 
+export type TextsIsExtended = ExtendableComponentTypeIsExtended<'Text'>;
 export type Texts = ExtendedType<'Text'>;
 export type TextType = Keys<Texts>;
 

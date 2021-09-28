@@ -20,6 +20,8 @@ type ExtendableTypes =
     | ExtendableComponentTypes
     | ExtendableExtraTypes;
 
+const extendableComponentDefaultKey = 'EXTENDABLE_COMPONENT_DEFAULT_KEY';
+
 interface WithCellType<T extends string> { cellType: T }
 interface WithChildren<T extends Array<unknown>> { children: T }
 interface WithData<T> { data: T }
@@ -50,7 +52,7 @@ type ExtendedComponentTypeEntries<T extends ExtendableComponentTypes> =
     Record<string, ExtendedComponentTypeEntry<T>>;
 
 type DefaultExtendedComponentTypeEntries<T extends ExtendableComponentTypes> = {
-    default: T extends 'Text'
+    [extendableComponentDefaultKey]: T extends 'Text'
         ? WithText<string> & WithValidator<'numeric'>
         : WithChildren<Text[]> & WithDataOptional<unknown> & WithIsEditable<false>;
 };
@@ -110,3 +112,10 @@ export type ExtendedTextType<T extends string, R extends Record<T, ExtendedTextT
     & WithText<R[T]['text']>
     & WithType<T>
     & WithValidatorProp<R[T]>;
+
+export type ExtendableComponentTypeIsExtended<T extends ExtendableComponentTypes> =
+    ExtendedType<T> extends infer ExtendedComponentType
+        ? keyof ExtendedComponentType extends typeof extendableComponentDefaultKey
+            ? true
+            : false
+        : never;
