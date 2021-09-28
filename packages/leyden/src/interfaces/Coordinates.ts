@@ -1,4 +1,4 @@
-import { Direction2D } from '../types';
+import { Direction2D } from '../utils/types';
 
 export interface Coordinates {
     x: number;

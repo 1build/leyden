@@ -1,7 +1,7 @@
 import { Cell, CellType } from './Cell';
 import { ExtendedElementsType, ExtendedType } from './CustomTypes';
 import { Table } from './Table';
-import { Distribute, Keys } from '../types';
+import { Distribute, Keys } from '../utils/types';
 
 export type ExternalElements = ExtendedType<'Elements'>;
 export type ExternalElementType = Keys<ExternalElements>;

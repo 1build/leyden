@@ -5,7 +5,7 @@ import {
 } from 'slate';
 
 import { ExtendedTextType, ExtendedType } from './CustomTypes';
-import { Keys } from '../types';
+import { Keys } from '../utils/types';
 import { ValidationFunc } from '..';
 
 export type Texts = ExtendedType<'Text'>;

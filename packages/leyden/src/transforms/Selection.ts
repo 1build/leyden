@@ -3,7 +3,7 @@ import { Editor, Transforms } from 'slate';
 import { Coordinates } from '../interfaces/Coordinates';
 import { LeydenEditor } from '../interfaces/LeydenEditor';
 import { Table } from '../interfaces/Table';
-import { Direction2D } from '../types';
+import { Direction2D } from '../utils/types';
 
 export interface SelectionTransforms {
     moveCellSelection: (editor: Editor, direction: Direction2D) => void;

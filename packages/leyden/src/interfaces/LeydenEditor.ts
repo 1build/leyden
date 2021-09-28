@@ -10,7 +10,7 @@ import {
     OperationSubscriber,
     SelectionSubscriber,
     Unsubscriber,
-} from '../types';
+} from '../utils/types';
 import { OPERATION_SUBSCRIBERS } from '../utils/weakMaps';
 
 export interface LeydenEditor extends Omit<BaseEditor, 'children'> {

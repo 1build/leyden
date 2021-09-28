@@ -1,5 +1,5 @@
 import { ExtendedType } from './CustomTypes';
-import { Distribute } from '../types';
+import { Distribute } from '../utils/types';
 
 export type ExtraValidators = ExtendedType<'Validator'>;
 
