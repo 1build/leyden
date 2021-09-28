@@ -5,9 +5,9 @@ import { RenderElementProps } from 'slate-react';
 import { Headers } from './Headers';
 import { Origin } from './Origin';
 import {
-    makeGridPositionClass,
-    makeSheetGridTemplateClass,
-    stickyHeaderClass,
+    makeGridPositionStyle,
+    makeSheetGridTemplateStyle,
+    stickyHeaderStyle,
 } from './style';
 import { HeaderRenderers } from '../utils/types';
 
@@ -31,9 +31,9 @@ export const Table: FC<Table> = ({
 }) => {
     const { cols, rows } = element;
 
-    const className = useMemo<string>(() => {
+    const style = useMemo(() => {
         const totalCols = headerRenderers?.row ? cols+1 : cols;
-        return makeSheetGridTemplateClass(
+        return makeSheetGridTemplateStyle(
             totalCols,
             options?.cellGap??0,
         );
@@ -43,34 +43,34 @@ export const Table: FC<Table> = ({
         headerRenderers?.column && headerRenderers?.row
     ), [headerRenderers]);
 
-    const genHeaderClass = useMemo(() => {
+    const genHeaderStyles = useMemo(() => {
         const offset = hasOrigin ? 2 : 1;
         return {
             column: (pos: number) => {
-                const classes = [makeGridPositionClass(pos+offset, 1)];
+                let colStyle = makeGridPositionStyle(pos+offset, 1);
                 if (options?.stickyColumnHeaders) {
-                    classes.push(stickyHeaderClass);
+                    colStyle = { ...colStyle, ...stickyHeaderStyle };
                 }
-                return classes;
+                return colStyle;
             },
-            row: (pos: number) => ([makeGridPositionClass(1, pos+offset)]),
+            row: (pos: number) => makeGridPositionStyle(1, pos+offset),
         };
     }, [hasOrigin, options?.stickyColumnHeaders]);
 
     return (
         <div
             {...attributes}
-            className={className}
+            style={style}
         >
             {hasOrigin && <Origin Component={headerRenderers?.origin} />}
             {headerRenderers?.column && <Headers
                 quantity={cols}
-                genClasses={genHeaderClass.column}
+                genStyle={genHeaderStyles.column}
                 Component={headerRenderers.column}
             />}
             {headerRenderers?.row && <Headers
                 quantity={rows}
-                genClasses={genHeaderClass.row}
+                genStyle={genHeaderStyles.row}
                 Component={headerRenderers.row}
             />}
             {children}

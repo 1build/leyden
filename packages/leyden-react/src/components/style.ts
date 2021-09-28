@@ -1,17 +1,17 @@
-import { style } from 'typestyle';
+import { CSSProperties } from 'react';
 
-export const makeGridPositionClass = (
+export const makeGridPositionStyle = (
     col: number,
     row: number,
-): string => style({
+): CSSProperties => ({
     gridColumn: `${col} / ${col+1}`,
     gridRow: `${row} / ${row+1}`,
 });
 
-export const makeSheetGridTemplateClass = (
+export const makeSheetGridTemplateStyle = (
     cols: number,
     cellGap: number,
-): string => style({
+): CSSProperties => ({
     display: 'grid',
     gridTemplateColumns: `repeat(${cols}, auto)`,
     gridTemplateRows: 'auto',
@@ -21,8 +21,8 @@ export const makeSheetGridTemplateClass = (
     justifyItems: 'stretch',
 });
 
-export const stickyHeaderClass = style({
+export const stickyHeaderStyle: CSSProperties = {
     position: 'sticky',
     top: 0,
     zIndex: 10,
-});
+};

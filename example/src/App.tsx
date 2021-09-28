@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { Demo } from './Demo'; 
+import { Demo } from './Demo';
 
 export const App: FC = () => {
     return (

@@ -1,15 +1,15 @@
-import React, { FC } from 'react';
+import React, { CSSProperties, FC } from 'react';
 
 import { HeaderRendererProps } from '../utils/types';
 
 export interface Headers {
-    genClasses: (pos: number) => string[];
+    genStyle: (pos: number) => CSSProperties;
     quantity: number;
     Component: FC<HeaderRendererProps>;
 }
 
 export const Headers: FC<Headers> = ({
-    genClasses,
+    genStyle,
     quantity,
     Component,
 }) => (
@@ -17,7 +17,7 @@ export const Headers: FC<Headers> = ({
         {...Array.from({ length: quantity }, (_, i) => (
             <div
                 key={i}
-                className={genClasses(i).join(' ')}
+                style={genStyle(i)}
                 contentEditable={false}
             >
                 <Component position={i} />
