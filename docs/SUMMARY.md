@@ -1,7 +1,7 @@
 # Table of Contents
 
 - [Introduction](introduction.md)
-jpg
+
 ## Walkthroughs
 
 - [Installing Leyden](walkthroughs/01-installing-leyden.md)
