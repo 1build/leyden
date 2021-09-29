@@ -1,4 +1,4 @@
-import { Editor, Operation } from 'slate';
+import { Operation } from 'slate';
 
 import { Coordinates } from '../interfaces/Coordinates';
 import { Cell, CellType } from '../interfaces/Cell';
@@ -52,29 +52,9 @@ export type SelectionSubscriber = (coords: Coordinates|null) => void;
 export type Unsubscriber = () => void;
 
 /**
- * An option representing a leyden editor passed during editor initialization 
+ * Initialization options for editor creation
  */
-export interface EditorOption {
-    editor: Editor,
-}
 
-/**
- * An option representing a validator set passed during editor initialization 
- */
-export interface ValidatorsOption {
-    validators: ValidationFuncs;
-}
-
-/**
- * Initialization options passed to `createEditor`
- */
-export type CreateEditorOptions = ValidatorIsExtended extends true
-    ? ValidatorsOption
-    : ValidationFuncs;
-
-/**
- * Initialization options passed to `withLeyden`
- */
-export type WithLeydenOptions = ValidatorIsExtended extends true
-    ? EditorOption&ValidatorsOption
-    : EditorOption&Partial<ValidatorsOption>;
+export type EditorCreationOptions = ValidatorIsExtended extends true
+    ? { validators: ValidationFuncs }
+    : { validators?: undefined };

@@ -5,11 +5,11 @@ import { withHistory } from 'slate-history';
 
 import { cellRenderers } from './cells';
 import { newTable } from './data/generate';
-import { elementRenderers } from './elements';
+// import { elementRenderers } from './elements';
 import { headerRenderers } from './headers';
 import { textRenderers } from './text';
 import { UOM } from './types';
-import { validators } from './data/validators';
+// import { validators } from './data/validators';
 
 export const Demo: FC = () => {
     const [descendants, setDescendants] = useState<[Table]>([newTable()]);
@@ -17,9 +17,7 @@ export const Demo: FC = () => {
     const editor = useMemo(() => (
         withHistory(
             withReact(
-                createEditor({
-                    validators,
-                })
+                createEditor({})
             )
         )
     ), []);
@@ -39,7 +37,6 @@ export const Demo: FC = () => {
             >
                 <Editable
                     cellRenderers={cellRenderers}
-                    elementRenderers={elementRenderers}
                     headerRenderers={headerRenderers}
                     textRenderers={textRenderers}
                     tableOptions={{
