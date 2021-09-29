@@ -81,6 +81,13 @@ export interface CustomTypes {
     [key: string]: unknown;
 }
 
+export type ExtendableTypeIsExtended<T extends ExtendableTypes> =
+    CustomTypes[T] extends infer K
+        ? K extends undefined
+            ? false
+            : true
+        : false;
+
 export type ExtendedType<T extends ExtendableTypes> =
     CustomTypes[T] extends infer K
         ? T extends ExtendableComponentTypes
@@ -112,10 +119,3 @@ export type ExtendedTextType<T extends string, R extends Record<T, ExtendedTextT
     & WithText<R[T]['text']>
     & WithType<T>
     & WithValidatorProp<R[T]>;
-
-export type ExtendableComponentTypeIsExtended<T extends ExtendableComponentTypes> =
-    ExtendedType<T> extends infer ExtendedComponentType
-        ? keyof ExtendedComponentType extends typeof extendableComponentDefaultKey
-            ? true
-            : false
-        : never;

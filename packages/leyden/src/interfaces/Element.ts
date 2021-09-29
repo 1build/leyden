@@ -1,13 +1,12 @@
 import { Cell, CellType } from './Cell';
 import {
-    ExtendableComponentTypeIsExtended,
+    ExtendableTypeIsExtended,
     ExtendedElementsType,
     ExtendedType,
 } from './CustomTypes';
 import { Table } from './Table';
 import { Distribute, Keys } from '../utils/types';
 
-export type ElementsIsExtended = ExtendableComponentTypeIsExtended<'Elements'>;
 export type ExternalElements = ExtendedType<'Elements'>;
 export type ExternalElementType = Keys<ExternalElements>;
 
@@ -21,6 +20,7 @@ export type InternalElementType =
     | 'cell'
     | 'table';
 
+export type ElementIsExtended = ExtendableTypeIsExtended<'Elements'>;
 export type Elements = ExternalElements&InternalElement;
 export type ElementType = Distribute<ExternalElementType|InternalElementType>;
 

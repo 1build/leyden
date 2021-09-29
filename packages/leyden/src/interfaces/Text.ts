@@ -5,14 +5,14 @@ import {
 } from 'slate';
 
 import {
-    ExtendableComponentTypeIsExtended,
+    ExtendableTypeIsExtended,
     ExtendedTextType,
     ExtendedType,
 } from './CustomTypes';
 import { Keys } from '../utils/types';
 import { ValidationFunc } from '..';
 
-export type TextsIsExtended = ExtendableComponentTypeIsExtended<'Text'>;
+export type TextIsExtended = ExtendableTypeIsExtended<'Text'>;
 export type Texts = ExtendedType<'Text'>;
 export type TextType = Keys<Texts>;
 

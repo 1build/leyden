@@ -1,13 +1,13 @@
 import { Element } from 'slate';
 
 import {
-    ExtendableComponentTypeIsExtended,
+    ExtendableTypeIsExtended,
     ExtendedCellType,
     ExtendedType,
 } from './CustomTypes';
 import { Keys } from '../utils/types';
 
-export type CellsIsExtended = ExtendableComponentTypeIsExtended<'Cells'>;
+export type CellIsExtended = ExtendableTypeIsExtended<'Cells'>;
 export type Cells = ExtendedType<'Cells'>;
 export type CellType = Keys<Cells>;
 
