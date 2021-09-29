@@ -7,7 +7,6 @@
   "scripts": {
     "build": "yarn build:rollup",
     "build:rollup": "rollup --config ./config/rollup/rollup.config.js",
-    "gen:docs": "node config/typedoc/generate.mjs",
     "lint": "yarn lint:eslint && yarn lint:typescript",
     "lint:eslint": "eslint \"./{packages,example}/**/*.{js,jsx,ts,tsx}\"",
     "lint:typescript": "tsc --build ./ --force",
@@ -59,8 +58,6 @@
     "slate": "^0.66.2",
     "slate-react": "^0.66.4",
     "source-map-loader": "^3.0.0",
-    "typedoc": "^0.22.4",
-    "typedoc-plugin-markdown": "^3.11.2",
     "typescript": "^4.4.2"
   },
   "packageManager": "yarn@3.0.1"
