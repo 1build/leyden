@@ -1,14 +1,14 @@
-import { Node, Element as SlateElement } from 'slate';
+import { Editor, Element as SlateElement, Node } from 'slate';
 
 import { Cell } from './interfaces/Cell';
+import { LeydenEditor } from './interfaces/LeydenEditor';
 import { Element } from './interfaces/Element';
 import { Text } from './interfaces/Text';
 import { Validator } from './interfaces/Validator';
 import { WithLeydenOptions } from './utils/types';
 import { OPERATION_SUBSCRIBERS } from './utils/weakMaps';
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const withLeyden = ({ editor, ...rest }: WithLeydenOptions) => {
+export const withLeyden = <T extends Editor>({ editor, ...rest }: WithLeydenOptions<T>): T&LeydenEditor => {
     const e = editor;
     const { apply, isVoid } = e;
 

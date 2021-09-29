@@ -36,7 +36,7 @@ declare module 'leyden' {
             }
             Decimal: {
                 text: string;
-                validator: 'numeric';
+                validator: 'onlyTwos';
             },
             Text: {
                 text: string;
@@ -46,5 +46,6 @@ declare module 'leyden' {
                 validator: 'integer';
             };
         };
+        Validator: 'onlyTwos';
     }
 }

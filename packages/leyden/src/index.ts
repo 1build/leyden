@@ -4,6 +4,7 @@ export {
     CellType,
 } from './interfaces/Cell';
 export { Coordinates, CoordinateTranslation } from './interfaces/Coordinates';
+export * from './interfaces/CustomTypes';
 export {
     Element,
     ElementIsExtended,
@@ -21,10 +22,10 @@ export {
 } from './interfaces/Text';
 export {
     ValidationFunc,
+    ValidationFuncs,
     Validator,
     ValidatorIsExtended,
 } from './interfaces/Validator';
 export { Direction2D } from './utils/types';
-export { createEditor } from './createEditor';
 export { Transforms } from './transforms';
 export { withLeyden } from './withLeyden';

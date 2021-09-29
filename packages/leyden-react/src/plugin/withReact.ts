@@ -1,11 +1,10 @@
-import { LeydenEditor } from 'leyden';
+import { BaseEditor, Editor } from 'slate';
 import { withReact as withSlateReact } from 'slate-react';
 
-import { ReactEditor } from '../plugin/ReactEditor';
+import { ReactEditor } from './ReactEditor';
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const withReact = <T extends LeydenEditor>(editor: T): T & ReactEditor => {
-    const e = withSlateReact(editor as T & ReactEditor);
+export const withReact = <T extends BaseEditor>(editor: T): T&Editor&ReactEditor => {
+    const e = withSlateReact(editor as T&ReactEditor);
 
     return e;
 };

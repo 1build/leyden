@@ -54,27 +54,24 @@ export type Unsubscriber = () => void;
 /**
  * An option representing a leyden editor passed during editor initialization 
  */
-export interface EditorOption {
-    editor: Editor,
+
+export interface EditorOption<T extends Editor> {
+    editor: T,
 }
 
 /**
  * An option representing a validator set passed during editor initialization 
  */
+
 export interface ValidatorsOption {
     validators: ValidationFuncs;
 }
 
 /**
- * Initialization options passed to `createEditor`
- */
-export type CreateEditorOptions = ValidatorIsExtended extends true
-    ? ValidatorsOption
-    : ValidationFuncs;
-
-/**
  * Initialization options passed to `withLeyden`
  */
-export type WithLeydenOptions = ValidatorIsExtended extends true
-    ? EditorOption&ValidatorsOption
-    : EditorOption&Partial<ValidatorsOption>;
+
+export type WithLeydenOptions<T extends Editor> =
+    ValidatorIsExtended extends true
+        ? EditorOption<T>&ValidatorsOption
+        : EditorOption<T>&Partial<ValidatorsOption>;

@@ -1,11 +1,11 @@
-import { createEditor, Table, Transforms } from 'leyden';
+import { withLeyden, Table, Transforms } from 'leyden';
 import { Leyden, Editable, withReact } from 'leyden-react';
 import React, { FC, useEffect, useMemo, useState } from 'react';
+import { createEditor } from 'slate';
 import { withHistory } from 'slate-history';
 
 import { cellRenderers } from './cells';
 import { newTable } from './data/generate';
-import { elementRenderers } from './elements';
 import { headerRenderers } from './headers';
 import { textRenderers } from './text';
 import { UOM } from './types';
@@ -15,13 +15,14 @@ export const Demo: FC = () => {
     const [descendants, setDescendants] = useState<[Table]>([newTable()]);
 
     const editor = useMemo(() => (
-        withHistory(
-            withReact(
-                createEditor({
-                    validators,
-                })
-            )
-        )
+        withLeyden({
+            editor: withHistory(
+                withReact(
+                    createEditor()
+                )
+            ),
+            validators,
+        })
     ), []);
 
     useEffect(() => {
@@ -39,7 +40,6 @@ export const Demo: FC = () => {
             >
                 <Editable
                     cellRenderers={cellRenderers}
-                    elementRenderers={elementRenderers}
                     headerRenderers={headerRenderers}
                     textRenderers={textRenderers}
                     tableOptions={{
