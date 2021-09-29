@@ -9,17 +9,12 @@ import {
     makeSheetGridTemplateStyle,
     stickyHeaderStyle,
 } from './style';
-import { HeaderRenderers } from '../utils/types';
-
-export interface TableOptions {
-    cellGap: number;
-    stickyColumnHeaders: boolean;
-}
+import { HeaderRenderers, TableOptions } from '../utils/types';
 
 export interface Table extends Omit<RenderElementProps, 'element'> {
     element: LeydenTable;
     headerRenderers?: HeaderRenderers;
-    options?: Partial<TableOptions>;
+    tableOptions?: Partial<TableOptions>;
 }
 
 export const Table: FC<Table> = ({
@@ -27,7 +22,7 @@ export const Table: FC<Table> = ({
     children,
     element,
     headerRenderers,
-    options,
+    tableOptions,
 }) => {
     const { cols, rows } = element;
 
@@ -35,7 +30,7 @@ export const Table: FC<Table> = ({
         const totalCols = headerRenderers?.row ? cols+1 : cols;
         return makeSheetGridTemplateStyle(
             totalCols,
-            options?.cellGap??0,
+            tableOptions?.cellGap??0,
         );
     }, [cols, headerRenderers]);
 
@@ -48,14 +43,14 @@ export const Table: FC<Table> = ({
         return {
             column: (pos: number) => {
                 let colStyle = makeGridPositionStyle(pos+offset, 1);
-                if (options?.stickyColumnHeaders) {
+                if (tableOptions?.stickyColumnHeaders) {
                     colStyle = { ...colStyle, ...stickyHeaderStyle };
                 }
                 return colStyle;
             },
             row: (pos: number) => makeGridPositionStyle(1, pos+offset),
         };
-    }, [hasOrigin, options?.stickyColumnHeaders]);
+    }, [hasOrigin, tableOptions?.stickyColumnHeaders]);
 
     return (
         <div

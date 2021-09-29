@@ -9,23 +9,25 @@ import {
     useSlateStatic,
 } from 'slate-react';
 
-import { TableOptions } from './Table';
 import { useRender } from '../hooks/useRender';
 import { cellNavigationKeys } from '../utils/keys';
 import {
-    CellRenderers,
-    ElementRenderers,
+    CellRenderersOption,
+    ElementRenderersOption,
     HeaderRenderers,
-    TextRenderers,
+    TableOptions,
+    TextRenderersOption,
 } from '../utils/types';
 
-export interface Editable extends Omit<Parameters<typeof SlateReactEditable>[0], 'renderElement'|'renderLeaf'> {
-    cellRenderers: CellRenderers;
-    elementRenderers: ElementRenderers;
-    headerRenderers?: HeaderRenderers;
-    tableOptions?: Partial<TableOptions>;
-    textRenderers: TextRenderers;
-}
+export type Editable =
+    & Omit<Parameters<typeof SlateReactEditable>[0], 'renderElement'|'renderLeaf'>
+    & CellRenderersOption
+    & ElementRenderersOption
+    & TextRenderersOption
+    & {
+        headerRenderers?: HeaderRenderers;
+        tableOptions?: Partial<TableOptions>;
+    };
 
 export const Editable: FC<Editable> = ({
     cellRenderers,

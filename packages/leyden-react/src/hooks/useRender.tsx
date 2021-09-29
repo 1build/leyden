@@ -1,12 +1,12 @@
 import React, { useCallback } from 'react';
 
 import { Element } from '../components/Element';
-import { TableOptions } from '../components/Table';
 import { Text } from '../components/Text';
 import {
     CellRenderers,
     ElementRenderers,
     HeaderRenderers,
+    TableOptions,
     TextRenderers,
 } from '../utils/types';
 
@@ -14,11 +14,11 @@ type ElementNoRenderers = Omit<Element, 'cellRenderers'|'elementRenderers'>;
 type TextNoRenderers = Omit<Text, 'textRenderers'>;
 
 interface UseRenderProps {
-    cellRenderers: CellRenderers,
-    elementRenderers: ElementRenderers,
+    cellRenderers?: CellRenderers,
+    elementRenderers?: ElementRenderers,
     headerRenderers?: HeaderRenderers;
     tableOptions?: Partial<TableOptions>;
-    textRenderers: TextRenderers,
+    textRenderers?: TextRenderers,
 }
 
 interface UseRenderPayload {

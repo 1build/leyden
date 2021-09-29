@@ -25,6 +25,6 @@ export {
     ValidatorIsExtended,
 } from './interfaces/Validator';
 export { Direction2D } from './utils/types';
-export { createEditor, CreateEditorOptions } from './createEditor';
+export { createEditor } from './createEditor';
 export { Transforms } from './transforms';
 export { withLeyden } from './withLeyden';

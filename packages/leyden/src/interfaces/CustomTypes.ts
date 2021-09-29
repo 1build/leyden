@@ -82,11 +82,9 @@ export interface CustomTypes {
 }
 
 export type ExtendableTypeIsExtended<T extends ExtendableTypes> =
-    CustomTypes[T] extends infer K
-        ? K extends undefined
-            ? false
-            : true
-        : false;
+    unknown extends CustomTypes[T]
+        ? false
+        : true;
 
 export type ExtendedType<T extends ExtendableTypes> =
     CustomTypes[T] extends infer K

@@ -1,9 +1,12 @@
 import {
     Cell,
+    CellIsExtended,
     CellType,
     Element,
+    ElementIsExtended,
     ExternalElementType,
     Text,
+    TextIsExtended,
     TextType,
 } from 'leyden';
 import { FC } from 'react';
@@ -61,3 +64,20 @@ export interface HeaderRenderers {
     origin?: FC;
     row?: FC<HeaderRendererProps>;
 }
+
+export interface TableOptions {
+    cellGap: number;
+    stickyColumnHeaders: boolean;
+}
+
+export type CellRenderersOption = CellIsExtended extends true
+    ? { cellRenderers: CellRenderers }
+    : { cellRenderers?: undefined };
+
+export type ElementRenderersOption = ElementIsExtended extends true
+    ? { elementRenderers: ElementRenderers }
+    : { elementRenderers?: undefined };
+
+export type TextRenderersOption = TextIsExtended extends true
+    ? { textRenderers: TextRenderers }
+    : { textRenderers?: undefined };
