@@ -4,7 +4,7 @@ export {
     CellType,
 } from './interfaces/Cell';
 export { Coordinates, CoordinateTranslation } from './interfaces/Coordinates';
-export * from './interfaces/CustomTypes';
+export { CustomTypes } from './interfaces/CustomTypes';
 export {
     Element,
     ElementIsExtended,
