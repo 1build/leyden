@@ -4,7 +4,6 @@ export {
     CellType,
 } from './interfaces/Cell';
 export { Coordinates, CoordinateTranslation } from './interfaces/Coordinates';
-export * from './interfaces/CustomTypes';
 export {
     Element,
     ElementIsExtended,
@@ -22,7 +21,6 @@ export {
 } from './interfaces/Text';
 export {
     ValidationFunc,
-    ValidationFuncs,
     Validator,
     ValidatorIsExtended,
 } from './interfaces/Validator';

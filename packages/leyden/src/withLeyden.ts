@@ -1,17 +1,14 @@
-import { Editor, Element as SlateElement, Node } from 'slate';
+import { Node, Element as SlateElement } from 'slate';
 
 import { Cell } from './interfaces/Cell';
 import { Element } from './interfaces/Element';
 import { Text } from './interfaces/Text';
 import { Validator } from './interfaces/Validator';
-import { EditorCreationOptions } from './utils/types';
+import { WithLeydenOptions } from './utils/types';
 import { OPERATION_SUBSCRIBERS } from './utils/weakMaps';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const withLeyden = (
-    editor: Editor,
-    options: EditorCreationOptions,
-) => {
+export const withLeyden = ({ editor, ...rest }: WithLeydenOptions) => {
     const e = editor;
     const { apply, isVoid } = e;
 
@@ -56,7 +53,7 @@ export const withLeyden = (
     };
 
     e.getValidationFunc = validator => (
-        Validator.getValidationFunc(options?.validators??{}, validator)
+        Validator.getValidationFunc(rest?.validators??{}, validator)
     );
 
     e.isVoid = element => {

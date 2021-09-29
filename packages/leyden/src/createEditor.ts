@@ -1,13 +1,11 @@
 import { createEditor as createSlateEditor } from 'slate';
 
-import { EditorCreationOptions } from './utils/types';
+import { CreateEditorOptions } from './utils/types';
 import { withLeyden } from './withLeyden';
 
-export const createEditor = (
-    options: EditorCreationOptions
-): ReturnType<typeof withLeyden> => (
-    withLeyden(
-        createSlateEditor(),
-        options,
-    )
+export const createEditor = (opts: CreateEditorOptions): ReturnType<typeof withLeyden> => (
+    withLeyden({
+        editor: createSlateEditor(),
+        ...opts,
+    })
 );
