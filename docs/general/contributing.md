@@ -2,7 +2,7 @@
 
 ## Repository Setup
 
-Leyden consists of multiple packages within a single [monorepo][leyden-repo]. All packages operations (installing dependencies, linting, build, etc) are executed from the repository root. To get started, clone the Leyden monorepo, install its dependencies, and build the packages.
+Leyden consists of multiple packages within a single [monorepo][leyden-repo]. All package operations (installing dependencies, linting, build, etc) are executed from the repository root. To get started, clone the Leyden monorepo, install its dependencies, and build its packages.
 
 ```text
 git clone git@github.com:1build/leyden.git
@@ -27,7 +27,7 @@ yarn run start
 
 ### Update Leyden Version
 
-Examples use the version of Leyden that was built within the repo at the time they started being served. To update the examples such that they utilize the Leyden source code present within your local repository, rebuild Leyden and refresh the example leyden version.
+Examples use the version of Leyden that was built within the repo at the time they started being served. To update the examples such that they utilize the Leyden source code present within your local repository, rebuild Leyden and refresh the version.
 
 ```text
 npm run build
