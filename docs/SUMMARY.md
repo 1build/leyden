@@ -19,5 +19,6 @@
 
 ## General
 
+- [Contributing](general/contributing.md)
 - [Resources](general/resources.md)
 - [FAQ](general/faq.md)
