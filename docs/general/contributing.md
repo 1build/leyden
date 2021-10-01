@@ -25,7 +25,7 @@ yarn install
 yarn run start
 ```
 
-### Update Example Leyden Version
+### Update Leyden Version
 
 Examples use the version of Leyden that was built within the repo at the time they started being served. To update the examples such that they utilize the Leyden source code present within your local repository, rebuild Leyden and refresh the example leyden version.
 
