@@ -21,6 +21,7 @@ export interface LeydenEditor extends Omit<BaseEditor, 'children'> {
 export interface LeydenEditorInterface {
     coordsPath: (editor: Editor, coords: Coordinates) => Path;
     nthCellPath: (n: number) => Path;
+    pathCellIdx: (path: Path) => number|null;
     pathCoords: (editor: Editor, path: Path) => Coordinates|null;
     selectedColumn: (editor: Editor) => number|null;
     selectedCoords: (editor: Editor) => Coordinates|null;
@@ -48,8 +49,7 @@ export const LeydenEditor: LeydenEditorInterface = {
      */
 
     coordsPath(editor: Editor, coords: Coordinates): Path {
-        const table = LeydenEditor.table(editor);
-        return LeydenEditor.nthCellPath((coords.y*table.cols)+coords.x);
+        return LeydenEditor.nthCellPath(Table.cellIdx(LeydenEditor.table(editor), coords));
     },
 
     /**
@@ -61,6 +61,17 @@ export const LeydenEditor: LeydenEditorInterface = {
     },
 
     /**
+     * Get the index of the cell located at the provided path.
+     */
+
+    pathCellIdx(path: Path): number|null {
+        if (path.length < 2) {
+            return null;
+        }
+        return path[1];
+    },
+
+    /**
      * Get the coordinates of the cell located at the provided path.
      */
 
@@ -68,10 +79,11 @@ export const LeydenEditor: LeydenEditorInterface = {
         editor: Editor,
         path: Path,
     ): Coordinates|null {
-        return Table.nthCellCoords(
-            LeydenEditor.table(editor),
-            path[1]
-        );
+        const cellIdx = LeydenEditor.pathCellIdx(path);
+        if (cellIdx === null) {
+            return null;
+        }
+        return Table.nthCellCoords(LeydenEditor.table(editor), cellIdx);
     },
 
     /**
