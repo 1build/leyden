@@ -22,7 +22,7 @@ export const CellTransforms: CellTransforms = {
         props: Partial<Cell<T>>,
         coordinates: Coordinates
     ): void {
-        const path = LeydenEditor.coordPath(editor, coordinates);
+        const path = LeydenEditor.coordsPath(editor, coordinates);
         Transforms.setNodes(editor, props, { at: path });
     }
 };

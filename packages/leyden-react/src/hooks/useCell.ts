@@ -2,6 +2,7 @@ import {
     Cell,
     CellType,
     Coordinates,
+    Table,
     LeydenEditor,
 } from 'leyden';
 import { useEffect, useState } from 'react';
@@ -20,7 +21,7 @@ export const useCell: UseCell = <T extends CellType>(
     const editor = useLeydenStatic();
 
     const [cell, setCell] = useState(
-        LeydenEditor.getCellTypeAtCoords<T>(editor, coords, type)
+        Table.cellOfType<T>(LeydenEditor.table(editor), coords, type)
     );
 
     useEffect(() => {

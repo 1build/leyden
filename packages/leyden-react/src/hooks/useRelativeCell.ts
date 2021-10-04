@@ -3,6 +3,7 @@ import {
     CellType,
     Coordinates,
     CoordinateTranslation,
+    Table,
     LeydenEditor,
 } from 'leyden';
 import { useEffect, useMemo, useState } from 'react';
@@ -35,7 +36,7 @@ export const useRelativeCell: UseRelativeCell = <T extends CellType>(
         if (relativeCoords === null) {
             return null;
         }
-        return LeydenEditor.getCellTypeAtCoords<T>(editor, relativeCoords, type);
+        return Table.cellOfType<T>(LeydenEditor.table(editor), relativeCoords, type);
     });
 
     useEffect(() => {

@@ -20,6 +20,6 @@ export const ReactEditor = {
         cell: Cell<CellType>,
     ): Coordinates|null => {
         const cellPath = SlateReactEditor.findPath(editor, cell);
-        return LeydenEditor.getCellCoordsAtPath(editor, cellPath);
+        return LeydenEditor.pathCoords(editor, cellPath);
     },
 };

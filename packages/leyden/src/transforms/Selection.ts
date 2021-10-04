@@ -39,14 +39,14 @@ export const SelectionTransforms: SelectionTransforms = {
         editor: Editor,
         coords: Coordinates
     ): void {
-        const table = LeydenEditor.getTable(editor);
+        const table = LeydenEditor.table(editor);
         if (!Table.hasCoords(table, coords)) {
             if (editor.selection) {
                 Transforms.deselect(editor);
             }
             return;
         }
-        const newPath = LeydenEditor.coordPath(editor, coords);
+        const newPath = LeydenEditor.coordsPath(editor, coords);
         Transforms.select(editor, newPath);
     },
 };
