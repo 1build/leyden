@@ -1,10 +1,8 @@
 import {
     CellRenderer,
     useRelativeCell,
-    useCellIsInSelectedColumn,
-    useCellIsInSelectedRow,
 } from 'leyden-react';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 export const Name: CellRenderer<'Name'> = ({
     attributes,
@@ -12,27 +10,6 @@ export const Name: CellRenderer<'Name'> = ({
     element: cell,
 }) => {
     const rowUomCell = useRelativeCell('UnitOfMeasure', cell, { x: 2 });
-
-    const isInSelectedColumn = useCellIsInSelectedColumn(cell);
-    const isInSelectedRow = useCellIsInSelectedRow(cell);
-
-    /* eslint-disable no-console */
-    useEffect(() => {
-        if (isInSelectedRow) {
-            console.log(`[R] SELECTED: ${cell.children[0].text}`);
-        } else {
-            console.log(`[R] DESELECTED: ${cell.children[0].text}`);
-        }
-    }, [isInSelectedRow]);
-
-    useEffect(() => {
-        if (isInSelectedColumn) {
-            console.log(`[C] SELECTED: ${cell.children[0].text}`);
-        } else {
-            console.log(`[C] DESELECTED: ${cell.children[0].text}`);
-        }
-    }, [isInSelectedColumn]);
-    /* eslint-enable no-console */
 
     return (
         <div

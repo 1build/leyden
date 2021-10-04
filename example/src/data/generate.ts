@@ -1,4 +1,4 @@
-import { Cell, Table, Text } from 'leyden';
+import { Cell, CellType, Table, Text } from 'leyden';
 
 import { CSI, UOM } from '../types';
 
@@ -62,18 +62,34 @@ const newUnitOfMeasureCell = (uom: UOM): Cell<'UnitOfMeasure'> => ({
     uom,
 });
 
+export const newRow = (
+    name: string,
+    quantity: number,
+    uom: UOM,
+    csi: CSI,
+    total: number,
+): Cell<CellType>[] => {
+    return [
+        newNameCell(name),
+        newQuantityCell(quantity),
+        newUnitOfMeasureCell(uom),
+        newCSICell(csi),
+        newWholeDollarsCell(total),
+    ];
+};
+
 /* eslint-disable max-len */
 export const newTable = (): Table => ({
     type: 'table',
     cols: 5,
     rows: 6,
     children: [
-        newNameCell('Drywall 5 X 8 sheet'), newQuantityCell(2222), newUnitOfMeasureCell(UOM.SF), newCSICell(CSI.Div09), newWholeDollarsCell(15730),
-        newNameCell('Drywall installer'), newQuantityCell(22), newUnitOfMeasureCell(UOM.ManHour), newCSICell(CSI.Div09), newWholeDollarsCell(7832),
-        newNameCell('50 gallon Sherwin Williams paint'), newQuantityCell(2), newUnitOfMeasureCell(UOM.Gallons), newCSICell(CSI.Div09), newWholeDollarsCell(25),
-        newNameCell('Hardwood Flooring'), newQuantityCell(222222), newUnitOfMeasureCell(UOM.SF), newCSICell(CSI.WoodAndPlastics), newWholeDollarsCell(2321987),
-        newNameCell('R9 Sound insulation'), newQuantityCell(2), newUnitOfMeasureCell(UOM.SF), newCSICell(CSI.ThermalAndMoisture), newWholeDollarsCell(651876),
-        newNameCell('Pella 39 X 59 in Casement window'), newQuantityCell(222), newUnitOfMeasureCell(UOM.Each), newCSICell(CSI.DoorsAndWindows), newWholeDollarsCell(530),
+        ...newRow('Drywall 5 X 8 sheet', 2222, UOM.SF, CSI.Div09, 15730),
+        ...newRow('Drywall installer', 22, UOM.ManHour, CSI.Div09, 7832),
+        ...newRow('50 gallon Sherwin Williams paint', 2, UOM.Gallons, CSI.Div09, 25),
+        ...newRow('Hardwood Flooring', 222222, UOM.SF, CSI.WoodAndPlastics, 2321987),
+        ...newRow('R9 Sound insulation', 2, UOM.SF, CSI.ThermalAndMoisture, 651876),
+        ...newRow('Pella 39 X 59 in Casement window', 222, UOM.Each, CSI.DoorsAndWindows, 530),
     ],
 });
 /* eslint-enable max-len */

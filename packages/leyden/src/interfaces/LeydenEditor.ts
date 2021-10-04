@@ -18,11 +18,23 @@ export interface LeydenEditor extends Omit<BaseEditor, 'children'> {
     getValidationFunc: (validator: Validator) => ValidationFunc;
 }
 
+/**
+ * A path that points directly to a table cell
+ */
+export type CellPath = [number, number];
+
 export interface LeydenEditorInterface {
-    coordsPath: (editor: Editor, coords: Coordinates) => Path;
-    nthCellPath: (n: number) => Path;
+    cellPathCellIdx: (cellPath: CellPath) => number;
+    coordsPath: (editor: Editor, coords: Coordinates) => CellPath;
+    nthCellPath: (n: number) => CellPath;
+    operationMovesCoords: (
+        editor: Editor,
+        op: Operation,
+        coords: Coordinates
+    ) => boolean;
     pathCellIdx: (path: Path) => number|null;
     pathCoords: (editor: Editor, path: Path) => Coordinates|null;
+    pathIsCellPath: (editor: Editor, path: Path) => path is CellPath;
     selectedColumn: (editor: Editor) => number|null;
     selectedCoords: (editor: Editor) => Coordinates|null;
     selectedRow: (editor: Editor) => number|null;
@@ -41,14 +53,23 @@ export interface LeydenEditorInterface {
         subscriber: SelectionSubscriber
     ) => Unsubscriber;
     table: (editor: Editor) => Table;
+    tablePath: () => Path;
 }
 
 export const LeydenEditor: LeydenEditorInterface = {
     /**
+     * Get the index of the cell located at the provided cell path.
+     */
+
+    cellPathCellIdx(cellPath: CellPath): number {
+        return cellPath[1];
+    },
+
+    /**
      * coordPath returns a path to a cell located at the provided coordinates.
      */
 
-    coordsPath(editor: Editor, coords: Coordinates): Path {
+    coordsPath(editor: Editor, coords: Coordinates): CellPath {
         return LeydenEditor.nthCellPath(Table.cellIdx(LeydenEditor.table(editor), coords));
     },
 
@@ -56,8 +77,39 @@ export const LeydenEditor: LeydenEditorInterface = {
      * Get the path to the nth cell in an editor. 
      */
 
-    nthCellPath(n: number): Path {
+    nthCellPath(n: number): CellPath {
         return [0, n];
+    },
+
+    /**
+     * Return true if an operation moves the cell located at the provided coordinates.
+     */
+
+    operationMovesCoords(
+        editor: Editor,
+        op: Operation,
+        coords: Coordinates
+    ): boolean {
+        if (op.type === 'insert_node' || op.type === 'remove_node') {
+            if (!LeydenEditor.pathIsCellPath(editor, op.path)) {
+                return false;
+            }
+            const pathCoords = LeydenEditor.pathCoords(editor, op.path);
+            if (pathCoords === null) {
+                return false;
+            }
+            return pathCoords.x <= coords.x || pathCoords.y <= coords.y;
+        }
+        if (op.type === 'move_node') {
+            return [op.path, op.newPath].some(movePath => {
+                if (LeydenEditor.pathIsCellPath(editor, movePath)) {
+                    const moveCoords = LeydenEditor.pathCoords(editor, movePath);
+                    return moveCoords !== null && Coordinates.equals(coords, moveCoords);
+                }
+
+            });
+        }
+        return false;
     },
 
     /**
@@ -84,6 +136,14 @@ export const LeydenEditor: LeydenEditorInterface = {
             return null;
         }
         return Table.nthCellCoords(LeydenEditor.table(editor), cellIdx);
+    },
+
+    /**
+     * Typeguard, determines if a path points directly to a table cell.
+     */
+
+    pathIsCellPath(editor: Editor, path: Path): path is CellPath {
+        return path.length === 2;
     },
 
     /**
@@ -182,4 +242,12 @@ export const LeydenEditor: LeydenEditorInterface = {
     table(editor: Editor): Table {
         return editor.children[0];
     },
+
+    /**
+     * Get the path to the editor's table.
+     */
+
+    tablePath(): Path {
+        return [0];
+    }
 };

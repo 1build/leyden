@@ -5,10 +5,10 @@ import { createEditor } from 'slate';
 import { withHistory } from 'slate-history';
 
 import { cellRenderers } from './cells';
-import { newTable } from './data/generate';
+import { newRow, newTable } from './data/generate';
 import { headerRenderers } from './headers';
 import { textRenderers } from './text';
-import { UOM } from './types';
+import { CSI, UOM } from './types';
 import { validators } from './data/validators';
 
 export const Demo: FC = () => {
@@ -27,8 +27,26 @@ export const Demo: FC = () => {
 
     useEffect(() => {
         setTimeout(() => {
-            Transforms.setCell<'UnitOfMeasure'>(editor, { uom: UOM.Each }, { x: 2, y: 3 });
-        }, 2000);
+            Transforms.setCell<'UnitOfMeasure'>(editor, { uom: UOM.Gallons }, { x: 2, y: 5 });
+        }, 5000);
+    }, []);
+
+    useEffect(() => {
+        const listener = (e: KeyboardEvent): void => {
+            if (e.key === 'i') {
+                Transforms.insertRow(editor, newRow(
+                    'inserted',
+                    Math.trunc(Math.random()*100),
+                    UOM.Each,
+                    CSI.Div09,
+                    Math.trunc(Math.random()*100)
+                ), { below: 2 });
+            }
+        };
+        document.addEventListener('keydown', listener);
+        return () => {
+            document.removeEventListener('keydown', listener);
+        };
     }, []);
 
     return (

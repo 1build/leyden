@@ -8,6 +8,7 @@ export interface Coordinates {
 export type CoordinateTranslation = Partial<Coordinates>;
 
 export interface CoordinatesInterface {
+    equals: (coords: Coordinates, another: Coordinates) => boolean;
     move: (coords: Coordinates, direction: Direction2D) => Coordinates;
     translate: (
         coords: Coordinates,
@@ -16,6 +17,14 @@ export interface CoordinatesInterface {
 }
 
 export const Coordinates: CoordinatesInterface = {
+    /**
+     * Return true if two sets of coordinates point to the same location.
+     */
+
+    equals(coords: Coordinates, another: Coordinates): boolean {
+        return coords.x === another.x && coords.y === another.y;
+    },
+
     /**
      * Get the coordinates reached by applying a direction to the provided coordinates.
      */

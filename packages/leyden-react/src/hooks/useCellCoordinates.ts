@@ -2,8 +2,9 @@ import {
     Cell,
     CellType,
     Coordinates,
+    LeydenEditor,
 } from 'leyden';
-import { useMemo } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useLeydenStatic } from './useLeydenStatic';
 import { ReactEditor } from '../plugin/ReactEditor';
@@ -11,9 +12,29 @@ import { ReactEditor } from '../plugin/ReactEditor';
 export const useCellCoordinates = (cell: Cell<CellType>): Coordinates|null => {
     const editor = useLeydenStatic();
 
-    const coordinates = useMemo(() => (
-        ReactEditor.cellCoords(editor, cell)
-    ), []);
+    const [coordinates, setCoordinates] = useState(ReactEditor.cellCoords(editor, cell));
+
+    useEffect(() => {
+        if (coordinates === null) {
+            return;
+        }
+        const unsubscribe = LeydenEditor.subscribeToOperations(editor, op => {
+            if (!LeydenEditor.operationMovesCoords(editor, op, coordinates)) {
+                return;
+            }
+            // If not wrapped in `setTimeout`, this runs before the cell paths are updated
+            // and coordinate movement is never detected. 
+            setTimeout(() => {
+                const newCoords = ReactEditor.cellCoords(editor, cell);
+                if (newCoords === null || !Coordinates.equals(coordinates, newCoords)) {
+                    setCoordinates(newCoords);
+                }
+            });
+        });
+        return () => {
+            unsubscribe();
+        };
+    }, [coordinates]);
 
     return coordinates;
 };
