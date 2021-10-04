@@ -8,7 +8,7 @@ import { Direction2D, InsertRowPosition } from '../utils/types';
 import { insertRowPositionIsAbove } from '../utils/typeGuards';
 
 export interface TableTransforms {
-    insertRow: (
+    insertRows: (
         editor: Editor,
         cells: Cell<CellType>[],
         position: InsertRowPosition
@@ -20,11 +20,17 @@ export const TableTransforms: TableTransforms = {
      * Insert a row of cells.
      */
 
-    insertRow(
+    insertRows(
         editor: Editor,
         cells: Cell<CellType>[],
         position: InsertRowPosition
     ): void {
+        const table = LeydenEditor.table(editor);
+        const hangingCells = cells.length%table.cols;
+        if (hangingCells !== 0) {
+            throw new Error(`failed to insert row, (${cells.length} cells cannot make rows of ${table.cols})`);
+        }
+        const rowsToAdd = cells.length/table.cols;
         // Insert row
         if (insertRowPositionIsAbove(position)) {
             const insertionCell = Table.row(
@@ -50,6 +56,6 @@ export const TableTransforms: TableTransforms = {
         }
         // Update table row count
         const curRows = LeydenEditor.table(editor).rows;
-        Transforms.setNodes(editor, { rows: curRows+1 }, { at: LeydenEditor.tablePath() });
+        Transforms.setNodes(editor, { rows: curRows+rowsToAdd }, { at: LeydenEditor.tablePath() });
     }
 };

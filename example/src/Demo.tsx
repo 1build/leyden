@@ -34,7 +34,7 @@ export const Demo: FC = () => {
     useEffect(() => {
         const listener = (e: KeyboardEvent): void => {
             if (e.key === 'i') {
-                Transforms.insertRow(editor, newRow(
+                Transforms.insertRows(editor, newRow(
                     'inserted',
                     Math.trunc(Math.random()*100),
                     UOM.Each,
