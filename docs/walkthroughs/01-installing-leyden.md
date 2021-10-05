@@ -14,7 +14,7 @@ npm install leyden leyden-react slate slate-react
 
 In the file of the component where you'd like to mount your Leyden table, pull in several imports from the packages you just installed.
 
-```tsx
+```typescript
 // Augment a Slate editor with Leyden's core functionality
 import { withLeyden } from 'leyden';
 
@@ -30,7 +30,7 @@ import { createEditor } from 'slate';
 
 Use those imports to define a Leyden editor within your component.
 
-```tsx
+```typescript
 export const SomeComponent: FC = () => {
     const editor = useMemo(() => (
         withLeyden({
@@ -48,7 +48,7 @@ export const SomeComponent: FC = () => {
 
 Define a new function which generates a 5x5 table of dummy data to display in our editor. Then, use it to set the initial state of our table.
 
-```tsx
+```typescript
 import { Cell, Table } from 'leyden';
 import { useState } from 'react';
 
@@ -74,7 +74,7 @@ export const SomeComponent: FC = () => {
 
 Render the `Editable` table component within the `Leyden` container.
 
-```tsx
+```typescript
 import { Editable, Leyden } from 'leyden-react';
 
 // ...
@@ -105,7 +105,7 @@ We've rendered a Leyden table, though not a very useful one. We'll put on all th
 
 Here's the complete source code of our demo component:
 
-```tsx
+```typescript
 import { Cell, Table, withLeyden } from 'leyden';
 import { Editable, Leyden, withReact } from 'leyden-react';
 import React, { FC, useMemo, useState } from 'react';
