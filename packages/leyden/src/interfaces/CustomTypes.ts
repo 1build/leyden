@@ -20,7 +20,7 @@ type ExtendableTypes =
     | ExtendableComponentTypes
     | ExtendableExtraTypes;
 
-const extendableComponentDefaultKey = 'EXTENDABLE_COMPONENT_DEFAULT_KEY';
+export const extendableComponentDefaultKey = 'EXTENDABLE_COMPONENT_DEFAULT_KEY';
 
 interface WithCellType<T extends string> { cellType: T }
 interface WithChildren<T extends Array<unknown>> { children: T }
@@ -54,7 +54,9 @@ type ExtendedComponentTypeEntries<T extends ExtendableComponentTypes> =
 type DefaultExtendedComponentTypeEntries<T extends ExtendableComponentTypes> = {
     [extendableComponentDefaultKey]: T extends 'Text'
         ? WithText<string> & WithValidator<'numeric'>
-        : WithChildren<Text[]> & WithDataOptional<unknown> & WithIsEditable<false>;
+        : T extends 'Cells'
+            ? WithChildren<Text[]> & WithDataOptional<unknown> & WithIsEditable<true>
+            : WithChildren<Text[]> & WithDataOptional<unknown> & WithIsEditable<false>;
 };
 
 type EmptyProp = Record<string, unknown>;

@@ -1,10 +1,12 @@
 import { Element } from 'slate';
 
 import {
+    extendableComponentDefaultKey,
     ExtendableTypeIsExtended,
     ExtendedCellType,
     ExtendedType,
 } from './CustomTypes';
+import { Text } from './Text';
 import { Keys } from '../utils/types';
 
 export type CellIsExtended = ExtendableTypeIsExtended<'Cells'>;
@@ -14,6 +16,7 @@ export type CellType = Keys<Cells>;
 export type Cell<T extends CellType> = ExtendedCellType<T, Cells>;
 
 export interface CellInterface {
+    newDefault: (num: number) => Cell<typeof extendableComponentDefaultKey>;
     isCell: (el: Element) => el is Cell<CellType>;
     isCellList: (els: Element[]) => els is Cell<CellType>[];
     isCellType: <T extends CellType>(cell: Cell<CellType>, type: T) => cell is Cell<T>;
@@ -21,29 +24,42 @@ export interface CellInterface {
 
 export const Cell: CellInterface = {
     /**
+     * Create a new cell using the default Cell type.
+     */
+
+    newDefault(num: number): Cell<typeof extendableComponentDefaultKey> {
+        return {
+            type: 'cell',
+            cellType: extendableComponentDefaultKey,
+            children: [Text.newDefault(num)],
+            isEditable: true,
+        };
+    },
+
+    /**
      * Check if an element is a `Cell`.
      */
 
-    isCell: (el: Element): el is Cell<CellType> => (
-        el.type === 'cell'
-    ),
+    isCell(el: Element): el is Cell<CellType> {
+        return el.type === 'cell';
+    },
 
     /**
      * Check if a list of elements are all of type `Cell`.
      */
 
-    isCellList: (value: Element[]): value is Cell<CellType>[] => (
-        Array.isArray(value) && value.every(val => Cell.isCell(val))
-    ),
+    isCellList(value: Element[]): value is Cell<CellType>[] {
+        return Array.isArray(value) && value.every(val => Cell.isCell(val));
+    },
 
     /**
      * Check if a cell is a specific cell type.
      */
 
-    isCellType: <T extends CellType>(
+    isCellType<T extends CellType>(
         cell: Cell<CellType>,
         type: T
-    ): cell is Cell<T> => (
-        cell.cellType === type
-    ),
+    ): cell is Cell<T> {
+        return cell.cellType === type;
+    },
 };

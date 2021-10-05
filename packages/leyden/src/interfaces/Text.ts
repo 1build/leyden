@@ -5,6 +5,7 @@ import {
 } from 'slate';
 
 import {
+    extendableComponentDefaultKey,
     ExtendableTypeIsExtended,
     ExtendedTextType,
     ExtendedType,
@@ -20,7 +21,29 @@ export type Text<T extends TextType> = ExtendedTextType<T, Texts>;
 
 export type LeydenText = Text<TextType>;
 
-export const Text = {
+export interface TextInterface {
+    newDefault: (num: number) => Text<typeof extendableComponentDefaultKey>;
+    isText: (text: SlateText) => text is Text<TextType>;
+    validateTextOperation: (
+        text: Text<TextType>,
+        validator: ValidationFunc,
+        operation: InsertTextOperation|RemoveTextOperation
+    ) => boolean;
+}
+
+export const Text: TextInterface = {
+    /**
+     * Create a new text leaf using the default Text type.
+     */
+
+    newDefault(num: number): Text<typeof extendableComponentDefaultKey> {
+        return {
+            type: extendableComponentDefaultKey,
+            text: num.toString(),
+            validator: 'numeric',
+        };
+    },
+
     /**
      * Check if a text is a `Text`.
      */
