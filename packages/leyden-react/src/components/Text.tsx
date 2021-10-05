@@ -28,7 +28,7 @@ export const Text: FC<Text> = ({
     }
 
     return (
-        <span {...props}>
+        <span {...props.attributes}>
             {children}
         </span>
     );

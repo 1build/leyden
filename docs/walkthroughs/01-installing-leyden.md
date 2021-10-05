@@ -41,19 +41,38 @@ export const SomeComponent: FC = () => {
     ), []);
 
     // ...
-
-    return (
-        <>
-            {/* ... */}
-        </>
-    );
 };
 ```
 
-## Cell Definition
+## Data Definition
+
+Define a new function which generates a 5x5 table of dummy data to display in our editor. Then, use it to set the initial state of our table.
+
+```tsx
+import { Cell, Table } from 'leyden';
+import { useState } from 'react';
+
+// ...
+
+const generateTable = (): Table => {
+    return Table.new(5, 5, Array.from(
+        { length: 25 },
+        () => Cell.newDefault(Math.floor(Math.random()*100))
+    ));
+};
+
+// ...
+
+export const SomeComponent: FC = () => {
+    const [value, setValue] = useState<[Table]>([generateTable()]);
+
+    // ...
+};
+```
+
+## Table Rendering
 
 Coming soon
-
 
 [react]: https://reactjs.org/
 [slate]: https://github.com/ianstormtaylor/slate
