@@ -35,6 +35,7 @@ export interface TableInterface {
     ) => Generator<TableCell, void, undefined>;
     hasCoords: (table: Table, coords: Coordinates) => boolean;
     isTable: (el: Element) => el is Table;
+    new: (cols: number, rows: number, cells: Cell<CellType>[]) => Table;
     nthCell: (table: Table, n: number) => Cell<CellType>|null;
     nthCellCoords: (table: Table, n: number) => Coordinates;
     row: (
@@ -153,8 +154,17 @@ export const Table: TableInterface = {
      * Check if an element is a `Table`.
      */
 
-    isTable (el: Element): el is Table {
+    isTable(el: Element): el is Table {
         return el.type === 'table';
+    },
+
+    new(cols: number, rows: number, cells: Cell<CellType>[]): Table {
+        return {
+            type: 'table',
+            cols,
+            rows,
+            children: cells,
+        };
     },
 
     /**

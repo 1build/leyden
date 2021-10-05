@@ -78,18 +78,13 @@ export const newRow = (
     ];
 };
 
-/* eslint-disable max-len */
-export const newTable = (): Table => ({
-    type: 'table',
-    cols: 5,
-    rows: 6,
-    children: [
+export const newTable = (): Table => (
+    Table.new(5, 6, [
         ...newRow('Drywall 5 X 8 sheet', 2222, UOM.SF, CSI.Div09, 15730),
         ...newRow('Drywall installer', 22, UOM.ManHour, CSI.Div09, 7832),
         ...newRow('50 gallon Sherwin Williams paint', 2, UOM.Gallons, CSI.Div09, 25),
         ...newRow('Hardwood Flooring', 222222, UOM.SF, CSI.WoodAndPlastics, 2321987),
         ...newRow('R9 Sound insulation', 2, UOM.SF, CSI.ThermalAndMoisture, 651876),
         ...newRow('Pella 39 X 59 in Casement window', 222, UOM.Each, CSI.DoorsAndWindows, 530),
-    ],
-});
-/* eslint-enable max-len */
+    ])
+);
