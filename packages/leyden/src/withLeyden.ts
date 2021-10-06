@@ -1,6 +1,5 @@
-import { Editor, Element as SlateElement, Node } from 'slate';
+import { Editor, Node } from 'slate';
 
-import { Cell } from './interfaces/Cell';
 import { LeydenEditor } from './interfaces/LeydenEditor';
 import { Element } from './interfaces/Element';
 import { Text } from './interfaces/Text';
@@ -16,13 +15,6 @@ export const withLeyden = <T extends Editor>({ editor, ...rest }: WithLeydenOpti
         // Disallow cell merging (maintain layout)
         if (op.type === 'merge_node'
             && Reflect.get(op.properties, 'type') === 'cell'
-        ) {
-            return;
-        }
-        // Disallow cell deletion (maintain layout)
-        if (op.type === 'remove_node'
-            && SlateElement.isElement(op.node)
-            && Cell.isCell(op.node)
         ) {
             return;
         }

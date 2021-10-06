@@ -8,6 +8,10 @@ import { Direction2D, InsertRowPosition } from '../utils/types';
 import { insertRowPositionIsAbove } from '../utils/typeGuards';
 
 export interface TableTransforms {
+    deleteRows: (
+        editor: Editor,
+        rows: Set<number>,
+    ) => void;
     insertRows: (
         editor: Editor,
         cells: Cell<CellType>[],
@@ -16,6 +20,31 @@ export interface TableTransforms {
 }
 
 export const TableTransforms: TableTransforms = {
+    /**
+     * Delete rows.
+     */
+
+    deleteRows(
+        editor: Editor,
+        rows: Set<number>,
+    ): void {
+        const { cols } = LeydenEditor.table(editor);
+        if (cols < 1) {
+            return;
+        }
+        const rowsBottomFirst = [...rows].sort((a, b) => b - a);
+        rowsBottomFirst.forEach(row => {
+            const leftmost = LeydenEditor.coordsPath(editor, { x: 0, y: row });
+            const rightmost = LeydenEditor.coordsPath(editor, { x: cols-1, y: row });
+            Transforms.removeNodes(editor, {
+                at: Editor.range(editor, leftmost, rightmost)
+            });
+        });
+        // Update table row count
+        const curRows = LeydenEditor.table(editor).rows;
+        Transforms.setNodes(editor, { rows: curRows+rows.size }, { at: LeydenEditor.tablePath() });
+    },
+
     /**
      * Insert a row of cells.
      */

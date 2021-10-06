@@ -42,6 +42,9 @@ export const Demo: FC = () => {
                     Math.trunc(Math.random()*100)
                 ), { below: 2 });
             }
+            if (e.key === 'd') {
+                Transforms.deleteRows(editor, new Set([1, 3]));
+            }
         };
         document.addEventListener('keydown', listener);
         return () => {
