@@ -1,5 +1,3 @@
-import { Direction2D } from '../utils/types';
-
 export interface Coordinates {
     x: number;
     y: number;
@@ -9,7 +7,10 @@ export type CoordinateTranslation = Partial<Coordinates>;
 
 export interface CoordinatesInterface {
     equals: (coords: Coordinates, another: Coordinates) => boolean;
-    move: (coords: Coordinates, direction: Direction2D) => Coordinates;
+    move: (
+        coords: Coordinates,
+        direction: 'up'|'down'|'left'|'right'
+    ) => Coordinates;
     translate: (
         coords: Coordinates,
         translation: CoordinateTranslation,
@@ -29,12 +30,15 @@ export const Coordinates: CoordinatesInterface = {
      * Get the coordinates reached by applying a direction to the provided coordinates.
      */
 
-    move(coords: Coordinates, direction: Direction2D): Coordinates {
-        const dirMap: Record<Direction2D, (coords: Coordinates) => Coordinates> = {
-            [Direction2D.Up]: c => ({ ...c, y: c.y-1 }),
-            [Direction2D.Right]: c => ({ ...c, x: c.x+1 }),
-            [Direction2D.Down]: c => ({ ...c, y: c.y+1 }),
-            [Direction2D.Left]: c => ({ ...c, x: c.x-1 }),
+    move(
+        coords: Coordinates,
+        direction: 'up'|'down'|'left'|'right'
+    ): Coordinates {
+        const dirMap = {
+            'up': (c: Coordinates) => ({ ...c, y: c.y-1 }),
+            'right': (c: Coordinates) => ({ ...c, x: c.x+1 }),
+            'down': (c: Coordinates) => ({ ...c, y: c.y+1 }),
+            'left': (c: Coordinates) => ({ ...c, x: c.x-1 }),
         };
         return dirMap[direction](coords);
     },

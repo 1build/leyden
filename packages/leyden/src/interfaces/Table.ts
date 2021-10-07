@@ -2,7 +2,6 @@ import { Element } from 'slate';
 
 import { Cell, CellType } from './Cell';
 import { Coordinates } from './Coordinates';
-import { Direction2D } from '../utils/types';
 
 export interface Table {
     type: 'table';
@@ -177,7 +176,7 @@ export const Table: TableInterface = {
             yield [cell, coordinates];
             coordinates = Coordinates.move(
                 coordinates,
-                reverse ? Direction2D.Up : Direction2D.Down
+                reverse ? 'up' : 'down'
             );
         }
     },
@@ -298,7 +297,7 @@ export const Table: TableInterface = {
             yield [cell, coordinates];
             coordinates = Coordinates.move(
                 coordinates,
-                reverse ? Direction2D.Left : Direction2D.Right
+                reverse ? 'left' : 'right'
             );
         }
     },

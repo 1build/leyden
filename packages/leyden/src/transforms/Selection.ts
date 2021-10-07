@@ -3,10 +3,12 @@ import { Editor, Transforms } from 'slate';
 import { Coordinates } from '../interfaces/Coordinates';
 import { LeydenEditor } from '../interfaces/LeydenEditor';
 import { Table } from '../interfaces/Table';
-import { Direction2D } from '../utils/types';
 
 export interface SelectionTransforms {
-    moveCellSelection: (editor: Editor, direction: Direction2D) => void;
+    moveCellSelection: (
+        editor: Editor,
+        direction: 'up'|'down'|'left'|'right'
+    ) => void;
     selectCell: (editor: Editor, coords: Coordinates) => void;
 }
 
@@ -17,7 +19,7 @@ export const SelectionTransforms: SelectionTransforms = {
 
     moveCellSelection(
         editor: Editor,
-        direction: Direction2D
+        direction: 'up'|'down'|'left'|'right'
     ): void {
         const { selection } = editor;
         if (!selection) {

@@ -4,13 +4,6 @@ import { Coordinates } from '../interfaces/Coordinates';
 import { Cell, CellType } from '../interfaces/Cell';
 import { ValidationFuncs, ValidatorIsExtended } from '../interfaces/Validator';
 
-export enum Direction2D {
-    Up,
-    Right,
-    Down,
-    Left,
-}
-
 /**
  * Distribute a type over its union.
  */

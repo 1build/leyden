@@ -3,7 +3,6 @@ import { Editor, Transforms } from 'slate';
 import { Cell, CellType } from '../interfaces/Cell';
 import { Coordinates } from '../interfaces/Coordinates';
 import { LeydenEditor } from '../interfaces/LeydenEditor';
-import { Direction2D } from '../utils/types';
 
 export interface TableTransforms {
     deleteRows: (
@@ -84,7 +83,7 @@ export const TableTransforms: TableTransforms = {
 
         let insertionCoords = { x: 0, y: at };
         if (position === 'below') {
-            insertionCoords = Coordinates.move(insertionCoords, Direction2D.Down);
+            insertionCoords = Coordinates.move(insertionCoords, 'down');
         }
         const insertionPath = LeydenEditor.coordsPath(editor, insertionCoords);
         Transforms.insertNodes(editor, cells, { at: insertionPath });
