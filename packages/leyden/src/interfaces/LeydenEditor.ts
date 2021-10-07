@@ -1,6 +1,6 @@
 import { BaseEditor, Editor, Operation, Path } from 'slate';
 
-import { CellType } from './Cell';
+import { Cell, CellType } from './Cell';
 import { Coordinates } from './Coordinates';
 import { Table } from './Table';
 import { ValidationFunc, Validator } from './Validator';
@@ -35,6 +35,8 @@ export interface LeydenEditorInterface {
     pathCellIdx: (path: Path) => number|null;
     pathCoords: (editor: Editor, path: Path) => Coordinates|null;
     pathIsCellPath: (editor: Editor, path: Path) => path is CellPath;
+    selectedCell: (editor: Editor) => Cell<CellType>|null;
+    selectedCellOfType: <T extends CellType>(editor: Editor, type: T) => Cell<T>|null;
     selectedColumn: (editor: Editor) => number|null;
     selectedCoords: (editor: Editor) => Coordinates|null;
     selectedRow: (editor: Editor) => number|null;
@@ -144,6 +146,30 @@ export const LeydenEditor: LeydenEditorInterface = {
 
     pathIsCellPath(editor: Editor, path: Path): path is CellPath {
         return path.length === 2;
+    },
+
+    /**
+     * If a cell is selected, return it.
+     */
+
+    selectedCell(editor: Editor): Cell<CellType>|null {
+        const selectedCoords = LeydenEditor.selectedCoords(editor);
+        if (selectedCoords === null) {
+            return null;
+        }
+        return Table.cell(LeydenEditor.table(editor), selectedCoords);
+    },
+
+    /**
+     * If a cell of the specified type is selected, return it.
+     */
+
+    selectedCellOfType<T extends CellType>(editor: Editor, type: T): Cell<T>|null {
+        const selectedCoords = LeydenEditor.selectedCoords(editor);
+        if (selectedCoords === null) {
+            return null;
+        }
+        return Table.cellOfType(LeydenEditor.table(editor), selectedCoords, type);
     },
 
     /**
