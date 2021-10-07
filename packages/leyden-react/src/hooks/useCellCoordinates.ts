@@ -18,6 +18,7 @@ export const useCellCoordinates = (cell: Cell<CellType>): Coordinates|null => {
         if (coordinates === null) {
             return;
         }
+        let canceled = false;
         const unsubscribe = LeydenEditor.subscribeToOperations(editor, op => {
             if (!LeydenEditor.operationMovesCoords(editor, op, coordinates)) {
                 return;
@@ -26,12 +27,15 @@ export const useCellCoordinates = (cell: Cell<CellType>): Coordinates|null => {
             // and coordinate movement is never detected. 
             setTimeout(() => {
                 const newCoords = ReactEditor.cellCoords(editor, cell);
-                if (newCoords === null || !Coordinates.equals(coordinates, newCoords)) {
+                if ((newCoords === null || !Coordinates.equals(coordinates, newCoords))
+                    && !canceled
+                ) {
                     setCoordinates(newCoords);
                 }
             });
         });
         return () => {
+            canceled = true;
             unsubscribe();
         };
     }, [coordinates]);
