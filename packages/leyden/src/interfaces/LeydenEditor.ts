@@ -24,11 +24,6 @@ export interface LeydenEditor extends Omit<BaseEditor, 'children'> {
     getValidationFunc: (validator: Validator) => ValidationFunc;
 }
 
-/**
- * A path that points directly to a table cell
- */
-export type CellPath = [number, number];
-
 export interface LeydenEditorInterface {
     cellPathCellIdx: (cellPath: CellPath) => number;
     coordsPath: (editor: Editor, coords: Coordinates) => CellPath;
@@ -306,3 +301,9 @@ export const LeydenEditor: LeydenEditorInterface = {
         return [0];
     }
 };
+
+/**
+ * A path that points directly to a table cell
+ */
+
+export type CellPath = [number, number];

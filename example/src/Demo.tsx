@@ -63,6 +63,12 @@ export const Demo: FC = () => {
             if (e.key === 'x') {
                 Transforms.deleteRows(editor);
             }
+            if (e.key === 'm') {
+                Transforms.moveRow(editor, {
+                    at: 4,
+                    to: 2,
+                });
+            }
         };
         document.addEventListener('keydown', listener);
         return () => {

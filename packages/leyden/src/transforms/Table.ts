@@ -7,8 +7,8 @@ import { LeydenEditor } from '../interfaces/LeydenEditor';
 export interface TableTransforms {
     deleteRows: (
         editor: Editor,
-        options?: {
-            at?: Set<number>,
+        options: {
+            at: Set<number>,
         }
     ) => void;
     insertRows: (
@@ -36,33 +36,24 @@ export const TableTransforms: TableTransforms = {
     deleteRows(
         editor: Editor,
         options: {
-            at?: Set<number>,
-        } = {}
-    ): void {
-        let { at } = options;
-        if (at === undefined) {
-            const selectedRow = LeydenEditor.selectedRow(editor);
-            if (selectedRow === null) {
-                return;
-            }
-            at = new Set([selectedRow]);
+            at: Set<number>,
         }
+    ): void {
+        const { at } = options;
         const { columns } = LeydenEditor.table(editor);
         if (columns < 1) {
             return;
         }
         const rowsBottomFirst = [...at].sort((a, b) => b - a);
         rowsBottomFirst.forEach(row => {
-            const leftmost = LeydenEditor.coordsPath(editor, { x: 0, y: row });
-            const rightmost = LeydenEditor.coordsPath(editor, { x: columns-1, y: row });
             Transforms.removeNodes(editor, {
-                at: Editor.range(editor, leftmost, rightmost)
+                at: LeydenEditor.rowRange(editor, { at: row }),
             });
         });
     },
 
     /**
-     * Insert a row of cells.
+     * Insert rows.
      */
 
     insertRows(
@@ -100,12 +91,19 @@ export const TableTransforms: TableTransforms = {
             to: number,
         },
     ): void {
-        if (options.at === options.to) {
+        const { at, to } = options;
+        if (at === to) {
             return;
         }
-        if (options.at > options.to) {
-            return;
-        }
-        return;
+        // When moving a row upwards, insert from the end of the target to account for the
+        // upward shift of rows between the target and the source.
+        const { columns } = LeydenEditor.table(editor);
+        const insertionCoords = {
+            x: to <= at ? 0 : columns-1,
+            y: to,
+        };
+        const insertionPath = LeydenEditor.coordsPath(editor, insertionCoords);
+        const rowRange = LeydenEditor.rowRange(editor, { at });
+        Transforms.moveNodes(editor, { at: rowRange, to: insertionPath });
     },
 };
