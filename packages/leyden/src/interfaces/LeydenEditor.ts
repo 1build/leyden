@@ -1,4 +1,10 @@
-import { BaseEditor, Editor, Operation, Path } from 'slate';
+import {
+    BaseEditor,
+    Editor,
+    Operation,
+    Path,
+    Range,
+} from 'slate';
 
 import { Cell, CellType } from './Cell';
 import { Coordinates } from './Coordinates';
@@ -35,6 +41,12 @@ export interface LeydenEditorInterface {
     pathCellIdx: (path: Path) => number|null;
     pathCoords: (editor: Editor, path: Path) => Coordinates|null;
     pathIsCellPath: (editor: Editor, path: Path) => path is CellPath;
+    rowRange: (
+        editor: Editor,
+        options: {
+            at: number,
+        },
+    ) => Range;
     selectedCell: (editor: Editor) => Cell<CellType>|null;
     selectedCellOfType: <T extends CellType>(editor: Editor, type: T) => Cell<T>|null;
     selectedColumn: (editor: Editor) => number|null;
@@ -146,6 +158,23 @@ export const LeydenEditor: LeydenEditorInterface = {
 
     pathIsCellPath(editor: Editor, path: Path): path is CellPath {
         return path.length === 2;
+    },
+
+    /**
+     * Returns a slate range around a table row.
+     */
+
+    rowRange(
+        editor: Editor,
+        options: {
+            at: number,
+        },
+    ): Range {
+        const { at } = options;
+        const { columns } = LeydenEditor.table(editor);
+        const leftmost = LeydenEditor.coordsPath(editor, { x: 0, y: at });
+        const rightmost = LeydenEditor.coordsPath(editor, { x: columns-1, y: at });
+        return Editor.range(editor, leftmost, rightmost);
     },
 
     /**
