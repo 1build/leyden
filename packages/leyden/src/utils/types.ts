@@ -75,23 +75,3 @@ export type WithLeydenOptions<T extends Editor> =
     ValidatorIsExtended extends true
         ? EditorOption<T>&ValidatorsOption
         : EditorOption<T>&Partial<ValidatorsOption>;
-
-/**
- * Positioning for relative "above" insertion.
- */
-
-export interface InsertAbove {
-    above: number;
-}
-
-/**
- * Positioning for relative "below" insertion.
- */
-
-export interface InsertBelow {
-    below: number;
-}
-
-export type InsertRowPosition =
-    | InsertAbove
-    | InsertBelow;

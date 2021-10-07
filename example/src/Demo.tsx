@@ -27,7 +27,11 @@ export const Demo: FC = () => {
 
     useEffect(() => {
         setTimeout(() => {
-            Transforms.setCell<'UnitOfMeasure'>(editor, { uom: UOM.Gallons }, { x: 2, y: 5 });
+            Transforms.setCell<'UnitOfMeasure'>(
+                editor,
+                { uom: UOM.Gallons },
+                { at: { x: 2, y: 5 } },
+            );
         }, 5000);
     }, []);
 
@@ -40,10 +44,24 @@ export const Demo: FC = () => {
                     UOM.Each,
                     CSI.Div09,
                     Math.trunc(Math.random()*100)
-                ), { below: 2 });
+                ), { at: 2, position: 'below' });
+            }
+            if (e.key === 'a') {
+                Transforms.insertRows(editor, newRow(
+                    'insertedabove',
+                    Math.trunc(Math.random()*100),
+                    UOM.Each,
+                    CSI.Div09,
+                    Math.trunc(Math.random()*100)
+                ), { at: 1 });
             }
             if (e.key === 'd') {
-                Transforms.deleteRows(editor, new Set([1, 3]));
+                Transforms.deleteRows(editor, {
+                    at: new Set([1, 3]),
+                });
+            }
+            if (e.key === 'x') {
+                Transforms.deleteRows(editor);
             }
         };
         document.addEventListener('keydown', listener);

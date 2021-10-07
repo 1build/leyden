@@ -8,7 +8,9 @@ export interface CellTransforms {
     setCell: <T extends CellType=CellType>(
         editor: Editor,
         props: Partial<Cell<T>>,
-        coordinates: Coordinates,
+        options?: {
+            at?: Coordinates
+        }
     ) => void;
 }
 
@@ -20,9 +22,16 @@ export const CellTransforms: CellTransforms = {
     setCell<T extends CellType=CellType>(
         editor: Editor,
         props: Partial<Cell<T>>,
-        coordinates: Coordinates
+        options: {
+            at?: Coordinates
+        } = {}
     ): void {
-        const path = LeydenEditor.coordsPath(editor, coordinates);
-        Transforms.setNodes(editor, props, { at: path });
+        const { at = LeydenEditor.selectedCoords(editor) } = options;
+        if (at === null) {
+            return;
+        }
+        Transforms.setNodes(editor, props, {
+            at: LeydenEditor.coordsPath(editor, at),
+        });
     }
 };
