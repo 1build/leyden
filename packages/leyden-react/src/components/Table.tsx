@@ -20,19 +20,19 @@ export interface Table extends Omit<RenderElementProps, 'element'> {
 export const Table: FC<Table> = ({
     attributes,
     children,
-    element,
+    element: table,
     headerRenderers,
     tableOptions,
 }) => {
-    const { cols, rows } = element;
+    const { columns, rows } = LeydenTable.dimensions(table);
 
     const style = useMemo(() => {
-        const totalCols = headerRenderers?.row ? cols+1 : cols;
+        const totalCols = headerRenderers?.row ? columns+1 : columns;
         return makeSheetGridTemplateStyle(
             totalCols,
             tableOptions?.cellGap??0,
         );
-    }, [cols, headerRenderers]);
+    }, [columns, headerRenderers]);
 
     const hasOrigin = useMemo(() => (
         headerRenderers?.column && headerRenderers?.row
@@ -59,7 +59,7 @@ export const Table: FC<Table> = ({
         >
             {hasOrigin && <Origin Component={headerRenderers?.origin} />}
             {headerRenderers?.column && <Headers
-                quantity={cols}
+                quantity={columns}
                 genStyle={genHeaderStyles.column}
                 Component={headerRenderers.column}
             />}

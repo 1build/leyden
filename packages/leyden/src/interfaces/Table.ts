@@ -7,8 +7,7 @@ import { Direction2D } from '../utils/types';
 export interface Table {
     type: 'table';
     isEditable?: true;
-    cols: number;
-    rows: number;
+    columns: number;
     children: Cell<CellType>[];
 }
 
@@ -48,9 +47,10 @@ export interface TableInterface {
             reverse?: boolean
         }
     ) => Generator<TableCell<T>, void, undefined>;
+    dimensions: (table: Table) => TableDimensions;
     hasCoords: (table: Table, coords: Coordinates) => boolean;
     isTable: (el: Element) => el is Table;
-    new: (cols: number, rows: number, cells: Cell<CellType>[]) => Table;
+    new: (columns: number, cells: Cell<CellType>[]) => Table;
     nthCell: (table: Table, n: number) => Cell<CellType>|null;
     nthCellCoords: (table: Table, n: number) => Coordinates;
     row: (
@@ -91,7 +91,7 @@ export const Table: TableInterface = {
         table: Table,
         coords: Coordinates,
     ): number {
-        return (coords.y*table.cols)+coords.x;
+        return (coords.y*table.columns)+coords.x;
     },
 
     /**
@@ -163,12 +163,13 @@ export const Table: TableInterface = {
         } = {}
     ): Generator<TableCell, void, undefined> {
         const { reverse = false } = options;
+        const { rows } = Table.dimensions(table);
         let coordinates = {
             x: column,
-            y: reverse ? table.rows-1 : 0,
+            y: reverse ? rows-1 : 0,
         };
 
-        while (reverse ? coordinates.y >= 0 : coordinates.y < table.rows) {
+        while (reverse ? coordinates.y >= 0 : coordinates.y < rows) {
             const cell = Table.cell(table, coordinates);
             if (cell === null) {
                 throw new Error(`failed to get cell at coordinates (${coordinates.x}, ${coordinates.y})`);
@@ -201,6 +202,18 @@ export const Table: TableInterface = {
     },
 
     /**
+     * Return the passed table's dimensions.
+     * Unfilled final rows are not included in the returned `rows` value.
+     */
+
+    dimensions(table: Table): TableDimensions {
+        return {
+            columns: table.columns,
+            rows: Math.floor(table.children.length/table.columns)
+        };
+    },
+
+    /**
      * Return true if a coordinate pair lies within the editor.
      */
 
@@ -208,7 +221,8 @@ export const Table: TableInterface = {
         table: Table,
         coords: Coordinates
     ): boolean {
-        return coords.x<table.cols && coords.y<table.rows;
+        const { columns, rows } = Table.dimensions(table);
+        return coords.x<columns && coords.y<rows;
     },
 
     /**
@@ -219,11 +233,14 @@ export const Table: TableInterface = {
         return el.type === 'table';
     },
 
-    new(cols: number, rows: number, cells: Cell<CellType>[]): Table {
+    /**
+     * Create a Leyden table.
+     */
+
+    new(columns: number, cells: Cell<CellType>[]): Table {
         return {
             type: 'table',
-            cols,
-            rows,
+            columns,
             children: cells,
         };
     },
@@ -251,8 +268,8 @@ export const Table: TableInterface = {
         n: number
     ): Coordinates {
         return {
-            x: n % table.cols,
-            y: Math.floor(n/table.cols),
+            x: n % table.columns,
+            y: Math.floor(n/table.columns),
         };
     },
 
@@ -269,11 +286,11 @@ export const Table: TableInterface = {
     ): Generator<TableCell, void, undefined> {
         const { reverse = false } = options;
         let coordinates = {
-            x: reverse ? table.cols-1 : 0,
+            x: reverse ? table.columns-1 : 0,
             y: row
         };
 
-        while (reverse ? coordinates.x >= 0 : coordinates.x < table.cols) {
+        while (reverse ? coordinates.x >= 0 : coordinates.x < table.columns) {
             const cell = Table.cell(table, coordinates);
             if (cell === null) {
                 throw new Error(`failed to get cell at coordinates (${coordinates.x}, ${coordinates.y})`);
@@ -312,3 +329,12 @@ export const Table: TableInterface = {
  */
 
 export type TableCell<T extends CellType=CellType> = [Cell<T>, Coordinates];
+
+/**
+ * `TableDimensions` objects specify the number of rows and columns in a table.
+ */
+
+export type TableDimensions = {
+    columns: number;
+    rows: number;
+}

@@ -79,7 +79,7 @@ export const newRow = (
 };
 
 export const newTable = (): Table => (
-    Table.new(5, 6, [
+    Table.new(5, [
         ...newRow('Drywall 5 X 8 sheet', 2222, UOM.SF, CSI.Div09, 15730),
         ...newRow('Drywall installer', 22, UOM.ManHour, CSI.Div09, 7832),
         ...newRow('50 gallon Sherwin Williams paint', 2, UOM.Gallons, CSI.Div09, 25),
