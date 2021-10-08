@@ -74,10 +74,17 @@ export const Table: TableInterface = {
      * Get the cell at `coords` in a table.
      */
 
-    cell (
+    cell(
         table: Table,
         coords: Coordinates,
     ): Cell<CellType>|null {
+        if (coords.y < 0 || coords.x < 0 || coords.x >= table.columns) {
+            return null;
+        }
+        const { rows } = Table.dimensions(table);
+        if (coords.y >= rows) {
+            return null;
+        }
         const cellIdx = Table.cellIdx(table, coords);
         return Table.nthCell(table, cellIdx);
     },
@@ -86,11 +93,15 @@ export const Table: TableInterface = {
      * Get the index within a table's `children` specified by `coords`.
      */
 
-    cellIdx (
+    cellIdx(
         table: Table,
         coords: Coordinates,
     ): number {
-        return (coords.y*table.columns)+coords.x;
+        const idx = (coords.y*table.columns)+coords.x;
+        if (idx < 0) {
+            throw new Error(`Coordinates generate a negative cell index: ${coords} -> ${idx}`);
+        }
+        return idx;
     },
 
     /**
@@ -216,7 +227,7 @@ export const Table: TableInterface = {
      * Return true if a coordinate pair lies within the editor.
      */
 
-    hasCoords (
+    hasCoords(
         table: Table,
         coords: Coordinates
     ): boolean {
@@ -262,7 +273,7 @@ export const Table: TableInterface = {
      * Get the coordinates of the cell at the nth position of the flat cell list.
      */
 
-    nthCellCoords (
+    nthCellCoords(
         table: Table,
         n: number
     ): Coordinates {
