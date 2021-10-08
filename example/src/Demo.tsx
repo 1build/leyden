@@ -60,13 +60,16 @@ export const Demo: FC = () => {
                     at: new Set([1, 3]),
                 });
             }
-            if (e.key === 'x') {
-                Transforms.deleteRows(editor);
-            }
             if (e.key === 'm') {
                 Transforms.moveRow(editor, {
                     at: 4,
                     to: 2,
+                });
+            }
+            if (e.key === 's') {
+                Transforms.swapRows(editor, {
+                    a: 4,
+                    b: 3,
                 });
             }
         };

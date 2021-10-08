@@ -26,6 +26,13 @@ export interface TableTransforms {
             to: number,
         },
     ) => void;
+    swapRows: (
+        editor: Editor,
+        options: {
+            a: number,
+            b: number,
+        },
+    ) => void;
 }
 
 export const TableTransforms: TableTransforms = {
@@ -105,5 +112,35 @@ export const TableTransforms: TableTransforms = {
         const insertionPath = LeydenEditor.coordsPath(editor, insertionCoords);
         const rowRange = LeydenEditor.rowRange(editor, { at });
         Transforms.moveNodes(editor, { at: rowRange, to: insertionPath });
+    },
+
+    /**
+     * Swap the positions of two rows.
+     */
+
+    swapRows(
+        editor: Editor,
+        options: {
+            a: number,
+            b: number,
+        },
+    ): void {
+        const { a, b } = options;
+        if (a === b) {
+            return;
+        }
+        Editor.withoutNormalizing(editor, () => {
+            const rowsToSwap = a > b
+                ? { top: b, bottom: a }
+                : { top: a, bottom: b };
+            TableTransforms.moveRow(editor, {
+                at: rowsToSwap.top,
+                to: rowsToSwap.bottom,
+            });
+            TableTransforms.moveRow(editor, {
+                at: rowsToSwap.bottom-1,
+                to: rowsToSwap.top,
+            });
+        });
     },
 };
