@@ -35,7 +35,7 @@ export interface LeydenEditorInterface {
     ) => boolean;
     pathCellIdx: (path: Path) => number|null;
     pathCoords: (editor: Editor, path: Path) => Coordinates|null;
-    pathIsCellPath: (editor: Editor, path: Path) => path is CellPath;
+    pathIsCellPath: (path: Path) => path is CellPath;
     rowRange: (
         editor: Editor,
         options: {
@@ -100,7 +100,7 @@ export const LeydenEditor: LeydenEditorInterface = {
         coords: Coordinates
     ): boolean {
         if (op.type === 'insert_node' || op.type === 'remove_node') {
-            if (!LeydenEditor.pathIsCellPath(editor, op.path)) {
+            if (!LeydenEditor.pathIsCellPath(op.path)) {
                 return false;
             }
             const pathCoords = LeydenEditor.pathCoords(editor, op.path);
@@ -111,7 +111,7 @@ export const LeydenEditor: LeydenEditorInterface = {
         }
         if (op.type === 'move_node') {
             return [op.path, op.newPath].some(movePath => {
-                if (LeydenEditor.pathIsCellPath(editor, movePath)) {
+                if (LeydenEditor.pathIsCellPath(movePath)) {
                     const moveCoords = LeydenEditor.pathCoords(editor, movePath);
                     return moveCoords !== null && Coordinates.equals(coords, moveCoords);
                 }
@@ -151,7 +151,7 @@ export const LeydenEditor: LeydenEditorInterface = {
      * Typeguard, determines if a path points directly to a table cell.
      */
 
-    pathIsCellPath(editor: Editor, path: Path): path is CellPath {
+    pathIsCellPath(path: Path): path is CellPath {
         return path.length === 2;
     },
 
