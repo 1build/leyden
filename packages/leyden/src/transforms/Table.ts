@@ -106,7 +106,7 @@ export const TableTransforms: TableTransforms = {
         // upward shift of rows between the target and the source.
         const { columns } = LeydenEditor.table(editor);
         const insertionCoords = {
-            x: to <= at ? 0 : columns-1,
+            x: to < at ? 0 : columns-1,
             y: to,
         };
         const insertionPath = LeydenEditor.coordsPath(editor, insertionCoords);
