@@ -28,35 +28,25 @@ const newWholeDollarsText = (value: number): Text<'WholeDollars'> => ({
     text: wholeDollarsFormatter.format(value),
 });
 
-const newCSICell = (csi: CSI): Cell<'CSI'> => ({
-    type: 'cell',
-    cellType: 'CSI',
+const newCSICell = (csi: CSI) => Cell.new('CSI', {
     children: [newEmptyText()],
     isEditable: false,
     csi,
 });
 
-const newNameCell = (value: string): Cell<'Name'> => ({
-    type: 'cell',
-    cellType: 'Name',
+const newNameCell = (value: string) => Cell.new('Name', {
     children: [newTextText(value)],
 });
 
-const newQuantityCell = (value: number): Cell<'Quantity'> => ({
-    type: 'cell',
-    cellType: 'Quantity',
+const newQuantityCell = (value: number) => Cell.new('Quantity', {
     children: [newDecimalText(value)],
 });
 
-const newWholeDollarsCell = (value: number): Cell<'WholeDollars'> => ({
-    type: 'cell',
-    cellType: 'WholeDollars',
+const newWholeDollarsCell = (value: number) => Cell.new('WholeDollars', {
     children: [newWholeDollarsText(value)],
 });
 
-const newUnitOfMeasureCell = (uom: UOM): Cell<'UnitOfMeasure'> => ({
-    type: 'cell',
-    cellType: 'UnitOfMeasure',
+const newUnitOfMeasureCell = (uom: UOM) => Cell.new('UnitOfMeasure', {
     children: [newEmptyText()],
     isEditable: false,
     uom,

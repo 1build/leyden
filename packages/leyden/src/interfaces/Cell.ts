@@ -3,6 +3,7 @@ import { Element } from 'slate';
 import {
     extendableComponentDefaultKey,
     ExtendableTypeIsExtended,
+    ExtendedCellArgsType,
     ExtendedCellType,
     ExtendedType,
 } from './CustomTypes';
@@ -16,13 +17,32 @@ export type CellType = Keys<Cells>;
 export type Cell<T extends CellType> = ExtendedCellType<T, Cells>;
 
 export interface CellInterface {
+    new: <T extends CellType>(
+        type: T,
+        args: ExtendedCellArgsType<T, Cells>,
+    ) => Cell<T>;
     newDefault: (num: number) => Cell<typeof extendableComponentDefaultKey>;
     isCell: (el: Element) => el is Cell<CellType>;
     isCellList: (els: Element[]) => els is Cell<CellType>[];
     isCellType: <T extends CellType>(cell: Cell<CellType>, type: T) => cell is Cell<T>;
 }
-
+// ExtractDataProp<DefaultExtendedComponentTypeEntries<"Cells">[T]>
 export const Cell: CellInterface = {
+    /**
+     * Create a new Cell.
+     */
+
+    new<T extends CellType>(
+        type: T,
+        args: ExtendedCellArgsType<T, Cells>,
+    ): Cell<T> {
+        return {
+            type: 'cell',
+            cellType: type,
+            ...args,
+        };
+    },
+
     /**
      * Create a new cell using the default Cell type.
      */

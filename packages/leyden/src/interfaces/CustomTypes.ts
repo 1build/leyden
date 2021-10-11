@@ -107,11 +107,14 @@ export type ExtendedElementsType<T extends string, R extends Record<T, ExtendedE
     & WithIsEditableProp<R[T]>
     & WithType<T>;
 
-export type ExtendedCellType<T extends string, R extends Record<T, ExtendedElementTypeEntry>> =
+export type ExtendedCellArgsType<T extends string, R extends Record<T, ExtendedElementTypeEntry>> =
     & ExtractDataProp<R[T]>
-    & WithCellType<T>
     & WithChildren<R[T]['children']>
-    & WithIsEditableProp<R[T]>
+    & WithIsEditableProp<R[T]>;
+
+export type ExtendedCellType<T extends string, R extends Record<T, ExtendedElementTypeEntry>> =
+    & ExtendedCellArgsType<T, R>
+    & WithCellType<T>
     & WithType<'cell'>;
 
 export type ExtendedTextType<T extends string, R extends Record<T, ExtendedTextTypeEntry>> =
