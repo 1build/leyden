@@ -1,4 +1,10 @@
-import { Cell, CellType, Table, Text } from 'leyden';
+import {
+    Cell,
+    CellType,
+    Element,
+    Table,
+    Text,
+} from 'leyden';
 
 import { CSI, UOM } from '../types';
 
@@ -28,6 +34,11 @@ const newWholeDollarsText = (value: number): Text<'WholeDollars'> => ({
     text: wholeDollarsFormatter.format(value),
 });
 
+const newNameElement = (value: string): Element<'Name'> => ({
+    type: 'Name',
+    children: [newTextText(value)],
+});
+
 const newCSICell = (csi: CSI) => Cell.new('CSI', {
     children: [newEmptyText()],
     isEditable: false,
@@ -35,7 +46,7 @@ const newCSICell = (csi: CSI) => Cell.new('CSI', {
 });
 
 const newNameCell = (value: string) => Cell.new('Name', {
-    children: [newTextText(value)],
+    children: [newNameElement(value)],
 });
 
 const newQuantityCell = (value: number) => Cell.new('Quantity', {

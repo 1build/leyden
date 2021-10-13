@@ -1,4 +1,4 @@
-import { Text } from 'leyden';
+import { Element, Text } from 'leyden';
 
 import { CSI, UOM } from '../types';
 
@@ -16,7 +16,7 @@ declare module 'leyden' {
                 children: [Text<'Decimal'>];
             };
             Name: {
-                children: [Text<'Text'>];
+                children: [Element<'Name'>];
             };
             UnitOfMeasure: {
                 children: [Text<'Empty'>];
@@ -29,6 +29,11 @@ declare module 'leyden' {
                 children: [Text<'WholeDollars'>]
             };
         };
+        Elements: {
+            Name: {
+                children: [Text<'Text'>];
+            }
+        }
         Text: {
             Empty: {
                 text: '';

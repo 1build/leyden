@@ -5,6 +5,7 @@ import { createEditor } from 'slate';
 import { withHistory } from 'slate-history';
 
 import { cellRenderers } from './cells';
+import { elementRenderers } from './elements';
 import { newRow, newTable } from './data/generate';
 import { headerRenderers } from './headers';
 import { textRenderers } from './text';
@@ -73,10 +74,10 @@ export const Demo: FC = () => {
                 });
             }
             if (e.key === 'r') {
-                Transforms.setCellChildren<'Quantity'>(
+                Transforms.setCellChildren<'Name'>(
                     editor,
-                    [{ text: '2222222222', type: 'Decimal', validator: 'onlyTwos' }],
-                    { at: { x: 1, y: 0 } },
+                    [{ type: 'Name', children: [{ text: 'Changed Name', type: 'Text' }] }],
+                    { at: { x: 0, y: 1 } },
                 );
 
             }
@@ -97,6 +98,7 @@ export const Demo: FC = () => {
                 <Editable
                     cellRenderers={cellRenderers}
                     headerRenderers={headerRenderers}
+                    elementRenderers={elementRenderers}
                     textRenderers={textRenderers}
                     tableOptions={{
                         stickyColumnHeaders: true,

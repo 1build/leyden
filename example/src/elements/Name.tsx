@@ -1,10 +1,16 @@
-import { CellRenderer } from 'leyden-react';
+import {
+    ElementRenderer,
+    useRelativeCell,
+} from 'leyden-react';
 import React from 'react';
 
-export const Name: CellRenderer<'Name'> = ({
+export const Name: ElementRenderer<'Name'> = ({
     attributes,
     children,
+    element,
 }) => {
+    const rowUomCell = useRelativeCell('UnitOfMeasure', element, { x: 2 });
+
     return (
         <div
             {...attributes}
@@ -18,7 +24,7 @@ export const Name: CellRenderer<'Name'> = ({
                 whiteSpace: 'nowrap',
             }}
         >
-            Name: {children}
+            {children} ({rowUomCell?.uom})
         </div>
     );
 };
