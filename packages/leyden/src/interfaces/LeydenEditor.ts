@@ -13,7 +13,7 @@ import { ValidationFunc, Validator } from './Validator';
 import {
     CellSubscriber,
     OperationSubscriber,
-    SelectionSubscriber,
+    SelectedCoordinatesSubscriber,
     Unsubscriber,
 } from '../utils/types';
 import { OPERATION_SUBSCRIBERS } from '../utils/weakMaps';
@@ -77,9 +77,9 @@ export interface LeydenEditorInterface {
         editor: Editor,
         subscriber: OperationSubscriber
     ) => Unsubscriber;
-    subscribeToSelection: (
+    subscribeToSelectedCoordinates: (
         editor: Editor,
-        subscriber: SelectionSubscriber
+        subscriber: SelectedCoordinatesSubscriber
     ) => Unsubscriber;
     table: (editor: Editor) => Table;
     tablePath: () => Path;
@@ -345,9 +345,9 @@ export const LeydenEditor: LeydenEditorInterface = {
      * there is no active selection.
      */
 
-    subscribeToSelection(
+    subscribeToSelectedCoordinates(
         editor: Editor,
-        subscriber: SelectionSubscriber
+        subscriber: SelectedCoordinatesSubscriber
     ): Unsubscriber {
         return LeydenEditor.subscribeToOperations(editor, op => {
             if (Operation.isSelectionOperation(op)) {

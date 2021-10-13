@@ -36,7 +36,7 @@ export type CellSubscriber<T extends CellType> = (cell: Cell<T>) => void;
  * A function fired when the coordinates of the currently selected cell changes.
  */
 
-export type SelectionSubscriber = (coords: Coordinates|null) => void;
+export type SelectedCoordinatesSubscriber = (coords: Coordinates|null) => void;
 
 /**
  * A function which will end a subscription 

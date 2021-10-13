@@ -12,7 +12,7 @@ export const useIsColumnSelected = (column: number): boolean => {
     });
 
     useEffect(() => {
-        const unsubscribe = LeydenEditor.subscribeToSelection(editor, sel => {
+        const unsubscribe = LeydenEditor.subscribeToSelectedCoordinates(editor, sel => {
             setIsColumnSelected(sel?.x === column);
         });
         return () => {

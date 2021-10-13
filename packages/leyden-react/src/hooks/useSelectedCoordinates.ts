@@ -3,22 +3,22 @@ import { useEffect, useState } from 'react';
 
 import { useLeydenStatic } from './useLeydenStatic';
 
-export const useSelection = (): Coordinates|null => {
+export const useSelectedCoordinates = (): Coordinates|null => {
     const editor = useLeydenStatic();
 
-    const [selection, setSelection] = useState<Coordinates|null>(
+    const [selectedCoordinates, setSelectedCoordinates] = useState<Coordinates|null>(
         LeydenEditor.selectedCoords(editor)
     );
 
     useEffect(() => {
-        const unsubscribe = LeydenEditor.subscribeToSelection(
+        const unsubscribe = LeydenEditor.subscribeToSelectedCoordinates(
             editor,
-            setSelection
+            setSelectedCoordinates
         );
         return () => {
             unsubscribe();
         };
     }, []);
 
-    return selection;
+    return selectedCoordinates;
 };

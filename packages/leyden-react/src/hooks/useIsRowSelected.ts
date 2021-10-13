@@ -12,7 +12,7 @@ export const useIsRowSelected = (row: number): boolean => {
     });
 
     useEffect(() => {
-        const unsubscribe = LeydenEditor.subscribeToSelection(editor, sel => {
+        const unsubscribe = LeydenEditor.subscribeToSelectedCoordinates(editor, sel => {
             setIsRowSelected(sel?.y === row);
         });
         return () => {
