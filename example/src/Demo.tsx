@@ -73,13 +73,15 @@ export const Demo: FC = () => {
                     b: 3,
                 });
             }
-            if (e.key === 'r') {
-                Transforms.setCellChildren<'Name'>(
+            if (e.key === 'p') {
+                Transforms.setCellChildren<'Quantity'>(
                     editor,
-                    [{ type: 'Name', children: [{ text: 'Changed Name', type: 'Text' }] }],
-                    { at: { x: 0, y: 1 } },
+                    [{ type: 'Decimal',
+                        text: '2222222222',
+                        validator: 'onlyTwos'
+                    }],
+                    { at: { x: 1, y: 1 } },
                 );
-
             }
         };
         document.addEventListener('keydown', listener);

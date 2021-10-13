@@ -66,14 +66,15 @@ export const CellTransforms: CellTransforms = {
             throw new Error('failed to set cell children: could not get cell data');
         }
         const first = LeydenEditor.cellChildPath(editor, { at });
-        const last = LeydenEditor.cellChildPath(editor, { at, idx: cell.children.length-1 });
+        const beginCleanup = LeydenEditor.cellChildPath(editor, { at, idx: children.length });
+        const endCleanup = LeydenEditor.cellChildPath(editor, { at, idx: children.length+cell.children.length-1 });
         const cleanupRange = {
-            anchor: { path: first, offset: 0 },
-            focus: { path: last, offset: 0 },
+            anchor: { path: beginCleanup, offset: 0 },
+            focus: { path: endCleanup, offset: 0 },
         };
         Editor.withoutNormalizing(editor, () => {
-            Transforms.removeNodes(editor, { at: cleanupRange });
             Transforms.insertNodes(editor, children, { at: first });
+            Transforms.removeNodes(editor, { at: cleanupRange });
         });
     },
 };
