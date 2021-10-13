@@ -1,7 +1,5 @@
-import { Editor } from 'slate';
+import { Descendant, Editor } from 'slate';
 import {
-    Cell,
-    CellType,
     Coordinates,
     LeydenEditor,
 } from 'leyden';
@@ -17,9 +15,9 @@ export const ReactEditor = {
 
     cellCoords: (
         editor: Editor,
-        cell: Cell<CellType>,
+        node: Descendant,
     ): Coordinates|null => {
-        const cellPath = SlateReactEditor.findPath(editor, cell);
+        const cellPath = SlateReactEditor.findPath(editor, node);
         return LeydenEditor.pathCoords(editor, cellPath);
     },
 };

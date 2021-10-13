@@ -1,18 +1,17 @@
 import {
-    Cell,
-    CellType,
     Coordinates,
     LeydenEditor,
 } from 'leyden';
 import { useEffect, useState } from 'react';
+import { Descendant } from 'slate';
 
 import { useLeydenStatic } from './useLeydenStatic';
 import { ReactEditor } from '../plugin/ReactEditor';
 
-export const useCellCoordinates = (cell: Cell<CellType>): Coordinates|null => {
+export const useCoordinates = (node: Descendant): Coordinates|null => {
     const editor = useLeydenStatic();
 
-    const [coordinates, setCoordinates] = useState(ReactEditor.cellCoords(editor, cell));
+    const [coordinates, setCoordinates] = useState(ReactEditor.cellCoords(editor, node));
 
     useEffect(() => {
         if (coordinates === null) {
@@ -26,7 +25,7 @@ export const useCellCoordinates = (cell: Cell<CellType>): Coordinates|null => {
             // If not wrapped in `setTimeout`, this runs before the cell paths are updated
             // and coordinate movement is never detected. 
             setTimeout(() => {
-                const newCoords = ReactEditor.cellCoords(editor, cell);
+                const newCoords = ReactEditor.cellCoords(editor, node);
                 if ((newCoords === null || !Coordinates.equals(coordinates, newCoords))
                     && !canceled
                 ) {

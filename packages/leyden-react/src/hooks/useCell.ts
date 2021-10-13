@@ -11,20 +11,24 @@ import { useLeydenStatic } from './useLeydenStatic';
 
 export type UseCell = <T extends CellType>(
     type: T,
-    coords: Coordinates
+    coords: Coordinates|null
 ) => Cell<T>|null;
 
 export const useCell: UseCell = <T extends CellType>(
     type: T,
-    coords: Coordinates
+    coords: Coordinates|null
 ) => {
     const editor = useLeydenStatic();
 
-    const [cell, setCell] = useState(
+    const [cell, setCell] = useState(coords === null ? null :
         Table.cellOfType<T>(LeydenEditor.table(editor), type, { at: coords })
     );
 
     useEffect(() => {
+        if (coords === null) {
+            setCell(null);
+            return;
+        }
         const unsubscribe = LeydenEditor.subscribeToCell<T>(
             editor,
             type,

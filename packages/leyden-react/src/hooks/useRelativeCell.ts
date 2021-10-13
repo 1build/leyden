@@ -7,22 +7,23 @@ import {
     LeydenEditor,
 } from 'leyden';
 import { useEffect, useMemo, useState } from 'react';
+import { Descendant } from 'slate';
 
-import { useCellCoordinates } from './useCellCoordinates';
+import { useCoordinates } from './useCoordinates';
 import { useLeydenStatic } from './useLeydenStatic';
 
 export type UseRelativeCell = <T extends CellType>(
     type: T,
-    base: Cell<CellType>,
+    base: Descendant,
     translation: CoordinateTranslation
 ) => Cell<T>|null;
 
 export const useRelativeCell: UseRelativeCell = <T extends CellType>(
     type: T,
-    base: Cell<CellType>,
+    base: Descendant,
     translation: CoordinateTranslation,
 ) => {
-    const baseCoords = useCellCoordinates(base);
+    const baseCoords = useCoordinates(base);
     const editor = useLeydenStatic();
 
     const relativeCoords = useMemo(() => {
