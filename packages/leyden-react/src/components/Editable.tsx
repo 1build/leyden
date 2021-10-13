@@ -57,7 +57,7 @@ export const Editable: FC<Editable> = ({
         }
         if (e.key in cellNavigationKeys) {
             e.preventDefault();
-            Transforms.moveCellSelection(editor, cellNavigationKeys[e.key]);
+            Transforms.moveCellSelection(editor, { direction: cellNavigationKeys[e.key] });
             return;
         }
     }, [onKeyDown]);

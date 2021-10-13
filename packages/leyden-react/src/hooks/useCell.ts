@@ -21,15 +21,15 @@ export const useCell: UseCell = <T extends CellType>(
     const editor = useLeydenStatic();
 
     const [cell, setCell] = useState(
-        Table.cellOfType<T>(LeydenEditor.table(editor), coords, type)
+        Table.cellOfType<T>(LeydenEditor.table(editor), type, { at: coords })
     );
 
     useEffect(() => {
         const unsubscribe = LeydenEditor.subscribeToCell<T>(
             editor,
-            coords,
             type,
             setCell,
+            { at: coords }
         );
         return () => {
             unsubscribe();

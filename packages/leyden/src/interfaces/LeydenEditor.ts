@@ -26,7 +26,25 @@ export interface LeydenEditor extends Omit<BaseEditor, 'children'> {
 
 export interface LeydenEditorInterface {
     cellPathCellIdx: (cellPath: CellPath) => number;
-    coordsPath: (editor: Editor, coords: Coordinates) => CellPath;
+    cellChildPath: (
+        editor: Editor,
+        options: {
+            at: Coordinates;
+            idx?: number;
+        }
+    ) => Path;
+    cellChildrenRange: (
+        editor: Editor,
+        options: {
+            at: Coordinates;
+        }
+    ) => Range;
+    cellPath: (
+        editor: Editor,
+        options: {
+            at: Coordinates;
+        }
+    ) => CellPath;
     nthCellPath: (n: number) => CellPath;
     operationMovesCoords: (
         editor: Editor,
@@ -49,9 +67,11 @@ export interface LeydenEditorInterface {
     selectedRow: (editor: Editor) => number|null;
     subscribeToCell: <T extends CellType>(
         editor: Editor,
-        coords: Coordinates,
         type: T,
         subscriber: CellSubscriber<T>,
+        options: {
+            at: Coordinates
+        }
     ) => Unsubscriber;
     subscribeToOperations: (
         editor: Editor,
@@ -75,11 +95,59 @@ export const LeydenEditor: LeydenEditorInterface = {
     },
 
     /**
-     * coordPath returns a path to a cell located at the provided coordinates.
+     * Get the Slate path to the child of a cell.
+     *
+     * If `options.idx` is not passed, a path to the cell's first child is returned.
      */
 
-    coordsPath(editor: Editor, coords: Coordinates): CellPath {
-        return LeydenEditor.nthCellPath(Table.cellIdx(LeydenEditor.table(editor), coords));
+    cellChildPath(
+        editor: Editor,
+        options: {
+            at: Coordinates;
+            idx?: number;
+        }
+    ): Path {
+        const { at, idx = 0 } = options;
+        const coordsPath = LeydenEditor.cellPath(editor, { at });
+        return [...coordsPath, idx];
+    },
+
+    /**
+     * Get a range encompassing all of a cell's children.
+     */
+
+    cellChildrenRange(
+        editor: Editor,
+        options: {
+            at: Coordinates;
+        }
+    ): Range {
+        const { at } = options;
+        const cell = Table.cell(LeydenEditor.table(editor), { at });
+        if (cell === null) {
+            throw new Error('Failed to get cell children range: could not get cell');
+        }
+        const firstPath = LeydenEditor.cellChildPath(editor, { at });
+        const lastPath = LeydenEditor.cellChildPath(editor, { at, idx: cell.children.length-1 });
+        return {
+            anchor: { path: firstPath, offset: 0 },
+            focus: { path: lastPath, offset: 0 },
+        };
+    },
+
+    /**
+     * Get the Slate path to a cell.
+     */
+
+    cellPath(
+        editor: Editor,
+        options: {
+            at: Coordinates;
+        }
+    ): CellPath {
+        const { at } = options;
+        const cellIdx = Table.cellIdx(LeydenEditor.table(editor), at);
+        return LeydenEditor.nthCellPath(cellIdx);
     },
 
     /**
@@ -167,8 +235,8 @@ export const LeydenEditor: LeydenEditorInterface = {
     ): Range {
         const { at } = options;
         const { columns } = LeydenEditor.table(editor);
-        const leftmost = LeydenEditor.coordsPath(editor, { x: 0, y: at });
-        const rightmost = LeydenEditor.coordsPath(editor, { x: columns-1, y: at });
+        const leftmost = LeydenEditor.cellPath(editor, { at: { x: 0, y: at } });
+        const rightmost = LeydenEditor.cellPath(editor, { at: { x: columns-1, y: at } });
         return Editor.range(editor, leftmost, rightmost);
     },
 
@@ -181,7 +249,7 @@ export const LeydenEditor: LeydenEditorInterface = {
         if (selectedCoords === null) {
             return null;
         }
-        return Table.cell(LeydenEditor.table(editor), selectedCoords);
+        return Table.cell(LeydenEditor.table(editor), { at: selectedCoords });
     },
 
     /**
@@ -193,7 +261,7 @@ export const LeydenEditor: LeydenEditorInterface = {
         if (selectedCoords === null) {
             return null;
         }
-        return Table.cellOfType(LeydenEditor.table(editor), selectedCoords, type);
+        return Table.cellOfType(LeydenEditor.table(editor), type, { at: selectedCoords });
     },
 
     /**
@@ -231,14 +299,17 @@ export const LeydenEditor: LeydenEditorInterface = {
 
     subscribeToCell<T extends CellType>(
         editor: Editor,
-        coords: Coordinates,
         type: T,
         subscriber: CellSubscriber<T>,
+        options: {
+            at: Coordinates
+        }
     ): Unsubscriber {
-        const cellPath = LeydenEditor.coordsPath(editor, coords);
+        const { at } = options;
+        const cellPath = LeydenEditor.cellPath(editor, { at });
         return LeydenEditor.subscribeToOperations(editor, op => {
             if (op.type === 'set_node' && Path.equals(op.path, cellPath)) {
-                const val = Table.cellOfType(LeydenEditor.table(editor), coords, type);
+                const val = Table.cellOfType(LeydenEditor.table(editor), type, { at });
                 if (val !== null) {
                     subscriber(val);
                 }

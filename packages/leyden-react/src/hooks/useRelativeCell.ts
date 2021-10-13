@@ -36,7 +36,7 @@ export const useRelativeCell: UseRelativeCell = <T extends CellType>(
         if (relativeCoords === null) {
             return null;
         }
-        return Table.cellOfType<T>(LeydenEditor.table(editor), relativeCoords, type);
+        return Table.cellOfType<T>(LeydenEditor.table(editor), type, { at: relativeCoords });
     });
 
     useEffect(() => {
@@ -47,9 +47,9 @@ export const useRelativeCell: UseRelativeCell = <T extends CellType>(
         }
         const unsubscribe = LeydenEditor.subscribeToCell<T>(
             editor,
-            relativeCoords,
             type,
             setCell,
+            { at: relativeCoords }
         );
         return () => {
             unsubscribe();

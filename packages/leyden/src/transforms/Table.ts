@@ -83,7 +83,7 @@ export const TableTransforms: TableTransforms = {
         if (position === 'below') {
             insertionCoords = Coordinates.move(insertionCoords, 'down');
         }
-        const insertionPath = LeydenEditor.coordsPath(editor, insertionCoords);
+        const insertionPath = LeydenEditor.cellPath(editor, { at: insertionCoords });
         Transforms.insertNodes(editor, cells, { at: insertionPath });
     },
 
@@ -109,7 +109,7 @@ export const TableTransforms: TableTransforms = {
             x: to < at ? 0 : columns-1,
             y: to,
         };
-        const insertionPath = LeydenEditor.coordsPath(editor, insertionCoords);
+        const insertionPath = LeydenEditor.cellPath(editor, { at: insertionCoords });
         const rowRange = LeydenEditor.rowRange(editor, { at });
         Transforms.moveNodes(editor, { at: rowRange, to: insertionPath });
     },

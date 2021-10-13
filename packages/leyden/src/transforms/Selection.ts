@@ -7,9 +7,16 @@ import { Table } from '../interfaces/Table';
 export interface SelectionTransforms {
     moveCellSelection: (
         editor: Editor,
-        direction: 'up'|'down'|'left'|'right'
+        options: {
+            direction: 'up'|'down'|'left'|'right'
+        }
     ) => void;
-    selectCell: (editor: Editor, coords: Coordinates) => void;
+    selectCell: (
+        editor: Editor,
+        options: {
+            at: Coordinates
+        }
+    ) => void;
 }
 
 export const SelectionTransforms: SelectionTransforms = {
@@ -19,8 +26,11 @@ export const SelectionTransforms: SelectionTransforms = {
 
     moveCellSelection(
         editor: Editor,
-        direction: 'up'|'down'|'left'|'right'
+        options: {
+            direction: 'up'|'down'|'left'|'right'
+        }
     ): void {
+        const { direction } = options;
         const { selection } = editor;
         if (!selection) {
             return;
@@ -30,7 +40,7 @@ export const SelectionTransforms: SelectionTransforms = {
             return;
         }
         const newCoords = Coordinates.move(curCoords, direction);
-        SelectionTransforms.selectCell(editor, newCoords);
+        SelectionTransforms.selectCell(editor, { at: newCoords });
     },
 
     /**
@@ -39,16 +49,18 @@ export const SelectionTransforms: SelectionTransforms = {
 
     selectCell(
         editor: Editor,
-        coords: Coordinates
+        options: {
+            at: Coordinates
+        }
     ): void {
         const table = LeydenEditor.table(editor);
-        if (!Table.hasCoords(table, coords)) {
+        if (!Table.hasCoords(table, options)) {
             if (editor.selection) {
                 Transforms.deselect(editor);
             }
             return;
         }
-        const newPath = LeydenEditor.coordsPath(editor, coords);
+        const newPath = LeydenEditor.cellPath(editor, options);
         Transforms.select(editor, newPath);
     },
 };

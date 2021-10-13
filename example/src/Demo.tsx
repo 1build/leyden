@@ -72,6 +72,14 @@ export const Demo: FC = () => {
                     b: 3,
                 });
             }
+            if (e.key === 'r') {
+                Transforms.setCellChildren<'Quantity'>(
+                    editor,
+                    [{ text: '2222222222', type: 'Decimal', validator: 'onlyTwos' }],
+                    { at: { x: 1, y: 0 } },
+                );
+
+            }
         };
         document.addEventListener('keydown', listener);
         return () => {
