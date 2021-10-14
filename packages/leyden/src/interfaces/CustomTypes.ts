@@ -101,24 +101,30 @@ export type ExtendedType<T extends ExtendableTypes> =
                 : never
         : never;
 
-export type ExtendedElementsType<T extends string, R extends Record<T, ExtendedElementTypeEntry>> =
+export type ExtendedElementsArgsType<T extends string, R extends Record<T, ExtendedElementTypeEntry>> =
     & ExtractDataProp<R[T]>
+    & WithIsEditableProp<R[T]>;
+
+export type ExtendedElementsType<T extends string, R extends Record<T, ExtendedElementTypeEntry>> =
+    & ExtendedElementsArgsType<T, R>
     & WithChildren<R[T]['children']>
-    & WithIsEditableProp<R[T]>
     & WithType<T>;
 
 export type ExtendedCellArgsType<T extends string, R extends Record<T, ExtendedElementTypeEntry>> =
     & ExtractDataProp<R[T]>
-    & WithChildren<R[T]['children']>
     & WithIsEditableProp<R[T]>;
 
 export type ExtendedCellType<T extends string, R extends Record<T, ExtendedElementTypeEntry>> =
     & ExtendedCellArgsType<T, R>
+    & WithChildren<R[T]['children']>
     & WithCellType<T>
     & WithType<'cell'>;
 
-export type ExtendedTextType<T extends string, R extends Record<T, ExtendedTextTypeEntry>> =
+export type ExtendedTextArgsType<T extends string, R extends Record<T, ExtendedTextTypeEntry>> =
     & ExtractDataProp<R[T]>
-    & WithText<R[T]['text']>
-    & WithType<T>
     & WithValidatorProp<R[T]>;
+
+export type ExtendedTextType<T extends string, R extends Record<T, ExtendedTextTypeEntry>> =
+    & ExtendedTextArgsType<T, R>
+    & WithText<R[T]['text']>
+    & WithType<T>;

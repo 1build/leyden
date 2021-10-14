@@ -8,57 +8,43 @@ import {
 
 import { CSI, UOM } from '../types';
 
-const newEmptyText = (): Text<'Empty'> => ({
-    validator: 'empty',
-    type: 'Empty',
-    text: '',
-});
+const newEmptyText = () => Text.new(
+    'Empty',
+    '',
+    { validator: 'empty' }
+);
 
-const newDecimalText = (value: number): Text<'Decimal'> => ({
-    type: 'Decimal',
-    validator: 'onlyTwos',
-    text: value.toString(),
-});
+const newDecimalText = (value: number) => Text.new(
+    'Decimal',
+    value.toString(),
+    { validator: 'onlyTwos' }
+);
 
-const newTextText = (text: string): Text<'Text'> => ({
-    type: 'Text',
-    text,
-});
+const newTextText = (text: string) => Text.new('Text', text, {});
 
 const wholeDollarsFormatter = new Intl.NumberFormat('en-US', {
     style: 'decimal',
 });
-const newWholeDollarsText = (value: number): Text<'WholeDollars'> => ({
-    type: 'WholeDollars',
-    validator: 'integer',
-    text: wholeDollarsFormatter.format(value),
-});
+const newWholeDollarsText = (value: number) => Text.new(
+    'WholeDollars',
+    wholeDollarsFormatter.format(value),
+    { validator: 'integer' },
+);
 
-const newNameElement = (value: string): Element<'Name'> => ({
-    type: 'Name',
-    children: [newTextText(value)],
-});
+const newNameElement = (value: string) => Element.new('Name', [newTextText(value)], {});
 
-const newCSICell = (csi: CSI) => Cell.new('CSI', {
-    children: [newEmptyText()],
+const newCSICell = (csi: CSI) => Cell.new('CSI', [newEmptyText()], {
     isEditable: false,
     csi,
 });
 
-const newNameCell = (value: string) => Cell.new('Name', {
-    children: [newNameElement(value)],
-});
+const newNameCell = (value: string) => Cell.new('Name', [newNameElement(value)], {});
 
-const newQuantityCell = (value: number) => Cell.new('Quantity', {
-    children: [newDecimalText(value)],
-});
+const newQuantityCell = (value: number) => Cell.new('Quantity', [newDecimalText(value)], {});
 
-const newWholeDollarsCell = (value: number) => Cell.new('WholeDollars', {
-    children: [newWholeDollarsText(value)],
-});
+const newWholeDollarsCell = (value: number) => Cell.new('WholeDollars', [newWholeDollarsText(value)], {});
 
-const newUnitOfMeasureCell = (uom: UOM) => Cell.new('UnitOfMeasure', {
-    children: [newEmptyText()],
+const newUnitOfMeasureCell = (uom: UOM) => Cell.new('UnitOfMeasure', [newEmptyText()], {
     isEditable: false,
     uom,
 });

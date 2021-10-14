@@ -3,6 +3,7 @@ import { Element as SlateElement } from 'slate';
 import { Cell, CellType } from './Cell';
 import {
     ExtendableTypeIsExtended,
+    ExtendedElementsArgsType,
     ExtendedElementsType,
     ExtendedType,
 } from './CustomTypes';
@@ -34,6 +35,11 @@ export type LeydenElement =
     | Table;
 
 export interface ElementInterface {
+    new: <T extends ElementType>(
+        type: T,
+        children: Element<T>['children'],
+        args: ExtendedElementsArgsType<T, Elements>,
+    ) => Element<T>;
     isElement: <T extends ElementType=ElementType>(
         value: any, //eslint-disable-line @typescript-eslint/no-explicit-any
         options?: {
@@ -44,6 +50,22 @@ export interface ElementInterface {
 }
 
 export const Element: ElementInterface = {
+    /**
+     * Create a new Element.
+     */
+
+    new<T extends ElementType>(
+        type: T,
+        children: Element<T>['children'],
+        args: ExtendedElementsArgsType<T, Elements>,
+    ): Element<T> {
+        return {
+            type,
+            ...args,
+            children,
+        };
+    },
+
     /**
      * Check if a value is an Element.
      */

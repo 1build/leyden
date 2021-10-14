@@ -19,6 +19,7 @@ export type Cell<T extends CellType> = ExtendedCellType<T, Cells>;
 export interface CellInterface {
     new: <T extends CellType>(
         type: T,
+        children: Cell<T>['children'],
         args: ExtendedCellArgsType<T, Cells>,
     ) => Cell<T>;
     newDefault: (num: number) => Cell<typeof extendableComponentDefaultKey>;
@@ -38,12 +39,14 @@ export const Cell: CellInterface = {
 
     new<T extends CellType>(
         type: T,
+        children: Cell<T>['children'],
         args: ExtendedCellArgsType<T, Cells>,
     ): Cell<T> {
         return {
+            ...args,
             type: 'cell',
             cellType: type,
-            ...args,
+            children,
         };
     },
 

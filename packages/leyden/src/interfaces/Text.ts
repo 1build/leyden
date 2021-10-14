@@ -7,6 +7,7 @@ import {
 import {
     extendableComponentDefaultKey,
     ExtendableTypeIsExtended,
+    ExtendedTextArgsType,
     ExtendedTextType,
     ExtendedType,
 } from './CustomTypes';
@@ -22,6 +23,11 @@ export type Text<T extends TextType> = ExtendedTextType<T, Texts>;
 export type LeydenText = Text<TextType>;
 
 export interface TextInterface {
+    new: <T extends TextType>(
+        type: T,
+        text: Text<T>['text'],
+        args: ExtendedTextArgsType<T, Texts>,
+    ) => Text<T>;
     newDefault: (num: number) => Text<typeof extendableComponentDefaultKey>;
     isText: (text: SlateText) => text is Text<TextType>;
     validateTextOperation: (
@@ -32,6 +38,22 @@ export interface TextInterface {
 }
 
 export const Text: TextInterface = {
+    /**
+     * Create a new Text.
+     */
+
+    new<T extends TextType>(
+        type: T,
+        text: Text<T>['text'],
+        args: ExtendedTextArgsType<T, Texts>,
+    ): Text<T> {
+        return {
+            ...args,
+            type,
+            text,
+        };
+    },
+
     /**
      * Create a new text leaf using the default Text type.
      */
