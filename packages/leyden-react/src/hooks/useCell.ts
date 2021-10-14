@@ -9,19 +9,24 @@ import { useEffect, useState } from 'react';
 
 import { useLeydenStatic } from './useLeydenStatic';
 
-export type UseCell = <T extends CellType>(
-    type: T,
-    coords: Coordinates|null
+export type UseCell = <T extends CellType=CellType>(
+    coords: Coordinates|null,
+    options?: {
+        type?: T,
+    }
 ) => Cell<T>|null;
 
-export const useCell: UseCell = <T extends CellType>(
-    type: T,
-    coords: Coordinates|null
+export const useCell: UseCell = <T extends CellType=CellType>(
+    coords: Coordinates|null,
+    options: {
+        type?: T,
+    } = {}
 ) => {
+    const { type } = options;
     const editor = useLeydenStatic();
 
     const [cell, setCell] = useState(coords === null ? null :
-        Table.cellOfType<T>(LeydenEditor.table(editor), type, { at: coords })
+        Table.cell(LeydenEditor.table(editor), { at: coords, type })
     );
 
     useEffect(() => {
@@ -31,9 +36,8 @@ export const useCell: UseCell = <T extends CellType>(
         }
         const unsubscribe = LeydenEditor.subscribeToCell<T>(
             editor,
-            type,
             setCell,
-            { at: coords }
+            { at: coords, type }
         );
         return () => {
             unsubscribe();

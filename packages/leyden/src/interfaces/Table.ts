@@ -11,46 +11,30 @@ export interface Table {
 }
 
 export interface TableInterface {
-    cell: (
+    cell: <T extends CellType>(
         table: Table,
         options: {
             at: Coordinates;
-        }
-    ) => Cell<CellType>|null;
-    cellIdx: (table: Table, coords: Coordinates) => number;
-    cellOfType: <T extends CellType>(
-        table: Table,
-        type: T,
-        options: {
-            at: Coordinates;
+            type?: T,
         }
     ) => Cell<T>|null;
-    cells: (
+    cellIdx: (
+        table: Table,
+        coords: Coordinates
+    ) => number;
+    cells: <T extends CellType=CellType>(
         table: Table,
         options?: {
-            reverse?: boolean
+            reverse?: boolean,
+            type?: T
         }
-    ) => Generator<TableCell, void, undefined>;
-    cellsOfType: <T extends CellType>(
-        table: Table,
-        type: T,
-        options?: {
-            reverse?: boolean
-        }
-    ) => Generator<TableCell, void, undefined>;
-    column: (
+    ) => Generator<TableCell<T>, void, undefined>;
+    column: <T extends CellType=CellType>(
         table: Table,
         options: {
             at: number,
-            reverse?: boolean
-        }
-    ) => Generator<TableCell, void, undefined>;
-    columnOfType: <T extends CellType>(
-        table: Table,
-        type: T,
-        options: {
-            at: number,
-            reverse?: boolean
+            reverse?: boolean,
+            type?: T
         }
     ) => Generator<TableCell<T>, void, undefined>;
     dimensions: (
@@ -63,22 +47,24 @@ export interface TableInterface {
         }
     ) => boolean;
     isTable: (el: Element) => el is Table;
-    new: (columns: number, cells: Cell<CellType>[]) => Table;
-    nthCell: (table: Table, n: number) => Cell<CellType>|null;
-    nthCellCoords: (table: Table, n: number) => Coordinates;
-    row: (
+    new: (
+        columns: number,
+        cells: Cell<CellType>[]
+    ) => Table;
+    nthCell: <T extends CellType=CellType>(
         table: Table,
         options: {
-            at: number,
-            reverse?: boolean
+            at: number;
+            type?: T,
         }
-    ) => Generator<TableCell, void, undefined>;
-    rowOfType:  <T extends CellType>(
+    ) => Cell<T>|null;
+    nthCellCoords: (table: Table, n: number) => Coordinates;
+    row: <T extends CellType=CellType>(
         table: Table,
-        type: T,
         options: {
             at: number,
-            reverse?: boolean
+            reverse?: boolean,
+            type?: T
         }
     ) => Generator<TableCell<T>, void, undefined>;
 }
@@ -88,13 +74,14 @@ export const Table: TableInterface = {
      * Get the cell at `coords` in a table.
      */
 
-    cell(
+    cell<T extends CellType>(
         table: Table,
         options: {
             at: Coordinates;
+            type?: T,
         }
-    ): Cell<CellType>|null {
-        const { at } = options;
+    ): Cell<T>|null {
+        const { at, type } = options;
         if (at.y < 0 || at.x < 0 || at.x >= table.columns) {
             return null;
         }
@@ -103,7 +90,7 @@ export const Table: TableInterface = {
             return null;
         }
         const cellIdx = Table.cellIdx(table, at);
-        return Table.nthCell(table, cellIdx);
+        return Table.nthCell(table, { at: cellIdx, type });
     },
 
     /**
@@ -122,62 +109,27 @@ export const Table: TableInterface = {
     },
 
     /**
-     * Get the cell at `coords` in an table, provided it is of the expected type.
-     */
-
-    cellOfType<T extends CellType>(
-        table: Table,
-        type: T,
-        options: {
-            at: Coordinates;
-        }
-    ): Cell<T>|null {
-        const { at } = options;
-        const cell = Table.cell(table, { at });
-        if (cell !== null && Cell.isCell(cell, { type })) {
-            return cell;
-        }
-        return null;
-    },
-
-
-    /**
      * Iterate over all cells in an editor.
      */
 
-    *cells(
+    *cells<T extends CellType=CellType>(
         table: Table,
         options: {
             reverse?: boolean
+            type?: T
         } = {}
-    ): Generator<TableCell, void, undefined> {
-        const { reverse = false } = options;
+    ): Generator<TableCell<T>, void, undefined> {
+        const { reverse = false, type } = options;
         const { children: cells } = table;
         let index = reverse ? cells.length-1 : 0;
 
         while (reverse ? index >= 0 : index < cells.length) {
             const cell = cells[index];
-            const cellCoords = Table.nthCellCoords(table, index);
-            yield [cell, cellCoords];
-            index = reverse ? index-1 : index+1;
-        }
-    },
-
-    /**
-     * Iterate over all cells of the specified type.
-     */
-
-    *cellsOfType<T extends CellType>(
-        table: Table,
-        type: T,
-        options?: {
-            reverse?: boolean
-        }
-    ): Generator<TableCell<T>, void, undefined> {
-        for (const [cell, coordinates] of Table.cells(table, options)) {
             if (Cell.isCell(cell, { type })) {
-                yield [cell, coordinates];
+                const cellCoords = Table.nthCellCoords(table, index);
+                yield [cell, cellCoords];
             }
+            index = reverse ? index-1 : index+1;
         }
     },
 
@@ -185,14 +137,15 @@ export const Table: TableInterface = {
      * Iterate over all cells in a column.
      */
 
-    *column(
+    *column<T extends CellType=CellType>(
         table: Table,
         options: {
             at: number,
             reverse?: boolean
+            type?: T
         }
-    ): Generator<TableCell, void, undefined> {
-        const { at, reverse = false } = options;
+    ): Generator<TableCell<T>, void, undefined> {
+        const { at, reverse = false, type } = options;
         const { rows } = Table.dimensions(table);
         let coords = {
             x: at,
@@ -201,33 +154,13 @@ export const Table: TableInterface = {
 
         while (reverse ? coords.y >= 0 : coords.y < rows) {
             const cell = Table.cell(table, { at: coords });
-            if (cell === null) {
-                throw new Error(`failed to get cell at coordinates (${coords.x}, ${coords.y})`);
+            if (cell !== null && Cell.isCell(cell, { type })) {
+                yield [cell, coords];
             }
-            yield [cell, coords];
             coords = Coordinates.move(
                 coords,
                 reverse ? 'up' : 'down'
             );
-        }
-    },
-
-    /**
-     * Iterate over all cells of the specified type within a column.
-     */
-
-    *columnOfType<T extends CellType>(
-        table: Table,
-        type: T,
-        options: {
-            at: number,
-            reverse?: boolean
-        }
-    ): Generator<TableCell<T>, void, undefined> {
-        for (const [cell, coordinates] of Table.column(table, options)) {
-            if (Cell.isCell(cell, { type })) {
-                yield [cell, coordinates];
-            }
         }
     },
 
@@ -282,14 +215,25 @@ export const Table: TableInterface = {
      * Get a table's `n`th cell.
      */
 
-    nthCell(
+    nthCell<T extends CellType=CellType>(
         table: Table,
-        n: number
-    ): Cell<CellType>|null {
-        if (table.children.length <= n) {
+        options: {
+            at: number;
+            type?: T,
+        }
+    ): Cell<T>|null {
+        const { at, type } = options;
+        if (table.children.length <= at) {
             return null;
         }
-        return table.children[n];
+        const cell = table.children[at];
+        if (!cell) {
+            return null;
+        }
+        if (Cell.isCell(cell, { type })) {
+            return cell;
+        }
+        return null;
     },
 
     /**
@@ -307,17 +251,18 @@ export const Table: TableInterface = {
     },
 
     /**
-     * Iterate over all cells in a row.
+     * Iterate over cells in a row.
      */
 
-    *row(
+    *row<T extends CellType=CellType>(
         table: Table,
         options: {
             at: number,
-            reverse?: boolean
+            reverse?: boolean,
+            type?: T
         }
-    ): Generator<TableCell, void, undefined> {
-        const { at, reverse = false } = options;
+    ): Generator<TableCell<T>, void, undefined> {
+        const { at, reverse = false, type } = options;
         let coords = {
             x: reverse ? table.columns-1 : 0,
             y: at
@@ -325,33 +270,13 @@ export const Table: TableInterface = {
 
         while (reverse ? coords.x >= 0 : coords.x < table.columns) {
             const cell = Table.cell(table, { at: coords });
-            if (cell === null) {
-                throw new Error(`failed to get cell at coordinates (${coords.x}, ${coords.y})`);
+            if (cell !== null && Cell.isCell(cell, { type })) {
+                yield [cell, coords];
             }
-            yield [cell, coords];
             coords = Coordinates.move(
                 coords,
                 reverse ? 'left' : 'right'
             );
-        }
-    },
-
-    /**
-     * Iterate over all cells of the specified type within a row.
-     */
-
-    *rowOfType<T extends CellType>(
-        table: Table,
-        type: T,
-        options: {
-            at: number,
-            reverse?: boolean
-        }
-    ): Generator<TableCell<T>, void, undefined> {
-        for (const [cell, coordinates] of Table.row(table, options)) {
-            if (Cell.isCell(cell, { type })) {
-                yield [cell, coordinates];
-            }
         }
     },
 };

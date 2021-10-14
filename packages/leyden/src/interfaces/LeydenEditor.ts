@@ -60,17 +60,21 @@ export interface LeydenEditorInterface {
             at: number,
         },
     ) => Range;
-    selectedCell: (editor: Editor) => Cell<CellType>|null;
-    selectedCellOfType: <T extends CellType>(editor: Editor, type: T) => Cell<T>|null;
+    selectedCell: <T extends CellType=CellType>(
+        editor: Editor,
+        options?: {
+            type?: T;
+        }
+    ) => Cell<T>|null;
     selectedColumn: (editor: Editor) => number|null;
     selectedCoords: (editor: Editor) => Coordinates|null;
     selectedRow: (editor: Editor) => number|null;
-    subscribeToCell: <T extends CellType>(
+    subscribeToCell: <T extends CellType=CellType>(
         editor: Editor,
-        type: T,
         subscriber: CellSubscriber<T>,
         options: {
             at: Coordinates
+            type?: T,
         }
     ) => Unsubscriber;
     subscribeToOperations: (
@@ -244,24 +248,18 @@ export const LeydenEditor: LeydenEditorInterface = {
      * If a cell is selected, return it.
      */
 
-    selectedCell(editor: Editor): Cell<CellType>|null {
+    selectedCell<T extends CellType=CellType>(
+        editor: Editor,
+        options: {
+            type?: T;
+        } = {}
+    ): Cell<T>|null {
+        const { type } = options;
         const selectedCoords = LeydenEditor.selectedCoords(editor);
         if (selectedCoords === null) {
             return null;
         }
-        return Table.cell(LeydenEditor.table(editor), { at: selectedCoords });
-    },
-
-    /**
-     * If a cell of the specified type is selected, return it.
-     */
-
-    selectedCellOfType<T extends CellType>(editor: Editor, type: T): Cell<T>|null {
-        const selectedCoords = LeydenEditor.selectedCoords(editor);
-        if (selectedCoords === null) {
-            return null;
-        }
-        return Table.cellOfType(LeydenEditor.table(editor), type, { at: selectedCoords });
+        return Table.cell(LeydenEditor.table(editor), { at: selectedCoords, type });
     },
 
     /**
@@ -299,17 +297,17 @@ export const LeydenEditor: LeydenEditorInterface = {
 
     subscribeToCell<T extends CellType>(
         editor: Editor,
-        type: T,
         subscriber: CellSubscriber<T>,
         options: {
-            at: Coordinates
+            at: Coordinates,
+            type?: T
         }
     ): Unsubscriber {
-        const { at } = options;
+        const { at, type } = options;
         const cellPath = LeydenEditor.cellPath(editor, { at });
         return LeydenEditor.subscribeToOperations(editor, op => {
             if (op.type === 'set_node' && Path.equals(op.path, cellPath)) {
-                const val = Table.cellOfType(LeydenEditor.table(editor), type, { at });
+                const val = Table.cell(LeydenEditor.table(editor), { at, type });
                 if (val !== null) {
                     subscriber(val);
                 }

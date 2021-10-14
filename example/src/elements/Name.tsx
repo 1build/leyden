@@ -9,7 +9,10 @@ export const Name: ElementRenderer<'Name'> = ({
     children,
     element,
 }) => {
-    const rowUomCell = useRelativeCell('UnitOfMeasure', element, { x: 2 });
+    const rowUomCell = useRelativeCell(element, {
+        translation: { x: 2 },
+        type: 'UnitOfMeasure',
+    });
 
     return (
         <div

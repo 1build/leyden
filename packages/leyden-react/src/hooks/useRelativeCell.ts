@@ -12,18 +12,23 @@ import { Descendant } from 'slate';
 import { useCoordinates } from './useCoordinates';
 import { useLeydenStatic } from './useLeydenStatic';
 
-export type UseRelativeCell = <T extends CellType>(
-    type: T,
-    base: Descendant,
-    translation: CoordinateTranslation
+export type UseRelativeCell = <T extends CellType=CellType>(
+    node: Descendant,
+    options?: {
+        type?: T,
+        translation?: CoordinateTranslation
+    }
 ) => Cell<T>|null;
 
 export const useRelativeCell: UseRelativeCell = <T extends CellType>(
-    type: T,
-    base: Descendant,
-    translation: CoordinateTranslation,
+    node: Descendant,
+    options: {
+        type?: T,
+        translation?: CoordinateTranslation
+    } = {}
 ) => {
-    const baseCoords = useCoordinates(base);
+    const { type, translation = {} } = options;
+    const baseCoords = useCoordinates(node);
     const editor = useLeydenStatic();
 
     const relativeCoords = useMemo(() => {
@@ -37,7 +42,7 @@ export const useRelativeCell: UseRelativeCell = <T extends CellType>(
         if (relativeCoords === null) {
             return null;
         }
-        return Table.cellOfType<T>(LeydenEditor.table(editor), type, { at: relativeCoords });
+        return Table.cell(LeydenEditor.table(editor), { at: relativeCoords, type });
     });
 
     useEffect(() => {
@@ -48,9 +53,8 @@ export const useRelativeCell: UseRelativeCell = <T extends CellType>(
         }
         const unsubscribe = LeydenEditor.subscribeToCell<T>(
             editor,
-            type,
             setCell,
-            { at: relativeCoords }
+            { at: relativeCoords, type }
         );
         return () => {
             unsubscribe();
