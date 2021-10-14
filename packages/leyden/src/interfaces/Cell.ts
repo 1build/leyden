@@ -30,7 +30,7 @@ export interface CellInterface {
     ) => el is Cell<T>;
     isCellList: (els: Element[]) => els is Cell<CellType>[];
 }
-// ExtractDataProp<DefaultExtendedComponentTypeEntries<"Cells">[T]>
+
 export const Cell: CellInterface = {
     /**
      * Create a new Cell.
