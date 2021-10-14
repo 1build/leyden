@@ -47,15 +47,13 @@ export const TableTransforms: TableTransforms = {
         }
     ): void {
         const { at } = options;
-        const { columns } = LeydenEditor.table(editor);
-        if (columns < 1) {
-            return;
-        }
-        const rowsBottomFirst = [...at].sort((a, b) => b - a);
-        rowsBottomFirst.forEach(row => {
-            Transforms.removeNodes(editor, {
-                at: LeydenEditor.rowRange(editor, { at: row }),
-            });
+        Transforms.removeNodes(editor, {
+            at: LeydenEditor.tablePath(),
+            mode: 'highest',
+            match: (_, path) => {
+                const coords = LeydenEditor.pathCoords(editor, path);
+                return coords !== null && at.has(coords.y);
+            },
         });
     },
 
