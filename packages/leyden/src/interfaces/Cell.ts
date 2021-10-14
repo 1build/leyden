@@ -22,12 +22,13 @@ export interface CellInterface {
         args: ExtendedCellArgsType<T, Cells>,
     ) => Cell<T>;
     newDefault: (num: number) => Cell<typeof extendableComponentDefaultKey>;
-    isCell: (el: Element) => el is Cell<CellType>;
+    isCell: <T extends CellType=CellType>(
+        el: Element,
+        options?: {
+            type?: T
+        }
+    ) => el is Cell<T>;
     isCellList: (els: Element[]) => els is Cell<CellType>[];
-    isCellOfType: <T extends CellType>(
-        cell: Cell<CellType>,
-        type: T
-    ) => cell is Cell<T>;
 }
 // ExtractDataProp<DefaultExtendedComponentTypeEntries<"Cells">[T]>
 export const Cell: CellInterface = {
@@ -63,8 +64,17 @@ export const Cell: CellInterface = {
      * Check if an element is a `Cell`.
      */
 
-    isCell(el: Element): el is Cell<CellType> {
-        return el.type === 'cell';
+    isCell<T extends CellType=CellType>(
+        el: Element,
+        options: {
+            type?: T
+        } = {}
+    ): el is Cell<T> {
+        const { type } = options;
+        if (type === undefined) {
+            return el.type === undefined;
+        }
+        return Cell.isCell(el) && el.cellType === type;
     },
 
     /**
@@ -73,16 +83,5 @@ export const Cell: CellInterface = {
 
     isCellList(value: Element[]): value is Cell<CellType>[] {
         return Array.isArray(value) && value.every(val => Cell.isCell(val));
-    },
-
-    /**
-     * Check if a cell is of a specific cell type.
-     */
-
-    isCellOfType<T extends CellType>(
-        cell: Cell<CellType>,
-        type: T
-    ): cell is Cell<T> {
-        return cell.cellType === type;
     },
 };
