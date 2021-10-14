@@ -134,7 +134,7 @@ export const Table: TableInterface = {
     ): Cell<T>|null {
         const { at } = options;
         const cell = Table.cell(table, { at });
-        if (cell !== null && Cell.isCellType(cell, type)) {
+        if (cell !== null && Cell.isCellOfType(cell, type)) {
             return cell;
         }
         return null;
@@ -175,7 +175,7 @@ export const Table: TableInterface = {
         }
     ): Generator<TableCell<T>, void, undefined> {
         for (const [cell, coordinates] of Table.cells(table, options)) {
-            if (Cell.isCellType(cell, type)) {
+            if (Cell.isCellOfType(cell, type)) {
                 yield [cell, coordinates];
             }
         }
@@ -225,7 +225,7 @@ export const Table: TableInterface = {
         }
     ): Generator<TableCell<T>, void, undefined> {
         for (const [cell, coordinates] of Table.column(table, options)) {
-            if (Cell.isCellType(cell, type)) {
+            if (Cell.isCellOfType(cell, type)) {
                 yield [cell, coordinates];
             }
         }
@@ -349,7 +349,7 @@ export const Table: TableInterface = {
         }
     ): Generator<TableCell<T>, void, undefined> {
         for (const [cell, coordinates] of Table.row(table, options)) {
-            if (Cell.isCellType(cell, type)) {
+            if (Cell.isCellOfType(cell, type)) {
                 yield [cell, coordinates];
             }
         }

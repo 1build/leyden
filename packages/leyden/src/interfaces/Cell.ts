@@ -24,7 +24,10 @@ export interface CellInterface {
     newDefault: (num: number) => Cell<typeof extendableComponentDefaultKey>;
     isCell: (el: Element) => el is Cell<CellType>;
     isCellList: (els: Element[]) => els is Cell<CellType>[];
-    isCellType: <T extends CellType>(cell: Cell<CellType>, type: T) => cell is Cell<T>;
+    isCellOfType: <T extends CellType>(
+        cell: Cell<CellType>,
+        type: T
+    ) => cell is Cell<T>;
 }
 // ExtractDataProp<DefaultExtendedComponentTypeEntries<"Cells">[T]>
 export const Cell: CellInterface = {
@@ -73,10 +76,10 @@ export const Cell: CellInterface = {
     },
 
     /**
-     * Check if a cell is a specific cell type.
+     * Check if a cell is of a specific cell type.
      */
 
-    isCellType<T extends CellType>(
+    isCellOfType<T extends CellType>(
         cell: Cell<CellType>,
         type: T
     ): cell is Cell<T> {
