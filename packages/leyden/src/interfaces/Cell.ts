@@ -72,7 +72,7 @@ export const Cell: CellInterface = {
     ): el is Cell<T> {
         const { type } = options;
         if (type === undefined) {
-            return el.type === undefined;
+            return el.type === 'cell';
         }
         return Cell.isCell(el) && el.cellType === type;
     },
