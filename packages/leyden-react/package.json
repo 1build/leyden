@@ -16,16 +16,15 @@
   "devDependencies": {
     "react": ">=17.0.2",
     "react-dom": ">=17.0.2",
-    "slate": ">=0.66.2",
-    "slate-react": "^0.66.4",
-    "typescript": "^4.4.2"
+    "slate": ">=0.66.5",
+    "slate-react": "^0.66.7"
   },
   "peerDependencies": {
-    "leyden": ">=0.0.0",
+    "leyden": ">=0.26.0",
     "react": ">=17.0.2",
     "react-dom": ">=17.0.2",
-    "slate": ">=0.66.2",
-    "slate-react": ">=0.66.4"
+    "slate": ">=0.66.5",
+    "slate-react": ">=0.66.7"
   },
   "umdGlobals": {
     "react": "React",
