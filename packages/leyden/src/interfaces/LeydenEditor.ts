@@ -51,8 +51,8 @@ export interface LeydenEditorInterface {
         op: Operation,
         coords: Coordinates
     ) => boolean;
-    pathCellIdx: (path: Path) => number;
-    pathCoords: (editor: Editor, path: Path) => Coordinates;
+    pathCellIdx: (path: Path) => number|null;
+    pathCoords: (editor: Editor, path: Path) => Coordinates|null;
     pathIsCellPath: (path: Path) => path is CellPath;
     rowRange: (
         editor: Editor,
@@ -128,6 +128,9 @@ export const LeydenEditor: LeydenEditorInterface = {
     ): Range {
         const { at } = options;
         const cell = Table.cell(LeydenEditor.table(editor), { at });
+        if (cell === null) {
+            throw new Error('Failed to get cell children range: could not get cell');
+        }
         const firstPath = LeydenEditor.cellChildPath(editor, { at });
         const lastPath = LeydenEditor.cellChildPath(editor, { at, idx: cell.children.length-1 });
         return {
@@ -172,14 +175,18 @@ export const LeydenEditor: LeydenEditorInterface = {
                 return false;
             }
             const pathCoords = LeydenEditor.pathCoords(editor, op.path);
+            if (pathCoords === null) {
+                return false;
+            }
             return pathCoords.x <= coords.x || pathCoords.y <= coords.y;
         }
         if (op.type === 'move_node') {
             return [op.path, op.newPath].some(movePath => {
                 if (LeydenEditor.pathIsCellPath(movePath)) {
                     const moveCoords = LeydenEditor.pathCoords(editor, movePath);
-                    return Coordinates.equals(coords, moveCoords);
+                    return moveCoords !== null && Coordinates.equals(coords, moveCoords);
                 }
+
             });
         }
         return false;
@@ -189,9 +196,9 @@ export const LeydenEditor: LeydenEditorInterface = {
      * Get the index of the cell located at the provided path.
      */
 
-    pathCellIdx(path: Path): number {
+    pathCellIdx(path: Path): number|null {
         if (path.length < 2) {
-            throw new Error(`failed to get cell path index: path too short ${JSON.stringify(path)}`);
+            return null;
         }
         return path[1];
     },
@@ -203,8 +210,11 @@ export const LeydenEditor: LeydenEditorInterface = {
     pathCoords(
         editor: Editor,
         path: Path,
-    ): Coordinates {
+    ): Coordinates|null {
         const cellIdx = LeydenEditor.pathCellIdx(path);
+        if (cellIdx === null) {
+            return null;
+        }
         return Table.nthCellCoords(LeydenEditor.table(editor), cellIdx);
     },
 
@@ -297,7 +307,9 @@ export const LeydenEditor: LeydenEditorInterface = {
         return LeydenEditor.subscribeToOperations(editor, op => {
             if (op.type === 'set_node' && Path.equals(op.path, cellPath)) {
                 const val = Table.cell(LeydenEditor.table(editor), { at, type });
-                subscriber(val);
+                if (val !== null) {
+                    subscriber(val);
+                }
             }
         });
     },

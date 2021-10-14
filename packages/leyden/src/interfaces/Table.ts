@@ -17,7 +17,7 @@ export interface TableInterface {
             at: Coordinates;
             type?: T,
         }
-    ) => Cell<T>;
+    ) => Cell<T>|null;
     cellIdx: (
         table: Table,
         options: {
@@ -59,7 +59,7 @@ export interface TableInterface {
             at: number;
             type?: T,
         }
-    ) => Cell<T>;
+    ) => Cell<T>|null;
     nthCellCoords: (table: Table, n: number) => Coordinates;
     row: <T extends CellType=CellType>(
         table: Table,
@@ -82,8 +82,15 @@ export const Table: TableInterface = {
             at: Coordinates;
             type?: T,
         }
-    ): Cell<T> {
+    ): Cell<T>|null {
         const { at, type } = options;
+        if (at.y < 0 || at.x < 0 || at.x >= table.columns) {
+            return null;
+        }
+        const { rows } = Table.dimensions(table);
+        if (at.y >= rows) {
+            return null;
+        }
         const cellIdx = Table.cellIdx(table, { at });
         return Table.nthCell(table, { at: cellIdx, type });
     },
@@ -99,18 +106,9 @@ export const Table: TableInterface = {
         }
     ): number {
         const { at } = options;
-        if (at.y < 0 || at.x < 0) {
-            throw new Error(`failed to retrieve cell idx: negative coords (${JSON.stringify(at)})`);
-        }
-        const tableDims = Table.dimensions(table);
-        if (at.y >= tableDims.rows || at.x >= tableDims.columns) {
-            throw new Error(
-                `failed to retrieve cell idx: overflow coords (${JSON.stringify(at)} in ${JSON.stringify(tableDims)})`
-            );
-        }
         const idx = (at.y*table.columns)+at.x;
         if (idx < 0) {
-            throw new Error(`failed to retrieve cell idx: negative index (${at} of ${idx})`);
+            throw new Error(`Coordinates generate a negative cell index: ${at} -> ${idx}`);
         }
         return idx;
     },
@@ -161,7 +159,7 @@ export const Table: TableInterface = {
 
         while (reverse ? coords.y >= 0 : coords.y < rows) {
             const cell = Table.cell(table, { at: coords });
-            if (Cell.isCell(cell, { type })) {
+            if (cell !== null && Cell.isCell(cell, { type })) {
                 yield [cell, coords];
             }
             coords = Coordinates.move(
@@ -228,19 +226,19 @@ export const Table: TableInterface = {
             at: number;
             type?: T,
         }
-    ): Cell<T> {
+    ): Cell<T>|null {
         const { at, type } = options;
         if (table.children.length <= at) {
-            throw new Error(`cannot get nth cell: index exceeds table size (${at} >= ${table.children.length})`);
+            return null;
         }
         const cell = table.children[at];
         if (!cell) {
-            throw new Error('cannot get nth cell: failed to retrieve cell');
+            return null;
         }
-        if (!Cell.isCell(cell, { type })) {
-            throw new Error(`cannot get nth cell: child is not a cell (${JSON.stringify(cell)})`);
+        if (Cell.isCell(cell, { type })) {
+            return cell;
         }
-        return cell;
+        return null;
     },
 
     /**
@@ -277,7 +275,7 @@ export const Table: TableInterface = {
 
         while (reverse ? coords.x >= 0 : coords.x < table.columns) {
             const cell = Table.cell(table, { at: coords });
-            if (Cell.isCell(cell, { type })) {
+            if (cell !== null && Cell.isCell(cell, { type })) {
                 yield [cell, coords];
             }
             coords = Coordinates.move(
