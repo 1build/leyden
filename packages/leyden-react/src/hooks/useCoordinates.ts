@@ -8,7 +8,7 @@ import { Descendant } from 'slate';
 import { useLeydenStatic } from './useLeydenStatic';
 import { ReactEditor } from '../plugin/ReactEditor';
 
-export const useCoordinates = (node: Descendant): Coordinates|null => {
+export const useCoordinates = (node: Descendant): Coordinates => {
     const editor = useLeydenStatic();
 
     const [coordinates, setCoordinates] = useState(ReactEditor.cellCoords(editor, node));

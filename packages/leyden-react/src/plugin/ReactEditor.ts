@@ -16,7 +16,7 @@ export const ReactEditor = {
     cellCoords: (
         editor: Editor,
         node: Descendant,
-    ): Coordinates|null => {
+    ): Coordinates => {
         const cellPath = SlateReactEditor.findPath(editor, node);
         return LeydenEditor.pathCoords(editor, cellPath);
     },

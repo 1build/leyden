@@ -9,7 +9,7 @@ export type UseOwnCell = <T extends CellType=CellType>(
     options?: {
         type?: T,
     }
-) => Cell<T>|null;
+) => Cell<T>;
 
 export const useOwnCell: UseOwnCell = <T extends CellType=CellType>(
     node: Descendant,
