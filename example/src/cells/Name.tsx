@@ -1,14 +1,23 @@
 import { Transforms } from 'leyden';
-import { CellRenderer, useLeydenStatic } from 'leyden-react';
+import {
+    CellRenderer,
+    useCellIsSelected,
+    useLeydenStatic,
+} from 'leyden-react';
 import React, { useEffect } from 'react';
 
 export const Name: CellRenderer<'Name'> = ({
     attributes,
     children,
+    element,
 }) => {
     const editor = useLeydenStatic();
+    const selected = useCellIsSelected(element);
 
     useEffect(() => {
+        if (!selected) {
+            return;
+        }
         const listener = (e: KeyboardEvent): void => {
             if (e.key === 'r') {
                 Transforms.setCellChildren<'Name'>(
@@ -22,7 +31,7 @@ export const Name: CellRenderer<'Name'> = ({
         return () => {
             document.removeEventListener('keydown', listener);
         };
-    }, []);
+    }, [selected]);
 
     return (
         <div

@@ -54,12 +54,6 @@ export interface LeydenEditorInterface {
     pathCellIdx: (path: Path) => number|null;
     pathCoords: (editor: Editor, path: Path) => Coordinates|null;
     pathIsCellPath: (path: Path) => path is CellPath;
-    rowRange: (
-        editor: Editor,
-        options: {
-            at: number,
-        },
-    ) => Range;
     selectedCell: <T extends CellType=CellType>(
         editor: Editor,
         options?: {
@@ -224,23 +218,6 @@ export const LeydenEditor: LeydenEditorInterface = {
 
     pathIsCellPath(path: Path): path is CellPath {
         return path.length === 2;
-    },
-
-    /**
-     * Returns a slate range around a table row.
-     */
-
-    rowRange(
-        editor: Editor,
-        options: {
-            at: number,
-        },
-    ): Range {
-        const { at } = options;
-        const { columns } = LeydenEditor.table(editor);
-        const leftmost = LeydenEditor.cellPath(editor, { at: { x: 0, y: at } });
-        const rightmost = LeydenEditor.cellPath(editor, { at: { x: columns-1, y: at } });
-        return Editor.range(editor, leftmost, rightmost);
     },
 
     /**

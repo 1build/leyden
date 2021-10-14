@@ -74,13 +74,15 @@ export const Demo: FC = () => {
                 });
             }
             if (e.key === 'p') {
-                Transforms.setCellChildren<'Quantity'>(
+                Transforms.setCellChildren<'Name'>(
                     editor,
-                    [{ type: 'Decimal',
-                        text: '2222222222',
-                        validator: 'onlyTwos'
+                    [{ type: 'Name',
+                        children: [{
+                            type: 'Text',
+                            text: 'myNewName',
+                        }]
                     }],
-                    { at: { x: 1, y: 1 } },
+                    { at: { x: 0, y: 1 } },
                 );
             }
         };

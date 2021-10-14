@@ -108,8 +108,15 @@ export const TableTransforms: TableTransforms = {
             y: to,
         };
         const insertionPath = LeydenEditor.cellPath(editor, { at: insertionCoords });
-        const rowRange = LeydenEditor.rowRange(editor, { at });
-        Transforms.moveNodes(editor, { at: rowRange, to: insertionPath });
+        Transforms.moveNodes(editor, {
+            at: LeydenEditor.tablePath(),
+            mode: 'highest',
+            match: (_, path) => {
+                const coords = LeydenEditor.pathCoords(editor, path);
+                return coords !== null && coords.y === at;
+            },
+            to: insertionPath
+        });
     },
 
     /**
