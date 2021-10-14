@@ -149,8 +149,7 @@ export const LeydenEditor: LeydenEditorInterface = {
             at: Coordinates;
         }
     ): CellPath {
-        const { at } = options;
-        const cellIdx = Table.cellIdx(LeydenEditor.table(editor), at);
+        const cellIdx = Table.cellIdx(LeydenEditor.table(editor), options);
         return LeydenEditor.nthCellPath(cellIdx);
     },
 

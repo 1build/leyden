@@ -20,7 +20,9 @@ export interface TableInterface {
     ) => Cell<T>|null;
     cellIdx: (
         table: Table,
-        coords: Coordinates
+        options: {
+            at: Coordinates
+        }
     ) => number;
     cells: <T extends CellType=CellType>(
         table: Table,
@@ -89,7 +91,7 @@ export const Table: TableInterface = {
         if (at.y >= rows) {
             return null;
         }
-        const cellIdx = Table.cellIdx(table, at);
+        const cellIdx = Table.cellIdx(table, { at });
         return Table.nthCell(table, { at: cellIdx, type });
     },
 
@@ -99,11 +101,14 @@ export const Table: TableInterface = {
 
     cellIdx(
         table: Table,
-        coords: Coordinates,
+        options: {
+            at: Coordinates
+        }
     ): number {
-        const idx = (coords.y*table.columns)+coords.x;
+        const { at } = options;
+        const idx = (at.y*table.columns)+at.x;
         if (idx < 0) {
-            throw new Error(`Coordinates generate a negative cell index: ${coords} -> ${idx}`);
+            throw new Error(`Coordinates generate a negative cell index: ${at} -> ${idx}`);
         }
         return idx;
     },
