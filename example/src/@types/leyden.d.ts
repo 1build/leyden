@@ -33,7 +33,7 @@ declare module 'leyden' {
             Name: {
                 children: [Text<'Text'>];
             }
-        }
+        };
         Text: {
             Empty: {
                 text: '';
