@@ -5,7 +5,8 @@ import { Coordinates } from './Coordinates';
 
 export interface Table {
     type: 'table';
-    isEditable?: true;
+    isInline?: false;
+    isVoid?: false;
     columns: number;
     children: Cell<CellType>[];
 }

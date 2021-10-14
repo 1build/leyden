@@ -34,7 +34,7 @@ const newWholeDollarsText = (value: number) => Text.new(
 const newNameElement = (value: string) => Element.new('Name', [newTextText(value)], {});
 
 const newCSICell = (csi: CSI) => Cell.new('CSI', [newEmptyText()], {
-    isEditable: false,
+    isVoid: true,
     csi,
 });
 
@@ -45,7 +45,7 @@ const newQuantityCell = (value: number) => Cell.new('Quantity', [newDecimalText(
 const newWholeDollarsCell = (value: number) => Cell.new('WholeDollars', [newWholeDollarsText(value)], {});
 
 const newUnitOfMeasureCell = (uom: UOM) => Cell.new('UnitOfMeasure', [newEmptyText()], {
-    isEditable: false,
+    isVoid: true,
     uom,
 });
 

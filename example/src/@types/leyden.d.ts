@@ -7,7 +7,7 @@ declare module 'leyden' {
         Cells: {
             CSI: {
                 children: [Text<'Empty'>];
-                isEditable: false;
+                isVoid: true;
                 data: {
                     csi: CSI;
                 }
@@ -20,7 +20,7 @@ declare module 'leyden' {
             };
             UnitOfMeasure: {
                 children: [Text<'Empty'>];
-                isEditable: false;
+                isVoid: true;
                 data: {
                     uom: UOM;
                 }

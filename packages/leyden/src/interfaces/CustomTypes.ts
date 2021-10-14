@@ -26,8 +26,10 @@ interface WithCellType<T extends string> { cellType: T }
 interface WithChildren<T extends Array<unknown>> { children: T }
 interface WithData<T> { data: T }
 interface WithDataOptional<T> { data?: T }
-interface WithIsEditable<T extends boolean> { isEditable: T }
-interface WithIsEditableOptional<T extends boolean> { isEditable?: T }
+interface WithIsInline<T extends boolean> { isInline: T }
+interface WithIsInlineOptional<T extends boolean> { isInline?: T }
+interface WithIsVoid<T extends boolean> { isVoid: T }
+interface WithIsVoidOptional<T extends boolean> { isVoid?: T }
 interface WithText<T extends string> { text: T }
 interface WithType<T extends string> { type: T }
 interface WithValidator<T extends Validator> { validator: T }
@@ -36,7 +38,8 @@ interface WithValidatorOptional<T extends Validator> { validator?: T }
 interface ExtendedElementTypeEntry extends
     WithChildren<Array<unknown>>,
     WithDataOptional<unknown>,
-    WithIsEditableOptional<boolean> {}
+    WithIsInlineOptional<boolean>,
+    WithIsVoidOptional<boolean> {}
 
 interface ExtendedTextTypeEntry extends
     WithDataOptional<unknown>,
@@ -55,8 +58,8 @@ type DefaultExtendedComponentTypeEntries<T extends ExtendableComponentTypes> = {
     [extendableComponentDefaultKey]: T extends 'Text'
         ? WithText<string> & WithValidator<'numeric'>
         : T extends 'Cells'
-            ? WithChildren<Text[]> & WithDataOptional<unknown> & WithIsEditable<true>
-            : WithChildren<Text[]> & WithDataOptional<unknown> & WithIsEditable<false>;
+            ? WithChildren<Text[]> & WithDataOptional<unknown> & WithIsVoid<false> & WithIsInline<false>
+            : WithChildren<Text[]> & WithDataOptional<unknown> & WithIsVoid<true> & WithIsInline<true>;
 };
 
 type EmptyProp = Record<string, unknown>;
@@ -66,10 +69,17 @@ type ExtractDataProp<T extends ExtendedElementTypeEntry|ExtendedTextTypeEntry> =
         ? U
         : EmptyProp;
 
-type WithIsEditableProp<T extends ExtendedElementTypeEntry> =
-    T extends WithIsEditable<infer U>
-        ? U extends false
-            ? WithIsEditable<U>
+type WithIsInlineProp<T extends ExtendedElementTypeEntry> =
+    T extends WithIsInline<infer U>
+        ? U extends true
+            ? WithIsInline<U>
+            : EmptyProp
+        : EmptyProp;
+
+type WithIsVoidProp<T extends ExtendedElementTypeEntry> =
+    T extends WithIsVoid<infer U>
+        ? U extends true
+            ? WithIsVoid<U>
             : EmptyProp
         : EmptyProp;
 
@@ -103,7 +113,8 @@ export type ExtendedType<T extends ExtendableTypes> =
 
 export type ExtendedElementsArgsType<T extends string, R extends Record<T, ExtendedElementTypeEntry>> =
     & ExtractDataProp<R[T]>
-    & WithIsEditableProp<R[T]>;
+    & WithIsInlineProp<R[T]>
+    & WithIsVoidProp<R[T]>;
 
 export type ExtendedElementsType<T extends string, R extends Record<T, ExtendedElementTypeEntry>> =
     & ExtendedElementsArgsType<T, R>
@@ -112,7 +123,8 @@ export type ExtendedElementsType<T extends string, R extends Record<T, ExtendedE
 
 export type ExtendedCellArgsType<T extends string, R extends Record<T, ExtendedElementTypeEntry>> =
     & ExtractDataProp<R[T]>
-    & WithIsEditableProp<R[T]>;
+    & WithIsInlineProp<R[T]>
+    & WithIsVoidProp<R[T]>;
 
 export type ExtendedCellType<T extends string, R extends Record<T, ExtendedElementTypeEntry>> =
     & ExtendedCellArgsType<T, R>

@@ -9,7 +9,7 @@ import { OPERATION_SUBSCRIBERS } from './utils/weakMaps';
 
 export const withLeyden = <T extends Editor>({ editor, ...rest }: WithLeydenOptions<T>): T&LeydenEditor => {
     const e = editor;
-    const { apply, isVoid } = e;
+    const { apply, isInline, isVoid } = e;
 
     e.apply = op => {
         // Disallow cell merging (maintain layout)
@@ -47,6 +47,13 @@ export const withLeyden = <T extends Editor>({ editor, ...rest }: WithLeydenOpti
     e.getValidationFunc = validator => (
         Validator.getValidationFunc(rest?.validators??{}, validator)
     );
+
+    e.isInline = element => {
+        if (Element.isInline(element)) {
+            return true;
+        }
+        return isInline(element);
+    };
 
     e.isVoid = element => {
         if (Element.isVoid(element)) {

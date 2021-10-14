@@ -46,6 +46,7 @@ export interface ElementInterface {
             type?: T
         }
     ) => value is Element<T>;
+    isInline: (el: LeydenElement) => boolean;
     isVoid: (el: LeydenElement) => boolean;
 }
 
@@ -84,10 +85,18 @@ export const Element: ElementInterface = {
     },
 
     /**
-     * Return `true` if an element is void (not editable).
+     * Return `true` if an element is inline.
+     */
+
+    isInline(el: LeydenElement): boolean {
+        return el.isInline === true;
+    },
+
+    /**
+     * Return `true` if an element is void.
      */
 
     isVoid(el: LeydenElement): boolean {
-        return el.isEditable === false;
+        return el.isVoid === true;
     },
 };
