@@ -59,7 +59,6 @@ export const Cell: CellInterface = {
             type: 'cell',
             cellType: extendableComponentDefaultKey,
             children: [Text.newDefault(num)],
-            isVoid: true,
         };
     },
 
