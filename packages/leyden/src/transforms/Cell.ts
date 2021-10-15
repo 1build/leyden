@@ -3,7 +3,6 @@ import { Editor, Transforms } from 'slate';
 import { Cell, CellType } from '../interfaces/Cell';
 import { Coordinates } from '../interfaces/Coordinates';
 import { LeydenEditor } from '../interfaces/LeydenEditor';
-import { Table } from '../interfaces/Table';
 
 export interface CellTransforms {
     setCell: <T extends CellType=CellType>(
@@ -61,20 +60,17 @@ export const CellTransforms: CellTransforms = {
         if (at === null) {
             throw new Error('failed to set cell children: no `at` passed or cell selected');
         }
-        const cell = Table.cell(LeydenEditor.table(editor), { at });
-        if (cell === null) {
-            throw new Error('failed to set cell children: could not get cell data');
-        }
-        const first = LeydenEditor.cellChildPath(editor, { at });
-        const beginCleanup = LeydenEditor.cellChildPath(editor, { at, idx: children.length });
-        const endCleanup = LeydenEditor.cellChildPath(editor, { at, idx: children.length+cell.children.length-1 });
-        const cleanupRange = {
-            anchor: { path: beginCleanup, offset: 0 },
-            focus: { path: endCleanup, offset: 0 },
-        };
+        const pathInCell = LeydenEditor.cellChildPath(editor, { at });
+        const pathAtCell = LeydenEditor.cellPath(editor, { at });
         Editor.withoutNormalizing(editor, () => {
-            Transforms.insertNodes(editor, children, { at: first });
-            Transforms.removeNodes(editor, { at: cleanupRange });
+            Transforms.insertNodes(editor, children, { at: pathInCell });
+            Transforms.removeNodes(editor, {
+                at: pathAtCell,
+                mode: 'highest',
+                match: (_, path) => {
+                    return path.length >= 3 && path[2] >= children.length;
+                },
+            });
         });
     },
 };
