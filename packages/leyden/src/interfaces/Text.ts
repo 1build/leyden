@@ -1,7 +1,7 @@
 import {
     InsertTextOperation,
     RemoveTextOperation,
-    Text as SlateText,
+    BaseText,
 } from 'slate';
 
 import {
@@ -29,7 +29,12 @@ export interface TextInterface {
         args: ExtendedTextArgsType<T, Texts>,
     ) => Text<T>;
     newDefault: (num: number) => Text<typeof extendableComponentDefaultKey>;
-    isText: (text: SlateText) => text is Text<TextType>;
+    isText: <T extends TextType=TextType>(
+        text: BaseText,
+        options?: {
+            type?: T
+        }
+    ) => text is Text<T>;
     validateTextOperation: (
         text: Text<TextType>,
         validator: ValidationFunc,
@@ -70,8 +75,18 @@ export const Text: TextInterface = {
      * Check if a text is a `Text`.
      */
 
-    isText(text: SlateText): text is Text<TextType> {
-        return Reflect.has(text, 'type');
+    isText<T extends TextType=TextType>(
+        text: BaseText,
+        options: {
+            type?: T
+        } = {}
+    ): text is Text<T> {
+        const { type } = options;
+        if (type === undefined) {
+            const textType = Reflect.get(text, 'type');
+            return typeof textType === 'string';
+        }
+        return Text.isText(text) && text.type === type;
     },
 
     /**
