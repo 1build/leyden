@@ -184,7 +184,6 @@ export const LeydenEditor: LeydenEditorInterface = {
                     }
                     return moveCoords.x <= coords.x || moveCoords.y <= coords.y;
                 }
-
             });
         }
         return false;
