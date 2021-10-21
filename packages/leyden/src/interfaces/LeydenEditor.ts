@@ -157,6 +157,7 @@ export const LeydenEditor: LeydenEditorInterface = {
 
     /**
      * Return true if an operation moves the cell located at the provided coordinates.
+     * TODO => improve movement detection when a cell moves (implementation is very naive)
      */
 
     operationMovesCoords(
@@ -178,7 +179,10 @@ export const LeydenEditor: LeydenEditorInterface = {
             return [op.path, op.newPath].some(movePath => {
                 if (LeydenEditor.pathIsCellPath(movePath)) {
                     const moveCoords = LeydenEditor.pathCoords(editor, movePath);
-                    return moveCoords !== null && Coordinates.equals(coords, moveCoords);
+                    if (moveCoords === null) {
+                        return false;
+                    }
+                    return moveCoords.x <= coords.x || moveCoords.y <= coords.y;
                 }
 
             });
