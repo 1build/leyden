@@ -55,7 +55,7 @@ import { useState } from 'react';
 // ...
 
 const generateTable = (): Table => {
-    return Table.new(5, 5, Array.from(
+    return Table.new(5, Array.from(
         { length: 25 },
         () => Cell.newDefault(Math.floor(Math.random()*100))
     ));
