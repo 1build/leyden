@@ -1,6 +1,6 @@
 {
   "name": "leyden-react",
-  "version": "0.30.0",
+  "version": "0.31.0",
   "description": "Tools for building Leyden tables with React",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
