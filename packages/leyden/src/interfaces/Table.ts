@@ -49,7 +49,8 @@ export interface TableInterface {
             at: Coordinates;
         }
     ) => boolean;
-    isTable: (el: Element) => el is Table;
+    isTable: (element: Element) => element is Table;
+    isTableLenient: (value: unknown) => value is Table;
     new: (
         columns: number,
         cells: Cell<CellType>[]
@@ -201,8 +202,17 @@ export const Table: TableInterface = {
      * Check if an element is a `Table`.
      */
 
-    isTable(el: Element): el is Table {
-        return el.type === 'table';
+    isTable(element: Element): element is Table {
+        return element.type === 'table';
+    },
+
+    /**
+     * Check if an unknown value is a `Table`.
+     * This is a more broad and therefore less performant `isTable` variation.
+     */
+
+    isTableLenient(value: unknown): value is Table {
+        return Element.isElement(value) && Table.isTable(value);
     },
 
     /**

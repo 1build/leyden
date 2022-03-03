@@ -2,6 +2,7 @@ import {
     InsertTextOperation,
     RemoveTextOperation,
     BaseText,
+    Text as SlateText,
 } from 'slate';
 
 import {
@@ -35,6 +36,12 @@ export interface TextInterface {
             type?: T
         }
     ) => text is Text<T>;
+    isTextLenient: <T extends TextType=TextType>(
+        value: unknown,
+        options?: {
+            type?: T
+        }
+    ) => value is Text<T>;
     validateTextOperation: (
         text: Text<TextType>,
         validator: ValidationFunc,
@@ -87,6 +94,20 @@ export const Text: TextInterface = {
             return typeof textType === 'string';
         }
         return Text.isText(text) && text.type === type;
+    },
+
+    /**
+     * Check if an unknown value is a `Text`.
+     * This is a more broad and therefore less performant `isText` variation.
+     */
+
+    isTextLenient<T extends TextType=TextType>(
+        value: unknown,
+        options: {
+            type?: T
+        } = {}
+    ): value is Text<T> {
+        return SlateText.isText(value) && Text.isText(value, options);
     },
 
     /**

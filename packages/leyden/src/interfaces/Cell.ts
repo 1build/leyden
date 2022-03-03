@@ -24,12 +24,29 @@ export interface CellInterface {
     ) => Cell<T>;
     newDefault: (num: number) => Cell<typeof extendableComponentDefaultKey>;
     isCell: <T extends CellType=CellType>(
-        el: Element,
+        element: Element,
         options?: {
             type?: T
         }
-    ) => el is Cell<T>;
-    isCellList: (els: Element[]) => els is Cell<CellType>[];
+    ) => element is Cell<T>;
+    isCellLenient: <T extends CellType=CellType>(
+        value: unknown,
+        options?: {
+            type?: T
+        }
+    ) => value is Cell<T>;
+    isCellList: <T extends CellType=CellType>(
+        elements: Element[],
+        options?: {
+            type?: T
+        }
+    ) => elements is Cell<CellType>[];
+    isCellListLenient: <T extends CellType=CellType>(
+        value: unknown,
+        options?: {
+            type?: T
+        }
+    ) => value is Cell<CellType>[];
 }
 
 export const Cell: CellInterface = {
@@ -67,23 +84,55 @@ export const Cell: CellInterface = {
      */
 
     isCell<T extends CellType=CellType>(
-        el: Element,
+        element: Element,
         options: {
             type?: T
         } = {}
-    ): el is Cell<T> {
+    ): element is Cell<T> {
         const { type } = options;
         if (type === undefined) {
-            return el.type === 'cell';
+            return element.type === 'cell';
         }
-        return Cell.isCell(el) && el.cellType === type;
+        return Cell.isCell(element) && element.cellType === type;
+    },
+
+    /**
+     * Check if an unknown value is a `Cell`.
+     * This is a more broad and therefore less performant `isCell` variation.
+     */
+
+    isCellLenient<T extends CellType=CellType>(
+        value: unknown,
+        options?: {
+            type?: T
+        }
+    ): value is Cell<T> {
+        return Element.isElement(value) && Cell.isCell(value, options);
     },
 
     /**
      * Check if a list of elements are all of type `Cell`.
      */
 
-    isCellList(value: Element[]): value is Cell<CellType>[] {
-        return Array.isArray(value) && value.every(val => Cell.isCell(val));
+    isCellList<T extends CellType=CellType>(
+        elements: Element[],
+        options?: {
+            type?: T
+        }
+    ): elements is Cell<CellType>[] {
+        return elements.every(element => Cell.isCell(element, options));
+    },
+
+    /**
+     * Check if an unknown is a array of `Cell`-type values.
+     */
+
+    isCellListLenient<T extends CellType=CellType>(
+        value: unknown,
+        options?: {
+            type?: T
+        }
+    ): value is Cell<CellType>[] {
+        return Array.isArray(value) && value.every(val => Cell.isCellLenient(val, options));
     },
 };

@@ -41,7 +41,7 @@ export interface ElementInterface {
         args: ExtendedElementsArgsType<T, Elements>,
     ) => Element<T>;
     isElement: <T extends ElementType=ElementType>(
-        value: any, //eslint-disable-line @typescript-eslint/no-explicit-any
+        value: unknown,
         options?: {
             type?: T
         }
@@ -72,7 +72,7 @@ export const Element: ElementInterface = {
      */
 
     isElement<T extends ElementType=ElementType>(
-        value: any, //eslint-disable-line @typescript-eslint/no-explicit-any
+        value: unknown,
         options: {
             type?: T
         } = {}
