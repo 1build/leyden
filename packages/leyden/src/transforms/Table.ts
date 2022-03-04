@@ -3,6 +3,7 @@ import { Editor, Transforms } from 'slate';
 import { Cell, CellType } from '../interfaces/Cell';
 import { Coordinates } from '../interfaces/Coordinates';
 import { LeydenEditor } from '../interfaces/LeydenEditor';
+import { Table } from '../interfaces/Table';
 
 export interface TableTransforms {
     deleteRows: (
@@ -14,7 +15,7 @@ export interface TableTransforms {
     insertRows: (
         editor: Editor,
         cells: Cell<CellType>[],
-        options: {
+        options?: {
             at: number,
             position?: 'above'|'below'
         },
@@ -59,28 +60,35 @@ export const TableTransforms: TableTransforms = {
 
     /**
      * Insert rows.
+     * If options are not passed, rows are inserted at the bottom.
      */
 
     insertRows(
         editor: Editor,
         cells: Cell<CellType>[],
-        options: {
+        options?: {
             at: number,
             position?: 'above'|'below'
         },
     ): void {
-        const { at, position = 'above' } = options;
-
         const table = LeydenEditor.table(editor);
         const hangingCells = cells.length%table.columns;
         if (hangingCells !== 0) {
             throw new Error(`failed to insert row, (${cells.length} cells cannot make rows of ${table.columns})`);
         }
 
-        let insertionCoords = { x: 0, y: at };
-        if (position === 'below') {
-            insertionCoords = Coordinates.move(insertionCoords, 'down');
+        let insertionCoords: Coordinates;
+        if (options) {
+            const { at, position = 'above' } = options;
+
+            insertionCoords = { x: 0, y: at };
+            if (position === 'below') {
+                insertionCoords = Coordinates.move(insertionCoords, 'down');
+            }
+        } else {
+            insertionCoords = { x: 0, y: Table.dimensions(LeydenEditor.table(editor)).rows };
         }
+
         const insertionPath = LeydenEditor.cellPath(editor, { at: insertionCoords });
         Transforms.insertNodes(editor, cells, { at: insertionPath });
     },
