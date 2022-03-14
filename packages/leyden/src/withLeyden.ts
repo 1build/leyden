@@ -35,13 +35,15 @@ export const withLeyden = <T extends Editor>({ editor, ...rest }: WithLeydenOpti
             }
         }
         apply(op);
-        // Notify subscribers of operations after application
-        const opSubscribers = OPERATION_SUBSCRIBERS.get(e);
-        if (opSubscribers !== undefined) {
-            for (const opSubscriber of opSubscribers) {
-                opSubscriber(op);
+        setTimeout(() => {
+            // Notify subscribers of operations after application
+            const opSubscribers = OPERATION_SUBSCRIBERS.get(e);
+            if (opSubscribers !== undefined) {
+                for (const opSubscriber of opSubscribers) {
+                    opSubscriber(op);
+                }
             }
-        }
+        });
     };
 
     e.getValidationFunc = validator => (
