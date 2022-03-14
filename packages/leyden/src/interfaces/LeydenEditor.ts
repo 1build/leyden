@@ -11,10 +11,7 @@ import { Coordinates } from './Coordinates';
 import { Table } from './Table';
 import { ValidationFunc, Validator } from './Validator';
 import {
-    CellSubscriber,
-    OperationSubscriber,
-    SelectedCoordinatesSubscriber,
-    Unsubscriber,
+    CellSubscriber, CoordinateSelectedSubscriber, OperationSubscriber, SelectedCoordinatesSubscriber, Unsubscriber,
 } from '../utils/types';
 import { OPERATION_SUBSCRIBERS } from '../utils/weakMaps';
 
@@ -78,6 +75,13 @@ export interface LeydenEditorInterface {
     subscribeToSelectedCoordinates: (
         editor: Editor,
         subscriber: SelectedCoordinatesSubscriber
+    ) => Unsubscriber;
+    subscribeToSelectedCoordinatesByCoordinates: (
+        editor: Editor,
+        subscriber: CoordinateSelectedSubscriber,
+        options: {
+            at: Coordinates | null,
+        }
     ) => Unsubscriber;
     table: (editor: Editor) => Table;
     tablePath: () => Path;
@@ -148,7 +152,7 @@ export const LeydenEditor: LeydenEditorInterface = {
     },
 
     /**
-     * Get the path to the nth cell in an editor. 
+     * Get the path to the nth cell in an editor.
      */
 
     nthCellPath(n: number): CellPath {
@@ -329,6 +333,34 @@ export const LeydenEditor: LeydenEditorInterface = {
         return LeydenEditor.subscribeToOperations(editor, op => {
             if (Operation.isSelectionOperation(op)) {
                 subscriber(LeydenEditor.selectedCoords(editor));
+            }
+        });
+    },
+
+    /**
+     * Subscribe to the selected status of a cell at the specified coordinates.
+     */
+
+    subscribeToSelectedCoordinatesByCoordinates(
+        editor: Editor,
+        subscriber: CoordinateSelectedSubscriber,
+        options: {
+            at: Coordinates | null,
+        }
+    ): Unsubscriber {
+        const { at } = options;
+        if (!at) {
+            return () => subscriber(false);
+        }
+        const cellPath = LeydenEditor.cellPath(editor, { at });
+        return LeydenEditor.subscribeToOperations(editor, op => {
+            if (Operation.isSelectionOperation(op) &&
+                op.newProperties?.focus?.path &&
+                Path.equals(op.newProperties?.focus?.path.slice(0, 2), cellPath)
+            ) {
+                subscriber(true);
+            } else if (Operation.isSelectionOperation(op)) {
+                subscriber(false);
             }
         });
     },

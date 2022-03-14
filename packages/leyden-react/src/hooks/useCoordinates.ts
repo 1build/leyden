@@ -23,15 +23,13 @@ export const useCoordinates = (node: Descendant): Coordinates|null => {
                 return;
             }
             // If not wrapped in `setTimeout`, this runs before the cell paths are updated
-            // and coordinate movement is never detected. 
-            setTimeout(() => {
-                const newCoords = ReactEditor.cellCoords(editor, node);
-                if ((newCoords === null || !Coordinates.equals(coordinates, newCoords))
-                    && !canceled
-                ) {
-                    setCoordinates(newCoords);
-                }
-            });
+            // and coordinate movement is never detected.
+            const newCoords = ReactEditor.cellCoords(editor, node);
+            if ((newCoords === null || !Coordinates.equals(coordinates, newCoords))
+                && !canceled
+            ) {
+                setCoordinates(newCoords);
+            }
         });
         return () => {
             canceled = true;
