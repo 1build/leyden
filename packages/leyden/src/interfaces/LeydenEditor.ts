@@ -338,8 +338,7 @@ export const LeydenEditor: LeydenEditorInterface = {
     },
 
     /**
-     * Subscribe to the table's currently selected coordinates, or null if
-     * there is no active selection.
+     * Subscribe to the selected status of a cell at the specified coordinates.
      */
 
     subscribeToSelectedCoordinatesByCoordinates(
