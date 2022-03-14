@@ -1,5 +1,4 @@
-import { BaseOperation, Editor, Node } from 'slate';
-import { debounce } from 'lodash';
+import { Editor, Node } from 'slate';
 
 import { LeydenEditor } from './interfaces/LeydenEditor';
 import { Element } from './interfaces/Element';
