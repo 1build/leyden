@@ -359,7 +359,7 @@ export const LeydenEditor: LeydenEditorInterface = {
                 Path.equals(op.newProperties?.focus?.path.slice(0, 2), cellPath)
             ) {
                 subscriber(true);
-            } else {
+            } else if (Operation.isSelectionOperation(op)) {
                 subscriber(false);
             }
         });
