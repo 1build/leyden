@@ -39,13 +39,19 @@ export type CellSubscriber<T extends CellType> = (cell: Cell<T>) => void;
 export type SelectedCoordinatesSubscriber = (coords: Coordinates|null) => void;
 
 /**
- * A function which will end a subscription 
+ * A function fired when the current cell's coordinates become selected.
+ */
+
+export type CoordinateSelectedSubscriber = (selected: boolean) => void;
+
+/**
+ * A function which will end a subscription
  */
 
 export type Unsubscriber = () => void;
 
 /**
- * An option representing a leyden editor passed during editor initialization 
+ * An option representing a leyden editor passed during editor initialization
  */
 
 export interface EditorOption<T extends Editor> {
@@ -53,7 +59,7 @@ export interface EditorOption<T extends Editor> {
 }
 
 /**
- * An option representing a validator set passed during editor initialization 
+ * An option representing a validator set passed during editor initialization
  */
 
 export interface ValidatorsOption {

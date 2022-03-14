@@ -1,4 +1,5 @@
-import { Editor, Node } from 'slate';
+import { BaseOperation, Editor, Node } from 'slate';
+import { debounce } from 'lodash';
 
 import { LeydenEditor } from './interfaces/LeydenEditor';
 import { Element } from './interfaces/Element';
@@ -35,8 +36,9 @@ export const withLeyden = <T extends Editor>({ editor, ...rest }: WithLeydenOpti
             }
         }
         apply(op);
+
+        // Notify subscribers of operations after application
         setTimeout(() => {
-            // Notify subscribers of operations after application
             const opSubscribers = OPERATION_SUBSCRIBERS.get(e);
             if (opSubscribers !== undefined) {
                 for (const opSubscriber of opSubscribers) {
